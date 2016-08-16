@@ -7,6 +7,11 @@
   <version>0.1</version>
   <name>logiweb Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <developers>
+    <developer>
+      <name>Igor Avdeev</name>
+    </developer>
+  </developers>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -26,5 +31,16 @@
   </reporting>
   <build>
     <finalName>logiweb</finalName>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.2</version>
+          <configuration>
+            <url>http://localhost:8080/manager/text</url>
+            <server>tomcat-server</server>
+          </configuration>
+        </plugin>
+      </plugins>
   </build>
 </project>
