@@ -1,0 +1,22 @@
+div {
+}
+div.nav {
+    float: left;
+    width: 200px;
+    margin-left: -200px;
+    background: lightblue;
+    border-top: 1px groove green;
+    height: 100%;
+}
+.content {
+    width: 100%;
+    float: left;
+    padding-left: 10px;
+}
+.header {
+    background: lightblue;
+    overflow: hidden;
+}
+.wrapper {
+    margin-left: 200px;
+}
