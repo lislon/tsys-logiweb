@@ -5,9 +5,9 @@
 *.war
 *.ear
 
-target/
 
 .idea
 .settings
-src/design
-logiweb.iml
+api/src/webapp/WEB-INF/design
+*.iml
+/*/target/
