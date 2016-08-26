@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.models;
+package com.tsystems.javaschool.services;
 
 import com.tsystems.javaschool.entities.Driver;
 import com.tsystems.javaschool.repos.DriverRepository;

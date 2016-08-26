@@ -1,4 +1,9 @@
-package com.tsystems.javaschool.models;
+/*
+ * Copyright (c) 2016.
+ * Igor Avdeev
+ */
+
+package com.tsystems.javaschool.services;
 
 import com.tsystems.javaschool.entities.City;
 import com.tsystems.javaschool.entities.Truck;
@@ -38,6 +43,7 @@ public class TruckManager {
      */
     public List<Truck> findAllTrucks()
     {
+        // TODO: We also need cities name for this query
         return (List<Truck>)repo.findAll();
     }
 }

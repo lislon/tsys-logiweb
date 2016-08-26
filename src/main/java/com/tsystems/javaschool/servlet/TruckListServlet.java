@@ -2,7 +2,7 @@ package com.tsystems.javaschool.servlet;
 
 import com.tsystems.javaschool.entities.Truck;
 import com.tsystems.javaschool.helper.JsonWriter;
-import com.tsystems.javaschool.models.TruckManager;
+import com.tsystems.javaschool.services.TruckManager;
 import com.tsystems.javaschool.repos.TruckRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,10 +28,13 @@ public class TruckListServlet extends HttpServlet {
         List<Truck> allTrucks = manager.findAllTrucks();
         JSONArray jsonArray = new JSONArray();
         for (Truck truck : allTrucks) {
+            // todo jackson
             JSONObject jsonTruck = new JSONObject();
             jsonTruck.put("id", truck.getId());
             jsonTruck.put("name", truck.getName());
+            jsonTruck.put("duty_hours", truck.getMaxDuty());
             jsonTruck.put("capacity", truck.getCapacityKg());
+            jsonTruck.put("condition", truck.getCondition().toString());
             jsonTruck.put("city", truck.getCity().getName());
             jsonArray.add(jsonTruck);
         }

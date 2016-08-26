@@ -1,11 +1,10 @@
 package test.com.tsystems.javaschool.models;
 
 import com.tsystems.javaschool.entities.Driver;
-import com.tsystems.javaschool.models.DriverManager;
+import com.tsystems.javaschool.services.DriverManager;
 import com.tsystems.javaschool.repos.DriverRepository;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
