@@ -14,19 +14,29 @@
         <servlet-name>TruckListServlet</servlet-name>
         <servlet-class>com.tsystems.javaschool.logiweb.api.servlet.TruckListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RouterServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.logiweb.api.servlet.RouterServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
-        <servlet-name>TruckListServlet</servlet-name>
-        <url-pattern>/trucklist.do</url-pattern>
+        <servlet-name>RouterServlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- tiles servlets -->
-    <servlet>
-        <servlet-name>Tiles Dispatch Servlet</servlet-name>
-        <servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
-        <servlet-name>Tiles Dispatch Servlet</servlet-name>
-        <url-pattern>*.tiles</url-pattern>
+        <servlet-name>TruckListServlet</servlet-name>
+        <url-pattern>/api/truck/list.do</url-pattern>
     </servlet-mapping>
+
+    <!--&lt;!&ndash; tiles servlets &ndash;&gt;-->
+    <!--<servlet>-->
+        <!--<servlet-name>Tiles Dispatch Servlet</servlet-name>-->
+        <!--<servlet-class>org.apache.tiles.web.util.TilesDispatchServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Tiles Dispatch Servlet</servlet-name>-->
+        <!--<url-pattern>*.tiles</url-pattern>-->
+    <!--</servlet-mapping>-->
 
 </web-app>

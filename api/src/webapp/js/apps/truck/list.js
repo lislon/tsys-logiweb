@@ -46,10 +46,10 @@ $(function () {
 function queryParams(params) {
     return {};
 }
-function actionFormatter(value) {
+function actionFormatter(value, row) {
     return [
-        '<a class="update" href="javascript:" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
-        '<a class="remove" href="javascript:" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>',
+        '<a class="update" href="api/trucks/edit.do?id=' + row.id + '" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
+        '<a class="remove" href="api/trucks/delete.do?id=' + row.id + '" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>',
     ].join('');
 }
 // update and delete events

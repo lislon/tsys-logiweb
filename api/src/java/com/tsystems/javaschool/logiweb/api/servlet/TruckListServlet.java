@@ -38,7 +38,7 @@ public class TruckListServlet extends HttpServlet {
             JSONObject jsonTruck = new JSONObject();
             jsonTruck.put("id", truck.getId());
             jsonTruck.put("name", truck.getName());
-            jsonTruck.put("duty_hours", truck.getMaxDuty());
+            jsonTruck.put("max_drivers ", truck.getMaxDrivers());
             jsonTruck.put("capacity", truck.getCapacityKg());
             jsonTruck.put("condition", truck.getCondition().toString());
             jsonTruck.put("city", truck.getCity().getName());

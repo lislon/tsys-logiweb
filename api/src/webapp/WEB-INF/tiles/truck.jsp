@@ -12,7 +12,7 @@
     <tr>
         <th data-field="name">Number</th>
         <th data-field="capacity">Capacity</th>
-        <th data-field="duty_hours">Duty length</th>
+        <th data-field="max_drivers">Max drivers</th>
         <th data-field="condition">Condition</th>
         <th data-field="action"
             data-align="center"
@@ -55,4 +55,4 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script src="js/app/driver.js"></script>
+<script src="js/apps/truck/list.js"></script>

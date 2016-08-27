@@ -23,8 +23,8 @@ public class Truck {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "max_duty")
-    private int maxDuty;
+    @Column(name = "max_drivers")
+    private int maxDrivers;
 
     @Column(name = "capacity_kg")
     private int capacityKg;
@@ -54,12 +54,12 @@ public class Truck {
         this.name = name;
     }
 
-    public int getMaxDuty() {
-        return maxDuty;
+    public int getMaxDrivers() {
+        return maxDrivers;
     }
 
-    public void setMaxDuty(int maxDuty) {
-        this.maxDuty = maxDuty;
+    public void setMaxDrivers(int maxDrivers) {
+        this.maxDrivers = maxDrivers;
     }
 
     public int getCapacityKg() {
@@ -94,7 +94,7 @@ public class Truck {
 //        Truck that = (Truck) o;
 //
 //        if (id != that.id) return false;
-//        if (maxDuty != that.maxDuty) return false;
+//        if (maxDrivers != that.maxDrivers) return false;
 //        if (capacityKg != that.capacityKg) return false;
 //        if (name != null ? !name.equals(that.name) : that.name != null) return false;
 //
@@ -105,7 +105,7 @@ public class Truck {
 //    public int hashCode() {
 //        int result = id;
 //        result = 31 * result + (name != null ? name.hashCode() : 0);
-//        result = 31 * result + maxDuty;
+//        result = 31 * result + maxDrivers;
 //        result = 31 * result + capacityKg;
 //        return result;
 //    }
