@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+        id="logiweb"
+        version="2.5">
+    <display-name>Archetype Created Web Application</display-name>
+    <listener>
+        <listener-class>com.tsystems.javaschool.logiweb.api.helper.PersistenceInitializer</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.tsystems.javaschool.logiweb.api.listener.MySessionListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>UserAlertFilter</filter-name>
+        <filter-class>com.tsystems.javaschool.logiweb.api.filter.UserAlertFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserAlertFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>Utf8EncodingFilter</filter-name>
+        <filter-class>com.tsystems.javaschool.logiweb.api.filter.Utf8EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Utf8EncodingFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+
+
+    <servlet>
+        <servlet-name>TruckListServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.logiweb.api.servlet.TruckListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomeServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.logiweb.api.servlet.HomeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TruckEditServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.logiweb.api.servlet.TruckEditServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ApiTruckListServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.logiweb.api.servlet.ApiTruckListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ApiCityListServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.logiweb.api.servlet.ApiCityListServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern></url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TruckListServlet</servlet-name>
+        <url-pattern>/truck/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TruckEditServlet</servlet-name>
+        <url-pattern>/truck/edit</url-pattern>
+    </servlet-mapping>
+
+
+
+    <!--Api mappings-->
+
+    <servlet-mapping>
+        <servlet-name>ApiTruckListServlet</servlet-name>
+        <url-pattern>/api/truck/list.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApiCityListServlet</servlet-name>
+        <url-pattern>/api/city/list.do</url-pattern>
+    </servlet-mapping>
+
+
+
+
+</web-app>
