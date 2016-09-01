@@ -7,6 +7,7 @@ package com.tsystems.javaschool.logiweb.api.servlet;
 
 import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
+import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 
 import javax.json.JsonArrayBuilder;
@@ -25,20 +26,23 @@ import javax.json.Json;
 public class ApiTruckListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        TruckManager manager = (new ServicesFacade()).getTruckManager();
+        ServicesFacade servicesFacade = new ServicesFacade();
 
-        List<Truck> allTrucks = manager.findAllTrucks();
+        TruckManager manager = servicesFacade.getTruckManager();
+        CityManager cityManager = servicesFacade.getCityManager();
+
+        List<TruckManager.DTO> allTrucks = manager.findAllTrucks();
 
         JsonArrayBuilder jsonBuilder = Json.createArrayBuilder();
 
-        for (Truck truck : allTrucks) {
+        for (TruckManager.DTO truck : allTrucks) {
             JsonObjectBuilder truckJson = Json.createObjectBuilder()
                     .add("id", truck.getId())
                     .add("name", truck.getName())
-                    .add("max_drivers", truck.getMaxDrivers())
-                    .add("capacity_kg", truck.getCapacityKg())
+                    .add("maxDrivers", truck.getMaxDrivers())
+                    .add("capacityKg", truck.getCapacityKg())
                     .add("condition", truck.getCondition().toString())
-                    .add("city_name", truck.getCity().getName());
+                    .add("cityName", cityManager.find(truck.getId()).getName());
 
             jsonBuilder.add(truckJson);
         }

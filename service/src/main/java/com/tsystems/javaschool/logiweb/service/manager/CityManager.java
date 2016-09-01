@@ -10,11 +10,32 @@ import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Igor Avdeev on 8/28/16.
  */
 public class CityManager {
+
+    public static class DTO
+    {
+        public final int id;
+        public final String name;
+
+        public DTO(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     private CityRepository repo = null;
 
     public CityManager(CityRepository repo) {
@@ -27,8 +48,13 @@ public class CityManager {
      * @param search Beginning of city name
      * @return List of matching cities (max 10 items)
      */
-    public Collection<City> getAutocompleteCities(String search) {
-        return repo.getAutocompleteCities(search);
+    public Collection<DTO> getAutocompleteCities(String search) {
+        Collection<City> repoAutocompleteCities = repo.getAutocompleteCities(search);
+
+        return repoAutocompleteCities
+                .stream()
+                .map(city -> new DTO(city.getId(), city.getName()))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -37,7 +63,8 @@ public class CityManager {
      * @param id City id.
      * @return City Entity
      */
-    public City find(int id) {
-        return repo.find(id);
+    public DTO find(int id) {
+        City city = repo.find(id);
+        return new DTO(city.getId(), city.getName());
     }
 }

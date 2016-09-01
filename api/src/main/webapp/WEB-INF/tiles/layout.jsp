@@ -3,6 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,11 +41,19 @@
         <tiles:insertAttribute name="menu" />
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header"><tiles:getAsString name="title" /></h1>
-            <%--<c:if test="${sessionScope.get().getAttribute(UserAlert.ATTR_NAME) != null}">--%>
-                <%--<div class="alert alert-<%= session.getAttribute(UserAlert.ATTR_NAME).getType() %>">--%>
-                    <%--<%= session.getAttribute(UserAlert.ATTR_NAME) %>--%>
-                <%--</div>--%>
-            <%--</c:if>--%>
+
+            <c:if test="${requestScope.alert != null}">
+                <div class="alert alert-${fn:toLowerCase(requestScope.alert.getType())}">
+                        ${requestScope.alert.getMessage()}
+                </div>
+            </c:if>
+
+            <c:if test="${sessionScope.alert != null}">
+                <div class="alert alert-${fn:toLowerCase(sessionScope.alert.getType())}">
+                        ${sessionScope.alert.getMessage()}
+                </div>
+            </c:if>
+
             <tiles:insertAttribute name="body" />
         </div>
 

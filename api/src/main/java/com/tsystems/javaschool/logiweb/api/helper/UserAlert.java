@@ -17,10 +17,11 @@ public class UserAlert {
 
     public final static String ATTR_NAME = "alert";
 
-    public enum Type { DANGER, WARNING }
+    public enum Type { DANGER, WARNING, SUCCESS }
 
     private Type type;
     private String message;
+    private boolean isDisplayed = false;
 
     private UserAlert(Type type, String message) {
         this.type = type;
@@ -36,6 +37,7 @@ public class UserAlert {
     }
 
     public String getMessage() {
+        isDisplayed = true;
         return message;
     }
 
@@ -55,7 +57,17 @@ public class UserAlert {
 
     public static void injectInRequest(HttpServletRequest req, String message, UserAlert.Type type) {
         UserAlert alert = new UserAlert(type, message);
+        req.setAttribute(UserAlert.ATTR_NAME, alert);
+    }
+
+    public static void injectInSession(HttpServletRequest req, String message, UserAlert.Type type) {
+        UserAlert alert = new UserAlert(type, message);
         req.getSession().setAttribute(UserAlert.ATTR_NAME, alert);
+    }
+
+    public boolean isDisplayed()
+    {
+        return isDisplayed;
     }
 
 }

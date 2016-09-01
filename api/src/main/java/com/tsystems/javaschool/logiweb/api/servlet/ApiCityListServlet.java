@@ -27,7 +27,7 @@ public class ApiCityListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CityManager cityManager = new ServicesFacade().getCityManager();
-        Collection<City> cities;
+        Collection<CityManager.DTO> cities;
         String search = req.getParameter("q");
 
         if (search != null && search.length() >= 1) {
@@ -38,7 +38,7 @@ public class ApiCityListServlet extends HttpServlet {
 
         JsonArrayBuilder jsonBuilder = Json.createArrayBuilder();
 
-        for (City city : cities) {
+        for (CityManager.DTO city : cities) {
             JsonObjectBuilder truckJson = Json.createObjectBuilder()
                     .add("id", city.getId())
                     .add("name", city.getName());

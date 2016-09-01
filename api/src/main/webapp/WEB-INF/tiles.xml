@@ -21,4 +21,11 @@
         <put-attribute name="body" value="/WEB-INF/tiles/truck_edit.jsp" />
     </definition>
 
+    <definition name="logiweb.exception" template="/WEB-INF/tiles/layout.jsp">
+        <put-attribute name="title" value="Oops! 500, My fault :(" />
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/tiles/error500.jsp" />
+    </definition>
+
 </tiles-definitions>

@@ -11,6 +11,7 @@ import org.springframework.http.server.ServerHttpRequest;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.registry.infomodel.User;
 import java.io.IOException;
 
 /**
@@ -22,12 +23,22 @@ public class UserAlertFilter implements Filter {
 
     }
 
+    /**
+     * Deletes session message has been displayed.
+     * @param request
+     * @param response
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         chain.doFilter(request, response);
         HttpSession session = ((HttpServletRequest) request).getSession(false);
-        if (session != null) {
-            session.removeAttribute(UserAlert.ATTR_NAME);
+        if (session != null && session.getAttribute(UserAlert.ATTR_NAME) != null) {
+            if (((UserAlert)session.getAttribute(UserAlert.ATTR_NAME)).isDisplayed()) {
+                session.removeAttribute(UserAlert.ATTR_NAME);
+            }
         }
     }
 

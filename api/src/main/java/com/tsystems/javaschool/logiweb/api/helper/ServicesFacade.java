@@ -35,4 +35,19 @@ public class ServicesFacade {
     {
         return new CityManager(new CityRepository(em));
     }
+
+    public void beginTransaction()
+    {
+        em.getTransaction().begin();
+    }
+
+    public void commitTransaction()
+    {
+        em.getTransaction().commit();
+    }
+
+    public void rollbackTransaction()
+    {
+        em.getTransaction().rollback();
+    }
 }

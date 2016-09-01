@@ -22,7 +22,7 @@ public class DriverManager {
 
     public void addDriver(Driver driver)
     {
-        repo.add(driver);
+        repo.save(driver);
     }
 
     public List<Driver> findAllDrivers()

@@ -3,6 +3,7 @@
 
     <persistence-unit name="mypersistence">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <mapping-file>META-INF/orm.xml</mapping-file>
         <class>com.tsystems.javaschool.logiweb.dao.entities.Driver</class>
         <class>com.tsystems.javaschool.logiweb.dao.entities.Truck</class>
         <class>com.tsystems.javaschool.logiweb.dao.entities.Order</class>
@@ -14,6 +15,7 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="toor"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
             <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format_sql" value="true"/>

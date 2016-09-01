@@ -24,7 +24,7 @@ public abstract class BaseRepository<T> {
         this.em = em;
     }
 
-    public void add(T entity) {
+    public void save(T entity) {
         em.persist(entity);
     }
 
@@ -39,5 +39,6 @@ public abstract class BaseRepository<T> {
     public T find(Object key) {
         return em.find(classType, key);
     }
+
 
 }

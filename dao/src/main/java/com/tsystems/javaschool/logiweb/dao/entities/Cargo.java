@@ -6,14 +6,18 @@
 package com.tsystems.javaschool.logiweb.dao.entities;
 
 import javax.persistence.*;
+import lombok.*;
 
 /**
  * Created by Igor Avdeev on 8/23/16.
  */
 @Entity
 @Table(name = "cargoes")
+@Data
+@NoArgsConstructor
 public class Cargo {
     public enum Status { PREPARED, SHIPPED, DELIVERED }
+
 
     @Id
     @Column(name = "id")
@@ -25,42 +29,7 @@ public class Cargo {
     @Column(name = "weight")
     private Integer weight;
 
-
     @Column(name = "status")
     @Enumerated
     private Status status;
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public Integer getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Integer weight) {
-        this.weight = weight;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 }

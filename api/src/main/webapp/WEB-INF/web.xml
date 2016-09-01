@@ -86,7 +86,11 @@
         <url-pattern>/api/city/list.do</url-pattern>
     </servlet-mapping>
 
-
+    <!--TODO: How to get detailed error message?-->
+    <!--<error-page>-->
+        <!--<error-code>500</error-code>-->
+        <!--<location>/error.jsp</location>-->
+    <!--</error-page>-->
 
 
 </web-app>

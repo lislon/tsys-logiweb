@@ -11,10 +11,10 @@
     <thead>
     <tr>
         <th data-field="name">Number</th>
-        <th data-field="capacity_kg">Capacity</th>
-        <th data-field="max_drivers">Max drivers</th>
+        <th data-field="capacityKg">Capacity</th>
+        <th data-field="maxDrivers">Max drivers</th>
         <th data-field="condition">Condition</th>
-        <th data-field="city_name">City</th>
+        <th data-field="cityName">City</th>
         <th data-field="action"
             data-align="center"
             data-formatter="actionFormatter"

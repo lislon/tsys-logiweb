@@ -27,6 +27,7 @@ public class LocalEntityManagerFactory {
         assert (emf != null);
         if (emf != null) {
             emf.close();
+            emf = null;
         }
     }
 

@@ -8,13 +8,28 @@ package com.tsystems.javaschool.logiweb.service.manager;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.dao.repos.TruckRepository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Igor Avdeev on 8/24/16.
  */
 public class TruckManager {
+
+    @Data
+    @AllArgsConstructor
+    public static class DTO
+    {
+        public final Integer id;
+        public final String name;
+        public final int maxDrivers;
+        public final int capacityKg;
+        public final Truck.Condition condition;
+        public final int cityId;
+    }
 
     private TruckRepository repo = null;
 
@@ -31,9 +46,10 @@ public class TruckManager {
      * @param cargoWeight Weight of cargo to carry.
      * @return List of trucks capable to transport this cargo at specified city.
      */
-    public List<Truck> findReadyToGoTrucks(City city, int cargoWeight)
+    public List<DTO> findReadyToGoTrucks(City city, int cargoWeight)
     {
-        return repo.findReadyToGoTrucks(city, cargoWeight);
+        List<Truck> readyToGoTrucks = repo.findReadyToGoTrucks(city, cargoWeight);
+        return getDTOs(readyToGoTrucks);
     }
 
     /**
@@ -41,18 +57,63 @@ public class TruckManager {
      *
      * @return List of all truck.
      */
-    public List<Truck> findAllTrucks()
+    public List<DTO> findAllTrucks()
     {
         // TODO: For optimization we also need cities name for this query
-        return (List<Truck>)repo.findAll();
+        return getDTOs(repo.findAll());
     }
 
-    public Truck find(int id)
+    public DTO find(int id)
     {
-        return repo.find((Object)id);
+        return Entity2DTO(repo.find((Object)id));
     }
 
-    public void save(Truck truck) {
-        // TODO: implement
+    public void save(DTO truck) {
+
+        City city = new City();
+        city.setId(truck.getCityId());
+
+        Truck entity;
+
+        if (truck.getId() > 0) {
+            entity = repo.find(truck.getId());
+        } else {
+            entity = new Truck();
+        }
+
+        entity.setName(truck.getName());
+        entity.setCapacityKg(truck.getCapacityKg());
+        entity.setCondition(truck.getCondition());
+        entity.setMaxDrivers(truck.getMaxDrivers());
+        entity.setCity(city);
+
+        repo.save(entity);
+    }
+
+
+    /**
+     * Maps Entities (DAO+service level) to DTO object (service+api layer)
+     * @param listOfTrucks List of truck entities
+     * @return list of truck DTO
+     */
+    private List<DTO> getDTOs(List<Truck> listOfTrucks) {
+        return listOfTrucks
+                .stream()
+                .map(TruckManager::Entity2DTO)
+                .collect(Collectors.toList());
+    }
+
+    private static DTO Entity2DTO(Truck t) {
+        if (t == null) {
+            return null;
+        }
+        return new DTO(
+                t.getId(),
+                t.getName(),
+                t.getMaxDrivers(),
+                t.getCapacityKg(),
+                t.getCondition(),
+                t.getCity().getId()
+        );
     }
 }
