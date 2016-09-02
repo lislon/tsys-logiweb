@@ -35,7 +35,7 @@
                            value="OK" ${requestScope.condition == "OK" ? "checked" : ""}>Good
                 </label>
                 <label class="btn btn-default ${requestScope.condition == "BROKEN" ? "active" : ""}">
-                    <input type="radio" name="condition" autocomplete="off" v
+                    <input type="radio" name="condition" autocomplete="off"
                            value="BROKEN" ${requestScope.condition == "BROKEN" ? "checked" : ""}>Broken
                 </label>
             </div>
@@ -49,7 +49,7 @@
     </div>
     <hr />
     <div class="form-group text-right">
-        <button type="submit" class="btn">Cancel</button>
+        <a href="<%= request.getContextPath() %>/truck/list.do" type="submit" class="btn">Cancel</a>
         <button type="submit" class="btn btn-primary">Save</button>
     </div>
 </form>
