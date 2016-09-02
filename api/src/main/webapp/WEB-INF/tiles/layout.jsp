@@ -11,20 +11,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/bootstrap-table/dist/bootstrap-table.min.css">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/easy-autocomplete.min.css">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/easy-autocomplete.themes.min.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/bootstrap-table/dist/bootstrap-table.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/easy-autocomplete.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/easy-autocomplete.themes.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/style/main.css">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="<%= request.getContextPath() %>/style/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <title><tiles:getAsString name="title" /></title>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="<%= request.getContextPath() %>/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/jquery/dist/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="<%= request.getContextPath() %>/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="<%= request.getContextPath() %>/vendor/bootstrap-table/dist/bootstrap-table.min.js"></script>
-    <script src="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/jquery.easy-autocomplete.min.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/bootstrap-table/dist/bootstrap-table.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/jquery.easy-autocomplete.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="<%= request.getContextPath() %>/js/ie10-viewport-bug-workaround.js"></script>
     <script>
@@ -41,15 +41,16 @@
         <tiles:insertAttribute name="menu" />
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header"><tiles:getAsString name="title" /></h1>
-
             <c:if test="${requestScope.alert != null}">
                 <div class="alert alert-${fn:toLowerCase(requestScope.alert.getType())}">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
                         ${requestScope.alert.getMessage()}
                 </div>
             </c:if>
 
             <c:if test="${sessionScope.alert != null}">
                 <div class="alert alert-${fn:toLowerCase(sessionScope.alert.getType())}">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
                         ${sessionScope.alert.getMessage()}
                 </div>
             </c:if>

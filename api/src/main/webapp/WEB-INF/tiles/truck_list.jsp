@@ -1,6 +1,6 @@
 <p class="toolbar">
     <a class="create btn btn-default" href="<%= request.getContextPath() %>/truck/edit.do">Create Item</a>
-    <span class="alert"></span>
+    <span class="alert" id="table-alert"></span>
 </p>
 <table id="table"
        data-show-refresh="true"
@@ -28,7 +28,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"></h4>
+                <h4 class="mo2dal-title"></h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">

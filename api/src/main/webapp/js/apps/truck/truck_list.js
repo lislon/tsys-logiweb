@@ -14,8 +14,8 @@ var $table = $('#table').bootstrapTable({
         showAlert('Error loading data from table!', 'danger');
     }
 });
-var $modal = $('#modal').modal({show: false}),
-    $alert = $('.alert').hide();
+var $modal = $('#modal').modal({show: false});
+var $alert = $('#table-alert').hide();
 $(function () {
 
 
