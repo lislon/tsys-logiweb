@@ -3,11 +3,13 @@
  * Igor Avdeev
  */
 
-var API_URL = CONTEXT_PATH + '/api/truck/list.do';
+var LIST_URL = CONTEXT_PATH + '/api/truck/list.do';
+var EDIT_URL = CONTEXT_PATH + '/truck/edit.do?id=';
+var DELETE_URL = CONTEXT_PATH + '/truck/delete.do?id=';
 
 
 var $table = $('#table').bootstrapTable({
-    url: API_URL,
+    url: LIST_URL,
     onLoadError: function (status, res) {
         showAlert('Error loading data from table!', 'danger');
     }
@@ -27,7 +29,7 @@ $(function () {
             row[$(this).attr('name')] = $(this).val();
         });
         $.ajax({
-            url: API_URL + ($modal.data('id') || ''),
+            url: LIST_URL + ($modal.data('id') || ''),
             type: $modal.data('id') ? 'put' : 'post',
             contentType: 'application/json',
             data: JSON.stringify(row),
@@ -48,7 +50,7 @@ function queryParams(params) {
 }
 function actionFormatter(value, row) {
     return [
-        '<a class="update" href="' + CONTEXT_PATH +'/truck/edit?id=' + row.id + '" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
+        '<a class="update" href="' + EDIT_URL + row.id + '" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
         '<a class="remove" href="javascript:" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>',
     ].join('');
 }
@@ -60,7 +62,7 @@ window.actionEvents = {
     'click .remove': function (e, value, row) {
         if (confirm('Are you sure to delete this item?')) {
             $.ajax({
-                url: API_URL + row.id,
+                url: DELETE_URL + row.id,
                 type: 'delete',
                 success: function () {
                     $table.bootstrapTable('refresh');

@@ -3,8 +3,9 @@
  * Igor Avdeev
  */
 
-package com.tsystems.javaschool.logiweb.api.servlet;
+package com.tsystems.javaschool.logiweb.api.action.api.truck;
 
+import com.tsystems.javaschool.logiweb.api.action.Action;
 import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
@@ -23,9 +24,9 @@ import javax.json.Json;
 /**
  * Created by Igor Avdeev on 8/28/16.
  */
-public class ApiTruckListServlet extends HttpServlet {
+public class ListGetAction implements Action {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ServicesFacade servicesFacade = new ServicesFacade();
 
         TruckManager manager = servicesFacade.getTruckManager();
@@ -47,6 +48,7 @@ public class ApiTruckListServlet extends HttpServlet {
             jsonBuilder.add(truckJson);
         }
 
-        Json.createWriter(response.getWriter()).writeArray(jsonBuilder.build());
+        Json.createWriter(resp.getWriter()).writeArray(jsonBuilder.build());
+
     }
 }

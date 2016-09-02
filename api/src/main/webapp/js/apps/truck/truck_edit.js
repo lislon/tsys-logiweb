@@ -6,7 +6,7 @@
 $(function () {
     $('#city').easyAutocomplete({
          url: function(phrase) {
-             return CONTEXT_PATH + "/api/city/list.do?q=" + phrase + "&format=json";
+             return CONTEXT_PATH + "/api/city/autocomplete.do?q=" + phrase + "&format=json";
          },
         getValue: "name",
         list: {

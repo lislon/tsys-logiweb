@@ -5,6 +5,9 @@
 
 package com.tsystems.javaschool.logiweb.api.servlet;
 
+import com.tsystems.javaschool.logiweb.api.action.Action;
+import com.tsystems.javaschool.logiweb.api.action.ActionFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +18,16 @@ import java.io.IOException;
  * Created by Igor Avdeev on 8/28/16.
  */
 public class HomeServlet extends HttpServlet {
+    ActionFactory factory = new ActionFactory();
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(req.getContextPath() + "/truck/list");
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Action action = factory.getAction(req);
+        if (action != null) {
+            action.execute(req, resp);
+        } else {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 }

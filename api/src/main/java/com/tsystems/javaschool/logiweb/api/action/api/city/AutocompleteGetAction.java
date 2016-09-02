@@ -3,8 +3,9 @@
  * Igor Avdeev
  */
 
-package com.tsystems.javaschool.logiweb.api.servlet;
+package com.tsystems.javaschool.logiweb.api.action.api.city;
 
+import com.tsystems.javaschool.logiweb.api.action.Action;
 import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
@@ -23,9 +24,9 @@ import java.util.LinkedList;
 /**
  * Created by Igor Avdeev on 8/28/16.
  */
-public class ApiCityListServlet extends HttpServlet {
+public class AutocompleteGetAction implements Action {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         CityManager cityManager = new ServicesFacade().getCityManager();
         Collection<CityManager.DTO> cities;
         String search = req.getParameter("q");
