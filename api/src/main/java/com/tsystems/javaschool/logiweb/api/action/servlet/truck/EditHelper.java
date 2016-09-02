@@ -26,8 +26,6 @@ public class EditHelper {
     public static void renderEditForm(HttpServletRequest req, HttpServletResponse resp,
                                 ServicesFacade facade) {
 
-
-
         // cityId must be filled with correct cityname in both cases
         int cityId = 0;
 

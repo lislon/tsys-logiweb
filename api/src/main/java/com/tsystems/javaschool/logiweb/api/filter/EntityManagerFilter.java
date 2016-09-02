@@ -5,13 +5,15 @@
 
 package com.tsystems.javaschool.logiweb.api.filter;
 
+import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
+
 import javax.servlet.*;
 import java.io.IOException;
 
 /**
- * Created by Igor Avdeev on 8/28/16.
+ * Created by Igor Avdeev on 9/2/16.
  */
-public class Utf8EncodingFilter implements Filter {
+public class EntityManagerFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -19,8 +21,13 @@ public class Utf8EncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        response.setContentType("application/json; charset=UTF-8");
-        chain.doFilter(request, response);
+        ServicesFacade servicesFacade = new ServicesFacade();
+        request.setAttribute("servicesFacade", servicesFacade);
+        try {
+            chain.doFilter(request, response);
+        } finally {
+            servicesFacade.closeEm();
+        }
     }
 
     @Override

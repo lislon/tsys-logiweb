@@ -26,13 +26,24 @@
     </filter>
     <filter>
         <filter-name>Utf8EncodingFilter</filter-name>
-        <filter-class>com.tsystems.javaschool.logiweb.api.filter.Utf8EncodingFilter</filter-class>
+        <filter-class>com.tsystems.javaschool.logiweb.api.filter.ApiJsonFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>EntityManagerFilter</filter-name>
+        <filter-class>com.tsystems.javaschool.logiweb.api.filter.EntityManagerFilter</filter-class>
+    </filter>
+
 
     <filter-mapping>
         <filter-name>UserAlertFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.do</url-pattern>
     </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>EntityManagerFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
     <filter-mapping>
         <filter-name>Utf8EncodingFilter</filter-name>
         <url-pattern>/api/*</url-pattern>
@@ -47,7 +58,7 @@
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern></url-pattern>
     </servlet-mapping>
-    
+
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>*.do</url-pattern>

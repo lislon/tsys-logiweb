@@ -40,7 +40,6 @@ public class ActionFactory {
         String query = req.getRequestURI();
         query = query.substring(req.getContextPath().length());
 
-
         return actions.get(req.getMethod() + " " + query);
     }
 }

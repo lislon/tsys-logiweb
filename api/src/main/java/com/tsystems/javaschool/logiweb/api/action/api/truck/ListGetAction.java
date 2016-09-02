@@ -27,7 +27,7 @@ import javax.json.Json;
 public class ListGetAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ServicesFacade servicesFacade = new ServicesFacade();
+        ServicesFacade servicesFacade = ((ServicesFacade)req.getAttribute("servicesFacade"));
 
         TruckManager manager = servicesFacade.getTruckManager();
         CityManager cityManager = servicesFacade.getCityManager();

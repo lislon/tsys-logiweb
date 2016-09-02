@@ -27,7 +27,7 @@ import java.util.LinkedList;
 public class AutocompleteGetAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        CityManager cityManager = new ServicesFacade().getCityManager();
+        CityManager cityManager = ((ServicesFacade)req.getAttribute("servicesFacade")).getCityManager();
         Collection<CityManager.DTO> cities;
         String search = req.getParameter("q");
 

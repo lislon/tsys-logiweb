@@ -18,7 +18,7 @@ import java.io.IOException;
  * Created by Igor Avdeev on 8/28/16.
  */
 public class HomeServlet extends HttpServlet {
-    ActionFactory factory = new ActionFactory();
+    private ActionFactory factory = new ActionFactory();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

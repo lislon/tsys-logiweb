@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 public class EditGetAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        EditHelper.renderEditForm(req, resp, new ServicesFacade());
+        EditHelper.renderEditForm(req, resp, ((ServicesFacade)req.getAttribute("servicesFacade")));
     }
 }
 

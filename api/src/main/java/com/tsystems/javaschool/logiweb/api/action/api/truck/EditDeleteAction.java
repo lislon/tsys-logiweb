@@ -25,7 +25,7 @@ public class EditDeleteAction implements Action {
 
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ServicesFacade servicesFacade = new ServicesFacade();
+        ServicesFacade servicesFacade = ((ServicesFacade)req.getAttribute("servicesFacade"));
         servicesFacade.beginTransaction();
         boolean isEntryFound;
 

@@ -50,4 +50,9 @@ public class ServicesFacade {
     {
         em.getTransaction().rollback();
     }
+
+    public void closeEm() {
+        em.close();
+        em = null;
+    }
 }
