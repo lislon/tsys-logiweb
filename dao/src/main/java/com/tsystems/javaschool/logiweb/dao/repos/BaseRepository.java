@@ -28,6 +28,15 @@ public abstract class BaseRepository<T> {
         em.persist(entity);
     }
 
+    public boolean delete(Object key) {
+        T entity = find(key);
+        if (entity != null) {
+            em.remove(entity);
+            return true;
+        }
+        return false;
+    }
+
     public List<T> findAll() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<T> query = criteriaBuilder.createQuery(classType);

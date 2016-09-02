@@ -5,7 +5,7 @@
 
 var LIST_URL = CONTEXT_PATH + '/api/truck/list.do';
 var EDIT_URL = CONTEXT_PATH + '/truck/edit.do?id=';
-var DELETE_URL = CONTEXT_PATH + '/truck/delete.do?id=';
+var DELETE_URL = CONTEXT_PATH + '/api/truck/delete.do?id=';
 
 
 var $table = $('#table').bootstrapTable({

@@ -68,6 +68,10 @@ public class TruckManager {
         return Entity2DTO(repo.find((Object)id));
     }
 
+    public boolean delete(int id) {
+        return repo.delete(id);
+    }
+
     public void save(DTO truck) {
 
         City city = new City();
