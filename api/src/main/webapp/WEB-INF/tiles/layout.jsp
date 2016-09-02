@@ -24,6 +24,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="<%= request.getContextPath() %>/vendor/bootstrap/dist/js/bootstrap.js"></script>
     <script src="<%= request.getContextPath() %>/vendor/bootstrap-table/dist/bootstrap-table.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/bootstrap-validator/dist/validator.js"></script>
     <script src="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/jquery.easy-autocomplete.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="<%= request.getContextPath() %>/js/ie10-viewport-bug-workaround.js"></script>

@@ -1,11 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<form method="post">
+<form method="post" data-toggle="validator">
     <div class="form-group">
         <label for="truck_name">Truck name</label>
         <input type="text" name="name" id="truck_name" placeholder="AB12345" class="form-control"
+               data-error="Truck name must consist of two latin letters + 5 digits" pattern="^[A-Z]{2}[0-9]{5}$" required
                value="${requestScope.name}">
+        <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
         <label>Maximum drivers per trip</label>
@@ -23,8 +25,10 @@
     </div>
     <div class="form-group">
         <label for="capacity_ton">Capacity (tons)</label>
-        <input type="text" name="capacityKg" id="capacity_ton" class="form-control" placeholder="4"
-        value="${requestScope.capacityKg}">
+        <input type="number" name="capacityKg" id="capacity_ton" class="form-control" placeholder="4"
+               data-error="Capacity must be a number" required
+               value="${requestScope.capacityKg}">
+        <div class="help-block with-errors"></div>
     </div>
     <div class="form-group">
         <label>Condition</label>
@@ -44,8 +48,9 @@
     <div class="form-group">
         <label for="city">Current location</label>
         <input type="text" id="city" name="city" placeholder="Berlin" class="form-control"
-               value="${requestScope.cityName}">
+               value="${requestScope.cityName}" required>
         <input type="hidden" id="city_id" name="cityId" value="${requestScope.cityId}">
+        <div class="help-block with-errors"></div>
     </div>
     <hr />
     <div class="form-group text-right">
