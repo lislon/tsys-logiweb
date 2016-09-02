@@ -4,18 +4,22 @@ T-systems school project
 ## Prerequisites
 
  * MySQL 5.0+
- * [Bower](https://bower.io/)
- 
-## Additional Installation steps
+ * Tomcat 8+
+  
+## Installation
 
- Go to api/src/main/webapp/WEB-INF directory and run
+ 1. Clone project 
+ 2. Populate MySQL database with this [dump](https://gist.github.com/8b73b9e1ae8a996792a2ddf22da51665). 
+ 3. Go to project source and execute 2 commands:
  
- `bower install`
-
+ `mvn install`
  
-## MySQL Dump
+ `mvn install -pl api tomcat7:deploy `
 
-https://gist.github.com/8b73b9e1ae8a996792a2ddf22da51665
+Then proceed to http://localhost:8080/logiweb-api/
+
+
+
 
  
 
