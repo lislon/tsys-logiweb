@@ -32,11 +32,11 @@
             <div class="btn-group" data-toggle="buttons" id="condition">
                 <label class="btn btn-default ${requestScope.condition == "OK" ? "active" : ""}">
                     <input type="radio" name="condition" autocomplete="off"
-                           value="${requestScope.condition}" ${requestScope.condition == "OK" ? "checked" : ""}>Good
+                           value="OK" ${requestScope.condition == "OK" ? "checked" : ""}>Good
                 </label>
                 <label class="btn btn-default ${requestScope.condition == "BROKEN" ? "active" : ""}">
                     <input type="radio" name="condition" autocomplete="off" v
-                           value="${requestScope.condition}" ${requestScope.condition == "BROKEN" ? "checked" : ""}>Broken
+                           value="BROKEN" ${requestScope.condition == "BROKEN" ? "checked" : ""}>Broken
                 </label>
             </div>
         </div>

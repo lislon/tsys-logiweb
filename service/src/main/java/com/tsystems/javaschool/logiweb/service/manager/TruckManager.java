@@ -23,7 +23,7 @@ public class TruckManager {
     @AllArgsConstructor
     public static class DTO
     {
-        public final Integer id;
+        public final int id;
         public final String name;
         public final int maxDrivers;
         public final int capacityKg;

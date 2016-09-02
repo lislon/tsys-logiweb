@@ -8,28 +8,15 @@ package com.tsystems.javaschool.logiweb.api.servlet;
 import com.tsystems.javaschool.logiweb.api.helper.RenderHelper;
 import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
 import com.tsystems.javaschool.logiweb.api.helper.UserAlert;
-import com.tsystems.javaschool.logiweb.api.helper.Validator;
-import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
-import org.apache.tiles.TilesContainer;
-import org.apache.tiles.access.TilesAccess;
-import org.apache.tiles.request.ApplicationContext;
-import org.apache.tiles.request.Request;
-import org.apache.tiles.request.servlet.ServletRequest;
-import org.apache.tiles.request.servlet.ServletUtil;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.HttpMethod;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.stream.Stream;
 
 /**
@@ -37,58 +24,63 @@ import java.util.stream.Stream;
  */
 public class TruckEditServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         ServicesFacade managersFacade = new ServicesFacade();
 
         // Check if we edit existing track or creating new one.
-        fillRequstParamsWithTruck(request, managersFacade);
-
-        RenderHelper.renderTemplate("logiweb.truck.edit", request, response);
+        renderEditForm(req, resp, new ServicesFacade());
     }
 
 
     /**
-     * Injects truck data into a request for JSP page. Source is depends on current
-     * @param request
+     * Injects truck data into a req for JSP page. Source is depends on current
+     * @param req
      * @param facade
      */
-    private void fillRequstParamsWithTruck(HttpServletRequest request, ServicesFacade facade) {
-
-        if (request.getParameter("id") != null) {
-
-            // cityId must be filled with correct cityname in both cases
-            int cityId;
-
-            if (request.getMethod().equals("POST")) {
-                // copy all parameters from POST to request attributes
-                Stream.of("name", "maxDrivers", "capacityKg", "cityId", "condition")
-                        .forEach(param -> request.setAttribute("name", request.getParameter("name")));
-
-                cityId = Integer.parseInt(request.getParameter("cityId"));
-            } else {
-                // brand new page, load truck from database
-
-                int id = Integer.parseInt(request.getParameter("id"));
-                TruckManager.DTO truck = facade.getTruckManager().find(id);
+    private void renderEditForm(HttpServletRequest req, HttpServletResponse resp,
+                                ServicesFacade facade) {
 
 
-                request.setAttribute("name", truck.getName());
-                request.setAttribute("maxDrivers", truck.getMaxDrivers());
-                request.setAttribute("capacityKg", truck.getCapacityKg());
-                request.setAttribute("cityId", truck.getCityId());
-                request.setAttribute("condition", truck.getCondition());
-                cityId = truck.getId();
+
+        // cityId must be filled with correct cityname in both cases
+        int cityId = 0;
+
+        if (req.getMethod().equals("POST")) {
+            // copy all parameters from POST to req attributes
+            Stream.of("name", "maxDrivers", "capacityKg", "cityId", "condition")
+                    .forEach(name -> req.setAttribute(name, req.getParameter(name)));
+
+            try {
+                cityId = Integer.parseInt(req.getParameter("cityId"));
+            } catch (Exception e) {
             }
+        } else if (req.getParameter("id") != null) {
+            // brand new page, load truck from database
 
+            int id = Integer.parseInt(req.getParameter("id"));
+            TruckManager.DTO truck = facade.getTruckManager().find(id);
+
+
+            req.setAttribute("name", truck.getName());
+            req.setAttribute("maxDrivers", truck.getMaxDrivers());
+            req.setAttribute("capacityKg", truck.getCapacityKg());
+            req.setAttribute("cityId", truck.getCityId());
+            req.setAttribute("condition", truck.getCondition());
+            cityId = truck.getId();
+        }
+
+        if (cityId > 0) {
             // fill city name
             CityManager.DTO city = facade.getCityManager().find(cityId);
 
             // if city is deleted we still want to be able to edit truck
             if (city != null) {
-                request.setAttribute("cityName", city.getName());
+                req.setAttribute("cityName", city.getName());
             }
         }
+
+        RenderHelper.renderTemplate("logiweb.truck.edit", req, resp);
     }
 
     @Override
@@ -99,11 +91,22 @@ public class TruckEditServlet extends HttpServlet {
 
         try {
 
+            if (!Stream.of("name", "maxDrivers", "capacityKg", "cityId", "condition")
+                    .allMatch(name -> req.getParameter(name) != null
+                            && req.getParameter(name).trim().length() > 0)) {
+                UserAlert.injectInRequest(req, "Not all required fields are set",
+                        UserAlert.Type.DANGER);
 
-            Integer id = null;
+                renderEditForm(req, resp, managersFacade);
+                return;
+            }
+
+
+            int id = 0;
             if (req.getParameter("id") != null) {
                 id = Integer.parseInt(req.getParameter("id"));
             }
+
 
             TruckManager.DTO truck = new TruckManager.DTO(
                     id,
@@ -123,7 +126,7 @@ public class TruckEditServlet extends HttpServlet {
                 throw e;
             }
 
-            UserAlert.injectInSession(req, "Successfully saved", UserAlert.Type.SUCCESS);
+            UserAlert.injectInSession(req, req.getParameter("name") + " truck is saved", UserAlert.Type.SUCCESS);
 
             resp.sendRedirect(req.getContextPath() + "/truck/list");
 
@@ -131,9 +134,9 @@ public class TruckEditServlet extends HttpServlet {
 //            UserAlert.injectInRequest(req, "Parameter parsing error: " + e,
 //                    UserAlert.Type.DANGER);
 //
-//            fillRequstParamsWithTruck(req, managersFacade);
-//            RenderHelper.renderTemplate("logiweb.truck.edit", req, resp);
+//            renderEditForm(req, managersFacade);
             throw e;
         }
     }
 }
+

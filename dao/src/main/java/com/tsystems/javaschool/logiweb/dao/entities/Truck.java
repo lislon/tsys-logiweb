@@ -6,6 +6,8 @@
 package com.tsystems.javaschool.logiweb.dao.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 /**
  * Created by Igor Avdeev on 8/23/16.
@@ -20,9 +22,11 @@ public class Truck {
     @Column(name = "id")
     private int id;
 
+    @Pattern(regexp = "[A-Z]{2}\\d{5}")
     @Column(name = "name")
     private String name;
 
+    @Min(1)
     @Column(name = "max_drivers")
     private int maxDrivers;
 

@@ -1,5 +1,5 @@
 <p class="toolbar">
-    <a class="create btn btn-default" href="javascript:">Create Item</a>
+    <a class="create btn btn-default" href="<%= request.getContextPath() %>/truck/new">Create Item</a>
     <span class="alert"></span>
 </p>
 <table id="table"

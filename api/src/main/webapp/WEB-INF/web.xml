@@ -72,6 +72,10 @@
         <servlet-name>TruckEditServlet</servlet-name>
         <url-pattern>/truck/edit</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TruckEditServlet</servlet-name>
+        <url-pattern>/truck/new</url-pattern>
+    </servlet-mapping>
 
 
 

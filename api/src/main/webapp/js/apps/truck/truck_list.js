@@ -18,9 +18,9 @@ $(function () {
 
 
     // create event
-    $('.create').click(function () {
-        showModal($(this).text());
-    });
+    // $('.create').click(function () {
+    //     showModal($(this).text());
+    // });
     $modal.find('.submit').click(function () {
         var row = {};
         $modal.find('input[name]').each(function () {
