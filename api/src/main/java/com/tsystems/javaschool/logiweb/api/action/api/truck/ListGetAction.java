@@ -43,7 +43,7 @@ public class ListGetAction implements Action {
                     .add("maxDrivers", truck.getMaxDrivers())
                     .add("capacityKg", truck.getCapacityKg())
                     .add("condition", truck.getCondition().toString())
-                    .add("cityName", cityManager.find(truck.getId()).getName());
+                    .add("cityName", cityManager.find(truck.getCityId()).getName());
 
             jsonBuilder.add(truckJson);
         }
