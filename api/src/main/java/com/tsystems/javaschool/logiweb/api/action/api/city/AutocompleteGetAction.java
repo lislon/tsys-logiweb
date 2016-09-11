@@ -28,7 +28,7 @@ public class AutocompleteGetAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         CityManager cityManager = ((ServicesFacade)req.getAttribute("servicesFacade")).getCityManager();
-        Collection<CityManager.DTO> cities;
+        Collection<City> cities;
         String search = req.getParameter("q");
 
         if (search != null && search.length() >= 1) {
@@ -39,7 +39,7 @@ public class AutocompleteGetAction implements Action {
 
         JsonArrayBuilder jsonBuilder = Json.createArrayBuilder();
 
-        for (CityManager.DTO city : cities) {
+        for (City city : cities) {
             JsonObjectBuilder truckJson = Json.createObjectBuilder()
                     .add("id", city.getId())
                     .add("name", city.getName());

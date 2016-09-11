@@ -7,6 +7,7 @@ package com.tsystems.javaschool.logiweb.api.action.servlet.truck;
 
 import com.tsystems.javaschool.logiweb.api.helper.RenderHelper;
 import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
+import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 
@@ -55,7 +56,7 @@ public class EditHelper {
 
         if (cityId > 0) {
             // fill city name
-            CityManager.DTO city = facade.getCityManager().find(cityId);
+            City city = facade.getCityManager().find(cityId);
 
             // if city is deleted we still want to be able to edit truck
             if (city != null) {

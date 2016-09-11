@@ -18,25 +18,6 @@ import java.util.stream.Collectors;
  */
 public class CityManager {
 
-    public static class DTO
-    {
-        public final int id;
-        public final String name;
-
-        public DTO(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-    }
-
     private CityRepository repo = null;
 
     public CityManager(CityRepository repo) {
@@ -49,13 +30,8 @@ public class CityManager {
      * @param search Beginning of city name
      * @return List of matching cities (max 10 items)
      */
-    public Collection<DTO> getAutocompleteCities(String search) {
-        Collection<City> repoAutocompleteCities = repo.getAutocompleteCities(search);
-
-        return repoAutocompleteCities
-                .stream()
-                .map(city -> new DTO(city.getId(), city.getName()))
-                .collect(Collectors.toList());
+    public Collection<City> getAutocompleteCities(String search) {
+        return repo.getAutocompleteCities(search);
     }
 
     /**
@@ -64,9 +40,8 @@ public class CityManager {
      * @param id City id.
      * @return City Entity
      */
-    public DTO find(int id) {
-        City city = repo.find(id);
-        return new DTO(city.getId(), city.getName());
+    public City find(int id) {
+        return repo.find(id);
     }
 
     /**
