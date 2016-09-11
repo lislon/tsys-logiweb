@@ -20,6 +20,6 @@ $(function () {
             },
         },
         theme: "bootstrap"
-    })
+    });
 });
 

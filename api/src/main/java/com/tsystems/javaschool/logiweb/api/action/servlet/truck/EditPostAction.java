@@ -37,7 +37,6 @@ public class EditPostAction implements Action {
                 return;
             }
 
-
             int id = 0;
             if (req.getParameter("id") != null) {
                 id = Integer.parseInt(req.getParameter("id"));

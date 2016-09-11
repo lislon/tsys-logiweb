@@ -71,7 +71,7 @@ window.actionEvents = {
                 error: function () {
                     showAlert('Delete item error!', 'danger');
                 }
-            })
+            });
         }
     }
 };

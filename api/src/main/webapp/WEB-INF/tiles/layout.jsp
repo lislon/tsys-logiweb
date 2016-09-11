@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/bootstrap-table/dist/bootstrap-table.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/easy-autocomplete.css">
     <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/easy-autocomplete.themes.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/vendor/bootstrap-select/dist/css/bootstrap-select.css" />
     <link rel="stylesheet" href="<%= request.getContextPath() %>/style/main.css">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="<%= request.getContextPath() %>/style/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -26,6 +27,12 @@
     <script src="<%= request.getContextPath() %>/vendor/bootstrap-table/dist/bootstrap-table.js"></script>
     <script src="<%= request.getContextPath() %>/vendor/bootstrap-validator/dist/validator.js"></script>
     <script src="<%= request.getContextPath() %>/vendor/EasyAutocomplete/dist/jquery.easy-autocomplete.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/handlebars/handlebars.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/underscore/underscore.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/backbone/backbone.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="<%= request.getContextPath() %>/vendor/bootstrap-select/dist/js/bootstrap-select.js"></script>
+
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="<%= request.getContextPath() %>/js/ie10-viewport-bug-workaround.js"></script>
     <script>

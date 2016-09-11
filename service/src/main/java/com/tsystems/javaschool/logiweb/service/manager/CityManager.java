@@ -6,6 +6,7 @@
 package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.City;
+import com.tsystems.javaschool.logiweb.dao.helper.LatLngDistanceCalculator;
 import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
 
 import java.util.Collection;
@@ -66,5 +67,17 @@ public class CityManager {
     public DTO find(int id) {
         City city = repo.find(id);
         return new DTO(city.getId(), city.getName());
+    }
+
+    /**
+     * Returns distance between cities in meters
+     *
+     * @param from
+     * @param to
+     * @return
+     */
+    public static int getDistance(City from, City to) {
+        return (int)LatLngDistanceCalculator.distance(from.getLat(), from.getLng(),
+                to.getLat(), to.getLng());
     }
 }

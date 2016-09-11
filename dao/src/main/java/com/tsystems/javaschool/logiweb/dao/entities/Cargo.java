@@ -30,6 +30,6 @@ public class Cargo {
     private Integer weight;
 
     @Column(name = "status")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Status status;
 }

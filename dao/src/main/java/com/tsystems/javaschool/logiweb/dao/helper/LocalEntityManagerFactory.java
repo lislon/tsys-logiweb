@@ -19,7 +19,7 @@ public class LocalEntityManagerFactory {
     {
         if (emf != null)
             throw new IllegalStateException("Factory already created");
-        emf = Persistence.createEntityManagerFactory("mypersistence");
+        emf = Persistence.createEntityManagerFactory("logiweb");
     }
 
     public static void closeFactory()

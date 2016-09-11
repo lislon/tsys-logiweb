@@ -7,8 +7,10 @@ package com.tsystems.javaschool.logiweb.api.helper;
 
 import com.tsystems.javaschool.logiweb.dao.helper.LocalEntityManagerFactory;
 import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
+import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.TruckRepository;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
+import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 
 import javax.persistence.EntityManager;
@@ -34,6 +36,11 @@ public class ServicesFacade {
     public CityManager getCityManager()
     {
         return new CityManager(new CityRepository(em));
+    }
+
+    public OrderManager getOrderManager()
+    {
+        return new OrderManager(new OrderRepository(em));
     }
 
     public void beginTransaction()

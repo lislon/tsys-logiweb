@@ -5,9 +5,10 @@
 
 package com.tsystems.javaschool.models;
 
-import entities.Driver;
-import com.tsystems.javaschool.manager.DriverManager;
-import repos.DriverRepository;
+
+import com.tsystems.javaschool.logiweb.dao.entities.Driver;
+import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
+import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
@@ -30,6 +31,6 @@ public class DriverManagerTest {
 
         manager.addDriver(driver);
 
-        verify(mockRepo).add(driver);
+        verify(mockRepo).save(driver);
     }
 }

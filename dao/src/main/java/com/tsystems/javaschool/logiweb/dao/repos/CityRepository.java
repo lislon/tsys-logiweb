@@ -6,6 +6,7 @@
 package com.tsystems.javaschool.logiweb.dao.repos;
 
 import com.tsystems.javaschool.logiweb.dao.entities.City;
+import com.tsystems.javaschool.logiweb.dao.helper.LatLngDistanceCalculator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -30,11 +31,12 @@ public class CityRepository extends BaseRepository<City> {
     public Collection<City> getAutocompleteCities(String search)
     {
         Query query = em.createQuery("from City c " +
-                "where c.name like ? " +
+                "where c.name like :name " +
                 "order by c.name asc");
 
-        query.setParameter(0, search.replace("%", "%%") + "%");
+        query.setParameter("name", search.replace("%", "%%") + "%");
         query.setMaxResults(10);
         return query.getResultList();
     }
+
 }

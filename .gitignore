@@ -11,3 +11,4 @@
 api/src/webapp/WEB-INF/design
 *.iml
 /*/target/
+/api/vendor/

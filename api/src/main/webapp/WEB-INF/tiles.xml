@@ -21,6 +21,41 @@
         <put-attribute name="body" value="/WEB-INF/tiles/truck_edit.jsp" />
     </definition>
 
+    <definition name="logiweb.order.list" template="/WEB-INF/tiles/layout.jsp">
+        <put-attribute name="title" value="Orders" />
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/tiles/order_list.jsp" />
+    </definition>
+
+    <definition name="logiweb.order.edit" template="/WEB-INF/tiles/layout.jsp">
+        <put-attribute name="title" value="Order Edit" />
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/tiles/order_edit.jsp" />
+    </definition>
+
+    <definition name="logiweb.driver.list" template="/WEB-INF/tiles/layout.jsp">
+        <put-attribute name="title" value="Drivers" />
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/tiles/driver_list.jsp" />
+    </definition>
+
+    <definition name="logiweb.driver.edit" template="/WEB-INF/tiles/layout.jsp">
+        <put-attribute name="title" value="Order Edit" />
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/tiles/driver_edit.jsp" />
+    </definition>
+
+    <definition name="logiweb.assignments.list" template="/WEB-INF/tiles/layout.jsp">
+        <put-attribute name="title" value="Assignments" />
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
+        <put-attribute name="body" value="/WEB-INF/tiles/assignments_list.jsp" />
+    </definition>
+
     <definition name="logiweb.exception" template="/WEB-INF/tiles/layout.jsp">
         <put-attribute name="title" value="Oops! 500, My fault :(" />
         <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />

@@ -5,62 +5,49 @@
 
 package com.tsystems.javaschool.logiweb.dao.entities;
 
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Null;
 import java.sql.Timestamp;
+import java.util.Set;
+import java.util.SortedSet;
 
 /**
  * Created by Igor Avdeev on 8/23/16.
  */
 @Entity
 @Table(name = "orders")
+@Data
+@NoArgsConstructor
 public class Order {
-    private int id;
-    private Timestamp dateCreated;
-    private Timestamp dateCompleted;
-    private byte isCompleted;
-
     @Id
     @Column(name = "id")
-    public int getId() {
-        return id;
-    }
+    private int id;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
     @Column(name = "date_created")
     @UpdateTimestamp
-    public Timestamp getDateCreated() {
-        return dateCreated;
-    }
+    private Timestamp dateCreated;
 
-    public void setDateCreated(Timestamp dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    @Basic
     @Column(name = "date_completed")
     @Null
-    public Timestamp getDateCompleted() {
-        return dateCompleted;
-    }
+    private Timestamp dateCompleted;
 
-    public void setDateCompleted(Timestamp dateCompleted) {
-        this.dateCompleted = dateCompleted;
-    }
-
-    @Basic
     @Column(name = "is_completed")
-    public byte getIsCompleted() {
-        return isCompleted;
-    }
+    private boolean isCompleted;
 
-    public void setIsCompleted(byte isCompleted) {
-        this.isCompleted = isCompleted;
-    }
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OrderBy(clause = "waypointWeight asc")
+    private SortedSet<OrderWaypoint> waypoints;
+
+    @ManyToOne
+    @JoinColumn(name = "truck_id")
+    private Truck truck;
+
 }
