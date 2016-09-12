@@ -13,7 +13,7 @@ import javax.persistence.Persistence;
  * Created by Igor Avdeev on 8/27/16.
  */
 public class LocalEntityManagerFactory {
-    private static EntityManagerFactory emf = null;
+    private static EntityManagerFactory emf;
 
     public static void initializeFactory()
     {
@@ -24,13 +24,11 @@ public class LocalEntityManagerFactory {
 
     public static void closeFactory()
     {
-        assert (emf != null);
         if (emf != null) {
             emf.close();
             emf = null;
         }
     }
-
 
     public static EntityManager createEntityManager()
     {

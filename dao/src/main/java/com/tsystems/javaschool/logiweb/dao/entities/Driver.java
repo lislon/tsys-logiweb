@@ -16,7 +16,25 @@ import javax.validation.constraints.Size;
 @Table(name = "drivers")
 public class Driver {
 
-    public enum Status { DUTY_DRIVE, DUTY_REST, REST }
+    /**
+     * Maximum duty hours per month.
+     */
+    public static final int MONTH_DUTY_HOURS = 176;
+
+    public enum Status {
+        /**
+         * Drivier is on duty and driving.
+         */
+        DUTY_DRIVE,
+        /**
+         * Drivier is on duty and resting.
+         */
+        DUTY_REST,
+        /**
+         * Driver is not on duty
+         */
+        REST
+    }
 
     @Id
     @GeneratedValue

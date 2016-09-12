@@ -10,19 +10,11 @@ import com.tsystems.javaschool.logiweb.dao.helper.LatLngDistanceCalculator;
 import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Igor Avdeev on 8/28/16.
  */
-public class CityManager {
-
-    private CityRepository repo = null;
-
-    public CityManager(CityRepository repo) {
-        this.repo = repo;
-    }
+public interface CityManager extends BaseManager<City> {
 
     /**
      * Return a short list of cities matching name.
@@ -30,29 +22,14 @@ public class CityManager {
      * @param search Beginning of city name
      * @return List of matching cities (max 10 items)
      */
-    public Collection<City> getAutocompleteCities(String search) {
-        return repo.getAutocompleteCities(search);
-    }
-
-    /**
-     * Returns city object by id.
-     *
-     * @param id City id.
-     * @return City Entity
-     */
-    public City find(int id) {
-        return repo.find(id);
-    }
+    Collection<City> getAutocompleteCities(String search);
 
     /**
      * Returns distance between cities in meters
      *
-     * @param from
-     * @param to
+     * @param from First city
+     * @param to Second city
      * @return
      */
-    public static int getDistance(City from, City to) {
-        return (int)LatLngDistanceCalculator.distance(from.getLat(), from.getLng(),
-                to.getLat(), to.getLng());
-    }
+    int getDistance(City from, City to);
 }

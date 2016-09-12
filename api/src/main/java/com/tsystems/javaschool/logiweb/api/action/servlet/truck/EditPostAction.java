@@ -6,9 +6,10 @@
 package com.tsystems.javaschool.logiweb.api.action.servlet.truck;
 
 import com.tsystems.javaschool.logiweb.api.action.Action;
-import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
 import com.tsystems.javaschool.logiweb.api.helper.UserAlert;
+import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
+import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ import java.util.stream.Stream;
 public class EditPostAction implements Action {
 
     public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ServicesFacade managersFacade = ((ServicesFacade)req.getAttribute("servicesFacade"));
+        ServiceContainer managersFacade = ((ServiceContainer)req.getAttribute("serviceContainer"));
         TruckManager truckManager = managersFacade.getTruckManager();
 
         try {
@@ -37,29 +38,18 @@ public class EditPostAction implements Action {
                 return;
             }
 
-            int id = 0;
+            int cityId = Integer.parseInt(req.getParameter("cityId"));
+
+            Truck truck = new Truck();
             if (req.getParameter("id") != null) {
-                id = Integer.parseInt(req.getParameter("id"));
+                truck.setId(Integer.parseInt(req.getParameter("id")));
             }
+            truck.setName(req.getParameter("name"));
+            truck.setMaxDrivers(Integer.parseInt(req.getParameter("maxDrivers")));
+            truck.setCapacityKg(Integer.parseInt(req.getParameter("capacityKg")));
+            truck.setCondition(Truck.Condition.valueOf(req.getParameter("condition")));
 
-
-            TruckManager.DTO truck = new TruckManager.DTO(
-                    id,
-                    req.getParameter("name"),
-                    Integer.parseInt(req.getParameter("maxDrivers")),
-                    Integer.parseInt(req.getParameter("capacityKg")),
-                    Truck.Condition.valueOf(req.getParameter("condition")),
-                    Integer.parseInt(req.getParameter("cityId"))
-            );
-
-            managersFacade.beginTransaction();
-            try {
-                truckManager.save(truck);
-                managersFacade.commitTransaction();
-            } catch (Exception e){
-                managersFacade.rollbackTransaction();
-                throw e;
-            }
+            truckManager.save(truck, cityId);
 
             UserAlert.injectInSession(req, req.getParameter("name") + " truck is saved", UserAlert.Type.SUCCESS);
 

@@ -43,7 +43,6 @@ $(function () {
             cargoes: {},
             cities: {},
             length: 0,
-            duration: 0,
             requiredCapacity: 0,
         },
         initialize: function (attributes, options) {
@@ -59,7 +58,7 @@ $(function () {
                     data: this.formatGetRequest(),
                 }).done(function (json) {
                     this.set('length', json.length);
-                    this.set('duration', json.duration);
+                    this.set('requiredCapacity', json.requiredCapacity);
                 }).fail(function (jqXhr, textStatus) {
                     alert("Ajax error:" + jqXhr.url);
                 })

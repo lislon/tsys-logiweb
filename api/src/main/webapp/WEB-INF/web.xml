@@ -11,7 +11,7 @@
         version="2.5">
     <display-name>Archetype Created Web Application</display-name>
     <listener>
-        <listener-class>com.tsystems.javaschool.logiweb.api.helper.PersistenceInitializer</listener-class>
+        <listener-class>com.tsystems.javaschool.logiweb.api.listener.PersistenceInitializer</listener-class>
     </listener>
     <listener>
         <listener-class>org.apache.tiles.extras.complete.CompleteAutoloadTilesListener</listener-class>
@@ -24,10 +24,7 @@
         <filter-name>UserAlertFilter</filter-name>
         <filter-class>com.tsystems.javaschool.logiweb.api.filter.UserAlertFilter</filter-class>
     </filter>
-    <filter>
-        <filter-name>Utf8EncodingFilter</filter-name>
-        <filter-class>com.tsystems.javaschool.logiweb.api.filter.ApiJsonFilter</filter-class>
-    </filter>
+
     <filter>
         <filter-name>EntityManagerFilter</filter-name>
         <filter-class>com.tsystems.javaschool.logiweb.api.filter.EntityManagerFilter</filter-class>
@@ -42,11 +39,6 @@
     <filter-mapping>
         <filter-name>EntityManagerFilter</filter-name>
         <url-pattern>*.do</url-pattern>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>Utf8EncodingFilter</filter-name>
-        <url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
     <servlet>

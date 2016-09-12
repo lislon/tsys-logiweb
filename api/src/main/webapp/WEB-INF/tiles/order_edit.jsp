@@ -89,10 +89,6 @@
             <td>{{length}} km</td>
         </tr>
         <tr>
-            <td>Duration</td>
-            <td>{{duration}} hours</td>
-        </tr>
-        <tr>
             <td>Required capacity</td>
             <td>{{requiredCapacity}} kg</td>
         </tr>

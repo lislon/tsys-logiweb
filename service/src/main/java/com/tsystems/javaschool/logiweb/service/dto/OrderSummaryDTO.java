@@ -3,9 +3,8 @@
  * Igor Avdeev
  */
 
-package com.tsystems.javaschool.logiweb.service.dto.order;
+package com.tsystems.javaschool.logiweb.service.dto;
 
-import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
 import lombok.Builder;
 import lombok.Data;
 

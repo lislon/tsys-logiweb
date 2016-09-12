@@ -7,6 +7,7 @@ package com.tsystems.javaschool.logiweb.dao.repos;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
+import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

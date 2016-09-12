@@ -6,13 +6,10 @@
 package com.tsystems.javaschool.logiweb.api.action.servlet.order;
 
 import com.tsystems.javaschool.logiweb.api.helper.RenderHelper;
-import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
-import com.tsystems.javaschool.logiweb.service.manager.CityManager;
-import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
+import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.stream.Stream;
 
 /**
  * Created by Igor Avdeev on 9/6/16.
@@ -24,7 +21,7 @@ public class EditHelper {
      * @param facade
      */
     public static void renderEditForm(HttpServletRequest req, HttpServletResponse resp,
-                                      ServicesFacade facade) {
+                                      ServiceContainer facade) {
 
 //        // cityId must be filled with correct cityname in both cases
 //        int cityId = 0;
@@ -42,7 +39,7 @@ public class EditHelper {
 //            // brand new page, load truck from database
 //
 //            int id = Integer.parseInt(req.getParameter("id"));
-//            TruckManager.DTO truck = facade.getTruckManager().find(id);
+//            TruckManager.TruckDTO truck = facade.getTruckManager().find(id);
 //
 //
 //            req.setAttribute("name", truck.getName());
@@ -55,7 +52,7 @@ public class EditHelper {
 //
 //        if (cityId > 0) {
 //            // fill city name
-//            CityManager.DTO city = facade.getCityManager().find(cityId);
+//            CityManager.TruckDTO city = facade.getCityManager().find(cityId);
 //
 //            // if city is deleted we still want to be able to edit truck
 //            if (city != null) {

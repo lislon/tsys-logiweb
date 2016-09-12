@@ -8,7 +8,12 @@ package com.tsystems.javaschool.logiweb.service.manager;
 import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
+import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
+import com.tsystems.javaschool.logiweb.service.ServiceContainer;
+import com.tsystems.javaschool.logiweb.service.impl.DriverManagerImpl;
+import com.tsystems.javaschool.logiweb.service.impl.OrderManagerImpl;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -22,10 +27,21 @@ import static com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint.Operati
  * Created by Igor Avdeev on 9/5/16.
  */
 public class OrderManagerTest {
+
+    OrderRepository mockRepo;
+    OrderManagerImpl manager;
+    ServiceContainer container;
+
+    @Before
+    private void createManager() {
+        mockRepo = mock(OrderRepository.class);
+        container = mock(ServiceContainer.class);
+        manager = new OrderManagerImpl(mockRepo, container);
+    }
+
     @Test
     public void getRouteLength() throws Exception {
-        OrderRepository orderRepository = mock(OrderRepository.class);
-        OrderManager manager = new OrderManager(orderRepository);
+
 
         City moscow = new City();
         moscow.setName("Moscow");
@@ -58,8 +74,6 @@ public class OrderManagerTest {
 
     @Test
     public void getMaxPayload() throws Exception {
-        OrderRepository orderRepository = mock(OrderRepository.class);
-        OrderManager manager = new OrderManager(orderRepository);
 
         Cargo cargoAB = createCargo(10);
         Cargo cargoAC = createCargo(10);

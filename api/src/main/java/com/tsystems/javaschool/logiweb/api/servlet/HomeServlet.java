@@ -7,7 +7,10 @@ package com.tsystems.javaschool.logiweb.api.servlet;
 
 import com.tsystems.javaschool.logiweb.api.action.Action;
 import com.tsystems.javaschool.logiweb.api.action.ActionFactory;
+import com.tsystems.javaschool.logiweb.dao.helper.LocalEntityManagerFactory;
+import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +27,25 @@ public class HomeServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Action action = factory.getAction(req);
-        if (action != null) {
-            action.execute(req, resp);
-        } else {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+
+        EntityManager em = null;
+
+        try {
+            if (action != null) {
+
+                em = LocalEntityManagerFactory.createEntityManager();
+                req.setAttribute("serviceContainer", new ServiceContainer(em));
+
+                action.execute(req, resp);
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
+
+
     }
 }

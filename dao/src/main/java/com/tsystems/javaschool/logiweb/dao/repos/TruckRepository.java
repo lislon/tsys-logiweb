@@ -19,13 +19,18 @@ public class TruckRepository extends BaseRepository<Truck> {
         super(Truck.class, em);
     }
 
-    public List<Truck> findReadyToGoTrucks(City city, int minCapacity)
-    {
+    public List<Truck> findReadyToGoTrucks(City city, int minCapacity) {
         return em.createQuery("select t from Truck t " +
                 "where t.condition = :condition and t.capacityKg >= :min_capacity and t.city = :city")
                 .setParameter("condition", Truck.Condition.OK)
                 .setParameter("min_capacity", minCapacity)
                 .setParameter("city", city)
                 .getResultList();
+    }
+
+    public Truck findByName(String name) {
+        return (Truck)em.createQuery("from Truck t where t.name = :name")
+                .setParameter("name", name)
+                .getSingleResult();
     }
 }

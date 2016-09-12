@@ -24,8 +24,12 @@ public abstract class BaseRepository<T> {
         this.em = em;
     }
 
-    public void save(T entity) {
+    public void create(T entity) {
         em.persist(entity);
+    }
+
+    public void update(T entity) {
+        em.merge(entity);
     }
 
     public boolean delete(Object key) {
@@ -48,6 +52,4 @@ public abstract class BaseRepository<T> {
     public T find(Object key) {
         return em.find(classType, key);
     }
-
-
 }

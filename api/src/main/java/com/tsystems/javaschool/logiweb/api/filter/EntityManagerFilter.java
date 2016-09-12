@@ -5,13 +5,15 @@
 
 package com.tsystems.javaschool.logiweb.api.filter;
 
-import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
+import com.tsystems.javaschool.logiweb.dao.helper.LocalEntityManagerFactory;
+import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 
+import javax.persistence.EntityManager;
 import javax.servlet.*;
 import java.io.IOException;
 
 /**
- * Created by Igor Avdeev on 9/2/16.
+ * Creation and destruction of EntityManager per each request.
  */
 public class EntityManagerFilter implements Filter {
     @Override
@@ -21,12 +23,15 @@ public class EntityManagerFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        ServicesFacade servicesFacade = new ServicesFacade();
-        request.setAttribute("servicesFacade", servicesFacade);
+        EntityManager em = LocalEntityManagerFactory.createEntityManager();
+        ServiceContainer serviceContainer = new ServiceContainer(em);
+        request.setAttribute("serviceContainer", serviceContainer);
         try {
             chain.doFilter(request, response);
         } finally {
-            servicesFacade.closeEm();
+            if (em.isOpen()) {
+                em.close();
+            }
         }
     }
 

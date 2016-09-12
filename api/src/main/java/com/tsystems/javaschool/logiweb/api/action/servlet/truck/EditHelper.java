@@ -6,10 +6,10 @@
 package com.tsystems.javaschool.logiweb.api.action.servlet.truck;
 
 import com.tsystems.javaschool.logiweb.api.helper.RenderHelper;
-import com.tsystems.javaschool.logiweb.api.helper.ServicesFacade;
+import com.tsystems.javaschool.logiweb.dao.entities.Truck;
+import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
-import com.tsystems.javaschool.logiweb.service.manager.CityManager;
-import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
+import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public class EditHelper {
      * @param facade
      */
     public static void renderEditForm(HttpServletRequest req, HttpServletResponse resp,
-                                ServicesFacade facade) {
+                                ServiceContainer facade) {
 
         // cityId must be filled with correct cityname in both cases
         int cityId = 0;
@@ -37,19 +37,20 @@ public class EditHelper {
 
             try {
                 cityId = Integer.parseInt(req.getParameter("cityId"));
-            } catch (Exception e) {
+            } catch (Exception ignored) {
+                // cityId = 0
             }
         } else if (req.getParameter("id") != null) {
             // brand new page, load truck from database
 
             int id = Integer.parseInt(req.getParameter("id"));
-            TruckManager.DTO truck = facade.getTruckManager().find(id);
+            Truck truck = facade.getTruckManager().find(id);
 
 
             req.setAttribute("name", truck.getName());
             req.setAttribute("maxDrivers", truck.getMaxDrivers());
             req.setAttribute("capacityKg", truck.getCapacityKg());
-            req.setAttribute("cityId", truck.getCityId());
+            req.setAttribute("cityId", truck.getCity().getId());
             req.setAttribute("condition", truck.getCondition());
             cityId = truck.getId();
         }

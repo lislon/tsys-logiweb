@@ -3,7 +3,7 @@
  * Igor Avdeev
  */
 
-package com.tsystems.javaschool.logiweb.api.helper;
+package com.tsystems.javaschool.logiweb.api.listener;
 
 import com.tsystems.javaschool.logiweb.dao.helper.LocalEntityManagerFactory;
 
