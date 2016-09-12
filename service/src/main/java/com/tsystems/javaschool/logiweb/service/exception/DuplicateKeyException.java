@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by Igor Avdeev on 9/12/16.
  */
-public class DuplicateKeyException extends IOException {
+public class DuplicateKeyException extends BusinessLogicException {
     public DuplicateKeyException(String message) {
         super(message);
     }

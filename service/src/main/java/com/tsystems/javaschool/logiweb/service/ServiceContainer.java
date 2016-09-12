@@ -5,7 +5,7 @@
 
 package com.tsystems.javaschool.logiweb.service;
 
-import com.tsystems.javaschool.logiweb.dao.helper.TransactionProxy;
+import com.tsystems.javaschool.logiweb.service.helper.TransactionProxy;
 import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;

@@ -3,7 +3,7 @@
  * Igor Avdeev
  */
 
-package com.tsystems.javaschool.logiweb.dao.helper;
+package com.tsystems.javaschool.logiweb.service.helper;
 
 import javax.persistence.EntityManager;
 import java.lang.reflect.InvocationHandler;

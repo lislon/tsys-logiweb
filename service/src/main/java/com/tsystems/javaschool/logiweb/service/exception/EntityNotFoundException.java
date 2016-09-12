@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by Igor Avdeev on 9/12/16.
  */
-public class EntityNotFoundException extends IOException {
+public class EntityNotFoundException extends BusinessLogicException {
     public EntityNotFoundException(String message) {
         super(message);
     }

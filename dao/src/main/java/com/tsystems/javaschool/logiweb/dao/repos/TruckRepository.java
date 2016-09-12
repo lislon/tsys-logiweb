@@ -29,8 +29,9 @@ public class TruckRepository extends BaseRepository<Truck> {
     }
 
     public Truck findByName(String name) {
-        return (Truck)em.createQuery("from Truck t where t.name = :name")
+        List<Truck> list = em.createQuery("from Truck t where t.name = :name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultList();
+        return list.isEmpty() ? null : list.get(0);
     }
 }
