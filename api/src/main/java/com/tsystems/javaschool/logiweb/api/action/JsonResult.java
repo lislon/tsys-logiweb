@@ -36,9 +36,11 @@ public abstract class JsonResult {
         return new JsonResult() {
             @Override
             void write(HttpServletResponse resp) throws IOException {
+                resp.setStatus(500);
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
                 objectBuilder.add("errorMessage", message);
                 Json.createWriter(resp.getWriter()).writeObject(objectBuilder.build());
+
             }
         };
     }

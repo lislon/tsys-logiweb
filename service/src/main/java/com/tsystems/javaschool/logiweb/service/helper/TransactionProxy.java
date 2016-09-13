@@ -15,6 +15,8 @@ import java.lang.reflect.Proxy;
  * Wraps every call in transaction
  *
  * https://jowisoftware.de/wp/2013/09/using-javas-proxy-class-to-transparently-manage-transactions/
+ *
+ * java.lang.reflect.UndeclaredThrowableException when BussinessLogicException is thrown
  */
 public class TransactionProxy {
     private final EntityManager em;
@@ -23,7 +25,7 @@ public class TransactionProxy {
         this.em = em;
     }
 
-    public Object createProxy(final Object object) {
+    public Object createProxy(final Object object)  {
         final Class<?> clazz = object.getClass();
         final Class<?>[] interfaces = clazz.getInterfaces();
         final ClassLoader classLoader = clazz.getClassLoader();

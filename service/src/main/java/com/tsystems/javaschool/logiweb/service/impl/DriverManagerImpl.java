@@ -9,6 +9,7 @@ import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
+import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
 
 import java.time.LocalDateTime;
@@ -75,4 +76,16 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
         return hours;
     }
 
+    @Override
+    public void save(Driver driver, int cityId, Integer truckId)
+            throws EntityNotFoundException {
+
+        City city = services.getCityManager().findOne(cityId);
+        driver.setCity(city);
+        if (driver.getId() > 0) {
+            repo.update(driver);
+        } else {
+            repo.create(driver);
+        }
+    }
 }

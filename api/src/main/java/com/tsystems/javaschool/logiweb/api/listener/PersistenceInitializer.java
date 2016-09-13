@@ -6,6 +6,8 @@
 package com.tsystems.javaschool.logiweb.api.listener;
 
 import com.tsystems.javaschool.logiweb.dao.helper.LocalEntityManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,9 +21,12 @@ import javax.servlet.ServletContextListener;
  */
 public class PersistenceInitializer implements ServletContextListener {
 
+    final static Logger logger = LoggerFactory.getLogger(PersistenceInitializer.class);
+
     private static EntityManagerFactory emf = null;
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        logger.error("Application started");
         LocalEntityManagerFactory.initializeFactory();
     }
 

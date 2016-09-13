@@ -232,8 +232,8 @@ $(function () {
             this.$modal.on("hidden.bs.modal", function () {
                 that.remove();
             });
-            this.$modal.on('shown.bs.modal', function () {
-                $('#cargoName').focus()
+            this.$modal.on('shown.bs.modal', function (e) {
+                $(e).find('input[name]').first().focus();
             });
 
             this.$modal.find('form').validator().on('submit', function (e) {

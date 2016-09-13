@@ -7,10 +7,9 @@ package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
-import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
+import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
@@ -35,5 +34,9 @@ public interface DriverManager extends BaseManager<Driver> {
      * @return double number of total hours required to do trip, include rest time.
      */
     double calculateRouteHours(int routeLength, int numDrivers);
+
+    void save(Driver entity, int cityId, Integer truckId)
+            throws EntityNotFoundException;
+
 
 }

@@ -13,6 +13,7 @@ import com.tsystems.javaschool.logiweb.api.action.json.driver.DriverListAction;
 import com.tsystems.javaschool.logiweb.api.action.json.order.OrderListAction;
 import com.tsystems.javaschool.logiweb.api.action.json.truck.TruckDeleteAction;
 import com.tsystems.javaschool.logiweb.api.action.json.truck.TruckListAction;
+import com.tsystems.javaschool.logiweb.api.action.servlet.driver.DriverFormEditAction;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,15 +51,13 @@ public class ActionFactory {
 
         // driver
         actions.put("GET /driver/list.do",       new com.tsystems.javaschool.logiweb.api.action.servlet.driver.ListGetAction());
-        actions.put("GET /driver/edit.do",       new com.tsystems.javaschool.logiweb.api.action.servlet.driver.EditGetAction());
-        actions.put("POST /driver/edit.do",      new com.tsystems.javaschool.logiweb.api.action.servlet.driver.EditPostAction());
         actions.put("GET /api/driver/list.do",   new DriverListAction());
-        actions.put("DELETE /driver/edit.do",    new DriverDeleteAction());
-
+        actions.put("POST /api/driver/edit.do",  new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverUpdateAction());
+        actions.put("DELETE /api/driver/edit.do",  new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverDeleteAction());
 
 
 //        actions.put("GET /order/list.do", new com.tsystems.javaschool.logiweb.api.action.servlet.truck.DriverListAction());
-//        actions.put("GET /order/edit.do", new EditGetAction());
+//        actions.put("GET /order/edit.do", new DriverFormEditAction());
 //        actions.put("POST /order/edit.do", new EditPostAction());
 
     }
