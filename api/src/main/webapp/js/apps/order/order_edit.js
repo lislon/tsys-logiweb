@@ -479,6 +479,7 @@ $(function () {
         options || (options = {});
         this.cargoes = options.cargoes;
         this.seqCities = options.cities;
+        this.routeMeta = options.routeMeta;
         this.initialize.apply(this, [ options ]);
     };
 
@@ -493,13 +494,13 @@ $(function () {
             _.forEach(['src', 'dst'], function (dir) {
                 this.cargoes.forEach(function (cargo) {
 
-                    var existingCity = this.seqCities.find({id: cargo.get(dir + 'CityId')});
+                    var existingCity = this.seqCities.find({id: +cargo.get(dir + 'CityId')});
                     // If city from cargo collection is not present in sequence seqCities
                     if (existingCity == null) {
                         // Add it to seqCities
                         var newSeqCity = new City({
                             name: cargo.get(dir + 'CityName'),
-                            id: cargo.get(dir + 'CityId'),
+                            id: +cargo.get(dir + 'CityId'),
                             ordinal: this.seqCities.length,
                         });
                         this.seqCities.add(newSeqCity);
@@ -514,11 +515,12 @@ $(function () {
             _.forEach(oldSeqCities, function (id) {
                 this.seqCities.remove(this.seqCities.where({'id': id}))
             }, this);
-
+            this.routeMeta.fetch();
         },
 
         initialize: function (options) {
             this.listenTo(this.cargoes, 'update', this.cargoConfigChanged);
+            this.listenTo(this.cargoes, 'change:weight', this.cargoConfigChanged);
             this.listenTo(this.cargoes, 'change:srcCityName', this.cargoConfigChanged);
             this.listenTo(this.cargoes, 'change:dstCityName', this.cargoConfigChanged);
         }
@@ -569,10 +571,10 @@ $(function () {
     var controller = new MyController({
         cargoes: app.cargoes,
         cities: app.cityCollection,
+        routeMeta: app.routeMeta
     });
     controller.cargoConfigChanged();
 
-    app.routeMeta.fetch();
     app.trucks.fetch();
 
     viewCargoes.render();

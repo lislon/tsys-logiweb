@@ -15,6 +15,8 @@ import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -29,21 +31,21 @@ import java.util.stream.Collectors;
 public class RouteMetaGetAction extends JsonAction {
 
     private static class InRouteDTO {
-        static class CargoDTO {
-            String name;
-            int weight;
-            int srcCityId;
-            int dstCityId;
+        public static class CargoDTO {
+            public String name;
+            public int weight;
+            public int srcCityId;
+            public int dstCityId;
         }
 
-        List<Integer> citiesOrder;
-        List<CargoDTO> cargoes;
+        public List<CargoDTO> cargoes;
+        public List<Integer> citiesOrder;
     }
 
     @AllArgsConstructor
     private static class OutRouteMetaDTO {
-        int length;
-        int requiredCapacity;
+        public int length;
+        public int requiredCapacity;
     }
 
     @Override

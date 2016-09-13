@@ -8,9 +8,11 @@ package com.tsystems.javaschool.logiweb.service.manager;
 import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
+import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
+import com.tsystems.javaschool.logiweb.service.impl.CityManagerImpl;
 import com.tsystems.javaschool.logiweb.service.impl.DriverManagerImpl;
 import com.tsystems.javaschool.logiweb.service.impl.OrderManagerImpl;
 import org.junit.Before;
@@ -33,15 +35,18 @@ public class OrderManagerTest {
     ServiceContainer container;
 
     @Before
-    private void createManager() {
+    public void createManager() {
         mockRepo = mock(OrderRepository.class);
         container = mock(ServiceContainer.class);
         manager = new OrderManagerImpl(mockRepo, container);
+
     }
 
     @Test
     public void getRouteLength() throws Exception {
 
+        when(container.getCityManager()).
+                thenReturn(new CityManagerImpl(mock(CityRepository.class), container));
 
         City moscow = new City();
         moscow.setName("Moscow");
