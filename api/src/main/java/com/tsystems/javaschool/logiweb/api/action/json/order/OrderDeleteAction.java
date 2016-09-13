@@ -17,7 +17,7 @@ import java.io.IOException;
 /**
  * Created by Igor Avdeev on 9/6/16.
  */
-public class EditDeleteAction extends JsonAction {
+public class OrderDeleteAction extends JsonAction {
     @Override
     protected JsonResult doAction(HttpServletRequest req, ServiceContainer managers) throws IOException {
         if (managers.getOrderManager().delete(Integer.parseInt(req.getParameter("id")))) {

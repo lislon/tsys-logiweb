@@ -5,7 +5,7 @@
 
 var LIST_URL = CONTEXT_PATH + '/api/driver/list.do';
 var EDIT_URL = CONTEXT_PATH + '/api/driver/edit.do?id=';
-var DELETE_URL = CONTEXT_PATH + '/api/driver/delete.do?id=';
+var DELETE_URL = CONTEXT_PATH + '/api/driver/edit.do?id=';
 
 var $modal = $('.modal').modal({show: false});
 var $table = $('#table').bootstrapTable({
@@ -15,6 +15,8 @@ var $table = $('#table').bootstrapTable({
     }
 });
 var $alert = $('#table-alert').hide();
+
+
 
 $(function () {
 
@@ -27,32 +29,36 @@ $(function () {
     $('.create').click(function () {
         showModal('New driver');
     });
-
-    $modal.find('.submit').click(function () {
-        var row = {};
-        $modal.find('input[name],select[name]').each(function () {
-            row[$(this).attr('name')] = $(this).val();
-        });
-        delete row.cityName;
-
-        $.ajax({
-            url: EDIT_URL + ($modal.data('id') || ''),
-            type: 'post',
-            contentType: 'application/json',
-            data: JSON.stringify(row),
-            success: function () {
-                $modal.modal('hide');
-                $table.bootstrapTable('refresh');
-                showAlert(($modal.data('id') ? 'Update' : 'Create') + ' item successful!', 'success');
-            },
-            error: function (err, text, textError) {
-                $modal.modal('hide');
-                showAlert(($modal.data('id') ? 'Update' : 'Create') + ' item error (' + textError + ')!', 'danger');
-            }
-        });
-    });
-
 });
+
+onSubmit = function(e) {
+    if (e.isDefaultPrevented()) {
+        return;
+    }
+    e.preventDefault();
+
+    var row = {};
+    $modal.find('input[name],select[name]').each(function () {
+        row[$(this).attr('name')] = $(this).val();
+    });
+    delete row.cityName;
+
+    $.ajax({
+        url: EDIT_URL + ($modal.data('id') || ''),
+        type: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify(row),
+        success: function () {
+            $modal.modal('hide');
+            $table.bootstrapTable('refresh');
+            showAlert(($modal.data('id') ? 'Update' : 'Create') + ' item successful!', 'success');
+        },
+        error: function (error) {
+            $modal.modal('hide');
+            showAlert(($modal.data('id') ? 'Update' : 'Create') + ' item error (' + error.responseJSON.errorMessage + ')!', 'danger');
+        }
+    });
+}
 
 function nameFormatter(value, row) {
     return row.firstName + ' ' + row.lastName;
@@ -89,7 +95,7 @@ window.actionEvents = {
                     showAlert('Delete item successful!', 'success');
                 },
                 error: function (error, val) {
-                    showAlert('Delete item error! ', 'danger');
+                    showAlert('Delete item error! ' + error.responseJSON.errorMessage, 'danger');
                 }
             });
         }
@@ -102,6 +108,7 @@ function showModal(title, row) {
             id: '',
             firstName: '',
             lastName: '',
+            personalCode: '',
             hoursWorked: 0,
             status: '',
             city: {
@@ -116,7 +123,8 @@ function showModal(title, row) {
     }
     $modal.find('input[name="cityId"]').val(row.city.id);
     $modal.find('input[name="cityName"]').val(row.city.name);
-
+    $modal.find('form').validator("destroy");
+    $modal.find('form').validator().on('submit', onSubmit);
     $modal.modal('show');
 }
 

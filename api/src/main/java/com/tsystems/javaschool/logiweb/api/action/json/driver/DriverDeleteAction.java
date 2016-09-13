@@ -20,7 +20,7 @@ public class DriverDeleteAction extends JsonAction {
 
         int id = Integer.parseInt(req.getParameter("id"));
 
-        if (managers.getTruckManager().delete(id)) {
+        if (managers.getDriverManager().delete(id)) {
             return JsonResult.success();
         }
         return JsonResult.error("Entry not found");

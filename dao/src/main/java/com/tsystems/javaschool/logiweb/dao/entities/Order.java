@@ -7,6 +7,7 @@ package com.tsystems.javaschool.logiweb.dao.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.OrderBy;
 
@@ -25,6 +26,7 @@ import java.util.SortedSet;
 @Entity
 @Table(name = "orders")
 @Data
+@ToString(exclude = "waypoints")
 @NoArgsConstructor
 public class Order {
     @Id

@@ -196,3 +196,8 @@ ol:not(.ui-sortable-disabled) .panel-heading {
 ol:not(.ui-sortable-disabled) .route-city-name:before {
     content: '⋮'
 }
+
+/*!* stretch multiply inputs on same line on modal forms  *!*/
+/*.wide-input {*/
+    /*width: 100%;*/
+/*}*/

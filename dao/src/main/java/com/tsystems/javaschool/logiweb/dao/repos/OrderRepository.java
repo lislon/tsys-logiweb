@@ -35,4 +35,14 @@ public class OrderRepository extends BaseRepository<Order> {
 //        }
         return resultList;
     }
+
+    public List<OrderWaypoint> findOrderWaypoints(int orderId) {
+        Query query = em.createQuery("from OrderWaypoint ow " +
+                "join fetch ow.city " +
+                "join fetch ow.cargo " +
+                "where ow.order.id = :id " +
+                "order by ow.waypointWeight asc");
+        query.setParameter("id", orderId);
+        return (List<OrderWaypoint>)query.getResultList();
+    }
 }

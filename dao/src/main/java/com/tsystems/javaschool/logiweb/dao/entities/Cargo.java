@@ -23,6 +23,9 @@ public class Cargo {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "title")
     private String title;
 

@@ -5,15 +5,12 @@
 
 package com.tsystems.javaschool.logiweb.service.manager;
 
-import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
-import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
-import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
+import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -22,6 +19,8 @@ import java.util.stream.Collectors;
 public interface OrderManager extends BaseManager<Order> {
 
     List<OrderSummaryDTO> getAllOrdersSummary();
+
+    Collection<OrderCargoDTO> getOrderCargoes(int id);
 
     /**
      * Return a route length in KM

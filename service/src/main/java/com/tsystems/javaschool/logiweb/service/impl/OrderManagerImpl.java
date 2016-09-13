@@ -12,6 +12,7 @@ import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
+import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
 import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
 
 import java.util.*;
@@ -54,6 +55,36 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
             return builder.build();
         }).collect(Collectors.toList());
         return collect;
+    }
+
+    @Override
+    public Collection<OrderCargoDTO> getOrderCargoes(int orderId) {
+        Map<Integer, OrderCargoDTO> cargoes = new HashMap<>();
+        List<OrderWaypoint> orderWaypoints = repo.findOrderWaypoints(orderId);
+
+        for (OrderWaypoint ow : orderWaypoints) {
+            int id = ow.getCargo().getId();
+            String s = ow.toString();
+            if (!cargoes.containsKey(id)) {
+                if (!(ow.getOperation() == OrderWaypoint.Operation.LOAD)) {
+                    throw new RuntimeException("First cargo operation is not LOAD (orderId = " + orderId + ")");
+                }
+
+                cargoes.put(id, OrderCargoDTO.builder()
+                        .title(ow.getCargo().getTitle())
+                        .name(ow.getCargo().getName())
+                        .ordinal(ow.getWaypointWeight())
+                        .srcCityId(ow.getCity().getId())
+                        .srcCityName(ow.getCity().getName())
+                        .weight(ow.getCargo().getWeight())
+                        .build()
+                );
+            } else {
+                cargoes.get(id).setDstCityId(ow.getCity().getId());
+                cargoes.get(id).setDstCityName(ow.getCity().getName());
+            }
+        }
+        return cargoes.values();
     }
 
     private OrderSummaryDTO.Status getOrderStatus(Order o) {

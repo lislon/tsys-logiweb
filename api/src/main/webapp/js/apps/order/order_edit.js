@@ -1,5 +1,5 @@
 "use strict"
-var app = {};
+var app = app || {};
 
 $(function () {
 
@@ -48,6 +48,7 @@ $(function () {
         initialize: function (attributes, options) {
             this.cargoes = options.cargoes;
             this.cities = options.cities;
+            this.trucks = options.trucks;
         },
 
         sync: function(method, model, options) {
@@ -59,6 +60,8 @@ $(function () {
                 }).done(function (json) {
                     this.set('length', json.length);
                     this.set('requiredCapacity', json.requiredCapacity);
+                    this.trucks.add(json.trucks);
+
                 }).fail(function (jqXhr, textStatus) {
                     alert("Ajax error:" + jqXhr.url);
                 })
@@ -242,10 +245,6 @@ $(function () {
                     that.editCargoSubmit();
                 }
             })
-
-
-
-
         },
 
         editCargoSubmit: function () {
@@ -485,6 +484,28 @@ $(function () {
 
     _.extend(MyController.prototype, Backbone.Events, {
 
+        start: function () {
+            var params = App.Utils.parseUrl();
+
+            if (params.id != null) {
+                $.ajax(CONTEXT_PATH + "/api/order/cargoes.do?id=" + params.id, {
+                    context: this
+                    })
+                    .done(this.createInitialCargoes)
+                    .fail(function (jqXhr) {
+                        alert("ajax error: " + jqXhr.errorText);
+                    });
+            }
+        },
+
+        createInitialCargoes: function (cargoesData) {
+            for (var i in cargoesData) {
+                this.cargoes.add(new Cargo(cargoesData[i]), { silent: true })
+            }
+            app.viewCargoes.render();
+            controller.cargoConfigChanged();
+        },
+
         cargoConfigChanged: function () {
 
             var oldSeqCities = this.seqCities.pluck('id');
@@ -532,36 +553,18 @@ $(function () {
     // CITIES UL VIEW
     //
 
-    // edit-cargo-template
-
-    var cargo1 = new Cargo({
-        name: "BV4891",
-        title: "My new item",
-        weight: 100,
-        srcCityId: 1,
-        srcCityName: "Berlin",
-        dstCityId: 2,
-        dstCityName: "Moscow",
-
-    });
-
-    var cargo2 = new Cargo({
-        name: "BV4891",
-        title: "My new item 2",
-        weight: 100,
-        srcCityId: 1,
-        srcCityName: "Berlin",
-        dstCityId: 3,
-        dstCityName: "Saint-Petersburg",
-    });
-
-    app.cargoes = new CargoCollection([cargo1, cargo2]);
+    app.cargoes = new CargoCollection();
     app.cityCollection = new CityCollection(null, { cargoes: app.cargoes });
-    app.routeMeta = new RouteMeta({}, { cargoes: app.cargoes, cities: app.cityCollection });
     app.trucks = new Trucks();
+    app.routeMeta = new RouteMeta({}, {
+        cargoes: app.cargoes,
+        cities: app.cityCollection,
+        trucks: app.trucks
+    });
 
 
-    var viewCargoes = new CargoTableView({collection: app.cargoes});
+
+    app.viewCargoes = new CargoTableView({collection: app.cargoes});
     var viewCities = new RouteCityOrderView({ collection: app.cityCollection });
     var viewRouteSummary = new RouteSummaryView({model: app.routeMeta });
     var viewTruckList = new TruckListView({ collection: app.trucks });
@@ -571,14 +574,16 @@ $(function () {
     var controller = new MyController({
         cargoes: app.cargoes,
         cities: app.cityCollection,
-        routeMeta: app.routeMeta
+        routeMeta: app.routeMeta,
     });
-    controller.cargoConfigChanged();
 
-    app.trucks.fetch();
 
-    viewCargoes.render();
-    viewRouteSummary.render();
-    viewCities.render();
+    controller.start();
+
+    // app.trucks.fetch();
+
+
+    // viewRouteSummary.render();
+    // viewCities.render();
 
 });

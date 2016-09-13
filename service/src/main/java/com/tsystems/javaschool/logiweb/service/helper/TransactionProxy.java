@@ -41,22 +41,25 @@ public class TransactionProxy {
             public Object invoke(final Object proxy, final Method method, final Object[] arguments)
                     throws Throwable {
 
-                // Ignore if transaction is already in progress
-                if (em.getTransaction().isActive()) {
-                    return method.invoke(target, arguments);
-                }
+                // Ignore if transaction is alread in progress
+                Boolean needTransaction = !em.getTransaction().isActive();
 
-                em.getTransaction().begin();
+                if (needTransaction) {
+                    em.getTransaction().begin();
+                }
 
                 final Object result;
                 try {
                     result = method.invoke(target, arguments);
                 } catch (final InvocationTargetException e) {
-                    em.getTransaction().rollback();
+                    if (needTransaction) {
+                        em.getTransaction().rollback();
+                    }
                     throw e.getCause();
                 }
-
-                em.getTransaction().commit();
+                if (needTransaction) {
+                    em.getTransaction().commit();
+                }
                 return result;
             }
         };

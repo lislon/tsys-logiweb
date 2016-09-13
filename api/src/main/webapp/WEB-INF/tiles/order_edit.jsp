@@ -3,7 +3,7 @@
 
 <script id="cargo-item-template" type="text/x-handlebars-template">
     <td>
-        <a href="javascript:void(0)"" class="edit ajax-link">{{ name }} - {{ title }} - {{ weight }} kg</a>
+        <a href="javascript:void(0)" class="edit ajax-link">{{ name }} - {{ title }} - {{ weight }} kg</a>
     </td>
     <td>
         {{srcCityName}} → {{dstCityName}}
@@ -75,7 +75,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
 </script>
 
 <script id="city-li-template" type="text/x-handlerabs-template">
@@ -99,7 +98,6 @@
     <option data-subtext="{{pluralCount seats 'seat' 'seats'}}">{{ name }}</option>
 </script>
 
-<script src="<%= request.getContextPath() %>/js/apps/order/order_edit.js"></script>
 
 <form method="post" data-toggle="validator">
     <h1>New order</h1>
@@ -154,3 +152,6 @@
         <button type="submit" class="btn btn-primary">Save</button>
     </div>
 </form>
+
+
+<script src="<%= request.getContextPath() %>/js/apps/order/order_edit.js"></script>

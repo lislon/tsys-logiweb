@@ -24,6 +24,12 @@ $(function () {
                     },
                 }
             });
-        }
+        },
+        parseUrl: function () {
+            return _.object(_.compact(_.map(location.search.slice(1).split('&'),
+                function (item) {
+                    if (item) return item.split('=');
+                })));
+        },
     }
 });

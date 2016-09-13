@@ -10,7 +10,7 @@
        data-toolbar=".toolbar">
     <thead>
         <tr>
-            <th data-field="id">Id</th>
+            <th data-field="personalCode">Personal code</th>
             <th data-formatter="nameFormatter">Name</th>
             <th data-field="hoursWorked">Hours worked</th>
             <th data-field="status" data-formatter="statusFormatter">Status</th>
@@ -26,13 +26,13 @@
 
 <div class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <form method="post" data-toggle="validator">
+        <form data-toggle="validator">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
                     <div class="form-group">
                         <label for="firstName">First name</label>
                         <input type="text" name="firstName" id="firstName" placeholder="First name" class="form-control" required>
@@ -41,6 +41,11 @@
                     <div class="form-group">
                         <label for="lastName">Last name</label>
                         <input type="text" name="lastName" id="lastName" placeholder="Last name" class="form-control" required>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="personalCode">Personal code</label>
+                        <input type="text" name="personalCode" id="personalCode" placeholder="EV12345" class="form-control" required>
                         <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
@@ -62,16 +67,16 @@
                         <label for="cityName">Current location</label>
                         <input type="text" id="cityName" name="cityName" placeholder="City name" class="form-control"
                                required>
-                        <input type="hidden" id="cityId" name="cityId" value="0">
+                        <input type="hidden" id="cityId" name="cityId">
                         <div class="help-block with-errors"></div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary submit">Save changes</button>
-            </div>
-        </div><!-- /.modal-content -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary submit">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </form>
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 

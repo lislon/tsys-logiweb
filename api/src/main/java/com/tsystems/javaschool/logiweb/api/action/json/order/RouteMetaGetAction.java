@@ -12,11 +12,11 @@ import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
+import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
+import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -43,9 +43,18 @@ public class RouteMetaGetAction extends JsonAction {
     }
 
     @AllArgsConstructor
+    public static class TruckIdNameDTO {
+        public int id;
+        public String name;
+        public int maxDrivers;
+        public int capacity;
+    }
+
+    @AllArgsConstructor
     private static class OutRouteMetaDTO {
         public int length;
         public int requiredCapacity;
+        public List<TruckIdNameDTO> trucks;
     }
 
     @Override
@@ -54,6 +63,7 @@ public class RouteMetaGetAction extends JsonAction {
 
         CityManager cityManager = managers.getCityManager();
         OrderManager orderManager = managers.getOrderManager();
+        TruckManager truckManager = managers.getTruckManager();
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -91,10 +101,21 @@ public class RouteMetaGetAction extends JsonAction {
 
         }
 
-        OutRouteMetaDTO result = new OutRouteMetaDTO(
-                orderManager.getRouteLength(waypoints),
-                orderManager.getMaxPayload(waypoints)
-        );
+        int maxPayload = orderManager.getMaxPayload(waypoints);
+        int routeLength = orderManager.getRouteLength(waypoints);
+
+        List<TruckIdNameDTO> truckList = truckManager
+                .findReadyToGoTrucks(cities.get(0), maxPayload)
+                .stream()
+                .map(truck -> new TruckIdNameDTO(
+                        truck.getId(),
+                        truck.getName(),
+                        truck.getCapacityKg(),
+                        truck.getMaxDrivers()
+                ))
+                .collect(Collectors.toList());
+
+        OutRouteMetaDTO result = new OutRouteMetaDTO(routeLength, maxPayload, truckList);
 
         return JsonResult.object(result);
     }

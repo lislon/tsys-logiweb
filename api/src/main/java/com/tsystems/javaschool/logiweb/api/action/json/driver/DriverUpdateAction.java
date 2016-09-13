@@ -29,6 +29,7 @@ public class DriverUpdateAction extends JsonAction {
     private static class DriverData {
         public String firstName;
         public String lastName;
+        public String personalCode;
         public int hoursWorked;
         public Driver.Status status;
         public int cityId;
@@ -41,11 +42,12 @@ public class DriverUpdateAction extends JsonAction {
         ObjectMapper mapper = new ObjectMapper();
         DriverData data = mapper.readValue(req.getReader(), DriverData.class);
 
-
         driver.setFirstName(data.firstName);
         driver.setLastName(data.lastName);
         driver.setHoursWorked(data.hoursWorked);
         driver.setStatus(data.status);
+        driver.setPersonalCode(data.personalCode);
+
 
         if (req.getParameter("id") != null && req.getParameter("id").trim().length() > 0) {
             driver.setId(Integer.parseInt(req.getParameter("id")));

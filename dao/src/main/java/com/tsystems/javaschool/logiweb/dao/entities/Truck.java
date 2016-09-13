@@ -5,6 +5,9 @@
 
 package com.tsystems.javaschool.logiweb.dao.entities;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
@@ -14,6 +17,8 @@ import javax.validation.constraints.Pattern;
  */
 @Entity
 @Table(name = "trucks")
+@Data
+@NoArgsConstructor
 public class Truck {
 
     public enum Condition { OK, BROKEN }
@@ -37,34 +42,9 @@ public class Truck {
     @Enumerated(EnumType.STRING)
     private Condition condition;
 
-
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getMaxDrivers() {
-        return maxDrivers;
-    }
-
-    public void setMaxDrivers(int maxDrivers) {
-        this.maxDrivers = maxDrivers;
-    }
 
     public int getCapacityKg() {
         return capacityKg;
@@ -81,44 +61,4 @@ public class Truck {
     public void setCapacityKg(int capacityKg) {
         this.capacityKg = capacityKg;
     }
-
-    public Condition getCondition() {
-        return condition;
-    }
-
-    public void setCondition(Condition condition) {
-        this.condition = condition;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Truck that = (Truck) o;
-//
-//        if (id != that.id) return false;
-//        if (maxDuty != that.maxDuty) return false;
-//        if (capacityKg != that.capacityKg) return false;
-//        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result = id;
-//        result = 31 * result + (name != null ? name.hashCode() : 0);
-//        result = 31 * result + maxDuty;
-//        result = 31 * result + capacityKg;
-//        return result;
-//    }
 }

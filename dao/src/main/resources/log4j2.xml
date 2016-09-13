@@ -11,10 +11,10 @@
         </File>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Logger name="org.hibernate.SQL" level="DEBUG"/>
+
+        <Root level="WARN">
             <AppenderRef ref="Console"/>
-        </Root>
-        <Root level="error">
             <AppenderRef ref="File"/>
         </Root>
     </Loggers>
