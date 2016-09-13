@@ -9,7 +9,7 @@ T-systems school project
 ## Installation
 
  1. Clone project 
- 2. Populate MySQL database with this [dump](https://gist.github.com/8b73b9e1ae8a996792a2ddf22da51665). 
+ 2. Populate MySQL database with this [dump 14-Sep-2016](https://gist.github.com/500b3043754f34de22b0dc447b1b0286). 
  3. Go to project source and execute 2 commands:
  
  `mvn install`
