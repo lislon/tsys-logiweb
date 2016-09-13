@@ -10,6 +10,8 @@ import com.tsystems.javaschool.logiweb.api.helper.UserAlert;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
+import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
+import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +57,9 @@ public class EditPostAction implements Action {
 
             resp.sendRedirect(req.getContextPath() + "/truck/list.do");
 
+        } catch (BusinessLogicException e) {
+            UserAlert.injectInRequest(req, e.getMessage(), UserAlert.Type.DANGER);
+            EditHelper.renderEditForm(req, resp, managersFacade);
         } catch (Exception e) {
 //            UserAlert.injectInRequest(req, "Parameter parsing error: " + e,
 //                    UserAlert.Type.DANGER);
