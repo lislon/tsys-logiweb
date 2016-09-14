@@ -66,13 +66,15 @@ public class DriverManagerTest {
     @Test
     public void calcSingleDriverLongRoute() throws Exception {
         // 1000km: 1 driver. 8 hours (drive 640 km) + 14 hours (sleep) + 4.5 hours (360 km)
-        assertEquals(28.5, manager.calculateTripDuration(1000, 1), 1e-15);
+        // roudning to 28.5 29
+        assertEquals(29, manager.calculateTripDuration(1000, 1), 1e-15);
     }
 
     @Test
     public void calcTwoDriversLongRoute() throws Exception {
         // 1000km: 2 drivers. 12.5 hours (drive 1000km)
-        assertEquals(12.5, manager.calculateTripDuration(1000, 2), 1e-15);
+        // rounding 12.5 -> 13
+        assertEquals(13, manager.calculateTripDuration(1000, 2), 1e-15);
     }
 
     @Test

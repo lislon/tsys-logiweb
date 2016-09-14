@@ -8,6 +8,7 @@ package com.tsystems.javaschool.logiweb.service.manager;
 import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
+import com.tsystems.javaschool.logiweb.dao.repos.CargoRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
@@ -31,20 +32,22 @@ import static com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint.Operati
 public class OrderManagerTest {
 
     OrderRepository mockRepo;
+    CargoRepository  cargoRepo;
     OrderManagerImpl manager;
     ServiceContainer container;
 
     @Before
     public void createManager() {
         mockRepo = mock(OrderRepository.class);
+        cargoRepo = mock(CargoRepository.class);
         container = mock(ServiceContainer.class);
-        manager = new OrderManagerImpl(mockRepo, container);
+        manager = new OrderManagerImpl(mockRepo, cargoRepo, container);
 
     }
 
     @Test
     public void getRouteLength() throws Exception {
-
+        // use real CityManager to calculate distances
         when(container.getCityManager()).
                 thenReturn(new CityManagerImpl(mock(CityRepository.class), container));
 

@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <label for="cargoWeight">Weight</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" id="cargoWeight" placeholder="Title" name="weight" value="{{ weight }}" required>
+                                <input type="number" class="form-control" id="cargoWeight" placeholder="Title" name="weight" value="{{ weight }}" required min="1">
                                 <span class="input-group-addon">kg</span>
                             </div>
                             <div class="help-block with-errors"></div>
@@ -95,15 +95,17 @@
 </script>
 
 <script id="truck-select-template" type="text/x-handlebars-template">
-    <option data-subtext="{{pluralCount maxDrivers 'seat' 'seats'}}" value="{{id}}">{{name}}, {{capacityTon}} ton</option>
+    <option data-subtext="{{capacityTon}} ton" value="{{id}}">
+        {{name}}, {{pluralCount maxDrivers 'seat' 'seats'}}
+    </option>
 </script>
 
 <script id="driver-select-template" type="text/x-handlebars-template">
     <option data-subtext="{{pluralCount workedHours 'hour' 'hours'}} worked" value="{{id}}">{{name}}</option>
 </script>
 
-
-<form method="post" data-toggle="validator">
+<span class="alert" id="table-alert"></span>
+<form method="post">
     <h1>New order</h1>
     <h2 class="section-title section-title-cargo">1. Cargo</h2>
 
@@ -141,15 +143,15 @@
     <div>
         <h2 class="section-title section-title-drivers">4. Drivers<small></small></h2>
         <div class="form-group">
-            <select class="selectpicker driver-selector" multiple data-max-options="2" disabled name="drivers">
+            <select class="selectpicker driver-selector" multiple disabled name="drivers">
             </select>
         </div>
     </div>
 
     <hr />
     <div class="form-group text-right">
-        <a href="<%= request.getContextPath() %>/order/list.do" type="submit" class="btn">Cancel</a>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="<%= request.getContextPath() %>/order/list.do" type="button" class="btn">Cancel</a>
+        <button type="button" class="btn btn-primary" id="submit">Save</button>
     </div>
 </form>
 

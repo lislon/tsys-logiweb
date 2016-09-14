@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -29,7 +30,7 @@ public class OrderWaypoint implements Comparable<OrderWaypoint> {
     public enum Operation { LOAD, UNLOAD }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -45,7 +46,7 @@ public class OrderWaypoint implements Comparable<OrderWaypoint> {
     @JoinColumn(name = "city_id")
     private City city;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cargo_id")
     private Cargo cargo;
 
@@ -57,19 +58,21 @@ public class OrderWaypoint implements Comparable<OrderWaypoint> {
     private int waypointWeight;
 
     @Override
-    public int compareTo(OrderWaypoint o) {
-        if (o.waypointWeight == waypointWeight) {
-            return 0;
-        }
-        if (o.waypointWeight > waypointWeight) {
-            return -1;
-        }
-        return 1;
+    public int compareTo(OrderWaypoint rhs) {
+        Integer build = (new CompareToBuilder())
+                .append(waypointWeight, rhs.waypointWeight)
+                .append(operation, rhs.operation)
+                .append(city.getId(), rhs.city.getId())
+                .append(cargo.getId(), rhs.cargo.getId())
+                .build();
+        return build;
     }
+
 
     @Override
     public int hashCode() {
         Integer build = (new HashCodeBuilder())
+//                .append(waypointWeight)
                 .append(operation)
                 .append(city.getId())
                 .append(cargo.getId())
@@ -86,6 +89,7 @@ public class OrderWaypoint implements Comparable<OrderWaypoint> {
 
         OrderWaypoint rhs = (OrderWaypoint) obj;
         return (new EqualsBuilder())
+//                .append(waypointWeight, rhs.waypointWeight)
                 .append(operation, rhs.operation)
                 .append(city.getId(), rhs.city.getId())
                 .append(cargo.getId(), rhs.cargo.getId())

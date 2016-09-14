@@ -10,6 +10,7 @@ import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.BaseManager;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -48,7 +49,10 @@ public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
     {
         E e = repo.find(key);
         if (e == null) {
-            throw new EntityNotFoundException("Entity with id = " + key + " is not found");
+            // gets class name
+            Class<E> eClass = (Class<E>)((ParameterizedType)getClass().getGenericSuperclass())
+                    .getActualTypeArguments()[0];
+            throw new EntityNotFoundException("Entity " + eClass.getSimpleName() + " with id = " + key + " is not found");
         }
         return e;
     }

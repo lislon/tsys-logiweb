@@ -6,14 +6,15 @@
        data-show-refresh="true"
        data-show-columns="true"
        data-search="true"
+       data-striped="true"
        data-toolbar=".toolbar">
     <thead>
     <tr>
-        <th data-field="name">Number</th>
-        <th data-field="capacityKg">Capacity</th>
-        <th data-field="maxDrivers">Max drivers</th>
-        <th data-field="condition">Condition</th>
-        <th data-field="cityName">City</th>
+        <th data-field="name" data-sortable="true">Number</th>
+        <th data-field="capacityKg" data-sortable="true">Capacity</th>
+        <th data-field="maxDrivers" data-sortable="true">Max drivers</th>
+        <th data-field="condition" data-sortable="true" data-cell-style="cellStyle">Condition</th>
+        <th data-field="cityName" data-sortable="true">City</th>
         <th data-field="action"
             data-align="center"
             data-formatter="actionFormatter"

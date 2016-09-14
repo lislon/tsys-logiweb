@@ -127,6 +127,7 @@
                         </resource>
                     </resources>
                 </configuration>
+                
             </plugin>
 
             <plugin>

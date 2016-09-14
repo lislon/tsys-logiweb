@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
@@ -26,6 +27,7 @@ public class Truck {
     public enum Condition { OK, BROKEN }
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -38,6 +40,7 @@ public class Truck {
     private int maxDrivers;
 
     @Column(name = "capacity_kg")
+    @Min(1)
     private int capacityKg;
 
     @Column(name = "condition")

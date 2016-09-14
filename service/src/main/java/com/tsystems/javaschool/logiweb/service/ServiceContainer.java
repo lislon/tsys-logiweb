@@ -5,11 +5,8 @@
 
 package com.tsystems.javaschool.logiweb.service;
 
+import com.tsystems.javaschool.logiweb.dao.repos.*;
 import com.tsystems.javaschool.logiweb.service.helper.TransactionProxy;
-import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.TruckRepository;
 import com.tsystems.javaschool.logiweb.service.impl.CityManagerImpl;
 import com.tsystems.javaschool.logiweb.service.impl.DriverManagerImpl;
 import com.tsystems.javaschool.logiweb.service.impl.OrderManagerImpl;
@@ -46,7 +43,7 @@ public class ServiceContainer {
 
     public OrderManager getOrderManager()
     {
-        return (OrderManager)transactionProxy.createProxy(new OrderManagerImpl(new OrderRepository(em), this));
+        return (OrderManager)transactionProxy.createProxy(new OrderManagerImpl(new OrderRepository(em), new CargoRepository(em), this));
     }
 
     public DriverManager getDriverManager()

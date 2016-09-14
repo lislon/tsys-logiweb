@@ -6,14 +6,15 @@
        data-show-refresh="true"
        data-show-columns="true"
        data-search="true"
+       data-striped="true"
        data-toolbar=".toolbar">
     <thead>
         <tr>
-            <th data-field="personalCode">Personal code</th>
-            <th data-formatter="nameFormatter">Name</th>
-            <th data-field="hoursWorked">Hours worked</th>
-            <th data-field="status" data-formatter="statusFormatter">Status</th>
-            <th data-field="city.name">Current city</th>
+            <th data-field="personalCode" data-sortable="true">Personal code</th>
+            <th data-field="firstName" data-formatter="nameFormatter" data-sortable="true">Name</th>
+            <th data-field="hoursWorked" data-sortable="true">Hours worked</th>
+            <th data-field="status" data-formatter="statusFormatter" data-sortable="true" data-cell-style="cellStyle">Status</th>
+            <th data-field="city.name" data-sortable="true">Current city</th>
             <%--<th data-field="truckName">Current truck</th>--%>
             <th data-field="action"
                 data-align="center"

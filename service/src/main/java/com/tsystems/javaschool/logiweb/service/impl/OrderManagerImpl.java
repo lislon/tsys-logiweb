@@ -5,14 +5,16 @@
 
 package com.tsystems.javaschool.logiweb.service.impl;
 
-import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
-import com.tsystems.javaschool.logiweb.dao.entities.City;
-import com.tsystems.javaschool.logiweb.dao.entities.Order;
-import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
+import com.tsystems.javaschool.logiweb.dao.entities.*;
+import com.tsystems.javaschool.logiweb.dao.repos.CargoRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
+import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
+import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.RouteNotValidException;
+import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
 import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
 
 import java.util.*;
@@ -25,8 +27,11 @@ import java.util.stream.Collectors;
 public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         implements OrderManager {
 
-    public OrderManagerImpl(OrderRepository orderRepository, ServiceContainer services) {
+    private CargoRepository cargoRepository;
+
+    public OrderManagerImpl(OrderRepository orderRepository, CargoRepository cargoRepository, ServiceContainer services) {
         super(orderRepository, services);
+        this.cargoRepository = cargoRepository;
     }
 
     @Override
@@ -34,23 +39,27 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         List<Order> allOrdersSummary = repo.getAllOrdersSummary();
 
         List<OrderSummaryDTO> collect = allOrdersSummary.stream().map(order -> {
+
+            SortedSet<OrderWaypoint> wp = order.getWaypoints();
+
             OrderSummaryDTO.OrderSummaryDTOBuilder builder = OrderSummaryDTO.builder()
                     .id(order.getId())
-                    .cityStartId(order.getWaypoints().first().getCity().getId())
-                    .cityStartName(order.getWaypoints().first().getCity().getName())
-                    .cityEndId(order.getWaypoints().last().getCity().getId())
-                    .cityEndName(order.getWaypoints().last().getCity().getName())
                     .dateCreated(order.getDateCreated())
-                    .maxPayload(getMaxPayload(order.getWaypoints()))
-                    .routeLength(getRouteLength(order.getWaypoints()))
+                    .maxPayload(getMaxPayload(wp))
+                    .routeLength(getRouteLength(wp))
                     .status(getOrderStatus(order));
+
+            if (wp.size() > 0) {
+                builder.cityStartId(wp.first().getCity().getId())
+                       .cityStartName(wp.first().getCity().getName())
+                       .cityEndId(wp.last().getCity().getId())
+                       .cityEndName(wp.last().getCity().getName());
+            }
 
             if (order.getTruck() != null) {
                 builder.truckName(order.getTruck().getName())
                        .truckId(order.getTruck().getId());
             }
-
-
 
             return builder.build();
         }).collect(Collectors.toList());
@@ -100,7 +109,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
     /**
      * Return a route length in KM
      *
-     * @param waypointCollection
+     * @param waypointCollection Waypoints
      * @return route length in KM
      */
     @Override
@@ -126,6 +135,30 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         return totalDistance;
     }
 
+    /**
+     * Validates that all cargoes is loaded somewhere and unloaded somewhere.
+     *
+     * @param waypointCollection Waypoints
+     * @throws RouteNotValidException if some cargo is not loaded or unloaded
+     */
+    private void validateWaypoints(Collection<OrderWaypoint> waypointCollection) throws RouteNotValidException {
+        Set<Cargo> cargoOnBoard = new HashSet<>();
+        for (OrderWaypoint p : waypointCollection) {
+            if (p.getOperation() == OrderWaypoint.Operation.LOAD) {
+                cargoOnBoard.add(p.getCargo());
+            } else if (p.getOperation() == OrderWaypoint.Operation.UNLOAD) {
+                if (!cargoOnBoard.contains(p.getCargo())) {
+                    throw new RouteNotValidException("Cargo " + p + " is not unloaded, but not loaded before");
+                }
+                cargoOnBoard.remove(p.getCargo());
+            }
+        }
+        if (!cargoOnBoard.isEmpty()) {
+            String message = "Cargo is not unloaded: " + cargoOnBoard.iterator().next();
+            throw new RouteNotValidException(message);
+        }
+    }
+
 
     /**
      * Returns maximum summary carried weight for segment along the route.
@@ -149,5 +182,60 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         }
         return maxPayload;
     }
+
+    @Override
+    public Order create(SortedSet<OrderWaypoint> waypoints, Integer truckId, Collection<Integer> driversIds)
+            throws RouteNotValidException, EntityNotFoundException {
+
+        // validate our route
+        validateWaypoints(waypoints);
+
+        Order order = new Order();
+
+        // we need order.id in further operations
+        repo.create(order);
+
+
+
+        // replace same objects, that are same by equals by their references.
+        HashMap<Cargo, Cargo> uniqueCargoes = new HashMap<>();
+
+        // saves all cargoes
+        for (OrderWaypoint waypoint : waypoints) {
+
+            // check that we already saw this cargo (hashcode is the same)
+            Cargo cargo = waypoint.getCargo();
+
+            if (uniqueCargoes.containsKey(cargo)) {
+                // replace it with old reference
+                waypoint.setCargo(uniqueCargoes.get(cargo));
+            } else {
+                // add to list
+                uniqueCargoes.put(cargo, cargo);
+                // and assign order
+                cargo.setOrder(order);
+            }
+
+            waypoint.setOrder(order);
+            cargoRepository.create(cargo);
+        }
+
+        order.setWaypoints(waypoints);
+
+        order.setTruck(truckId == null ? null : services.getTruckManager().findOne(truckId));
+
+        Set<Driver> drivers = new HashSet<>();
+        DriverManager driverManager = services.getDriverManager();
+        for (Integer driverId : driversIds) {
+            drivers.add(driverManager.findOne(driverId));
+        }
+
+        order.setDrivers(drivers);
+
+        repo.update(order);
+
+        return order;
+    }
+
 
 }

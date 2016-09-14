@@ -26,11 +26,13 @@ import java.util.SortedSet;
 @Entity
 @Table(name = "orders")
 @Data
-@ToString(exclude = "waypoints,drivers")
+@ToString(exclude = {"waypoints","drivers","cargoes"})
 @NoArgsConstructor
 public class Order {
+
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "date_created")
@@ -56,6 +58,10 @@ public class Order {
     @JoinTable(name="orders_drivers", joinColumns=@JoinColumn(name="order_id"),
             inverseJoinColumns=@JoinColumn(name="driver_id"))
     private Set<Driver> drivers;
+
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//    private Set<Cargo> cargoes;
+
 
     /**
      * Returns departure city or null when no waypoints have been set.

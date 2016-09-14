@@ -25,7 +25,7 @@ public class OrderRepository extends BaseRepository<Order> {
 
     public List<Order> getAllOrdersSummary()
     {
-        Query query = em.createQuery("from Order o join fetch o.truck");
+        Query query = em.createQuery("from Order o left join fetch o.truck");
         List<Order> resultList = (List<Order>)query.getResultList();
 
 //        TypedQuery<OrderWaypoint> namedQuery = em.createNamedQuery("orderWaypoint.findByOrderId", OrderWaypoint.class);

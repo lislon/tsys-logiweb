@@ -25,7 +25,7 @@
     </div>
     <div class="form-group">
         <label for="capacity_ton">Capacity (kg)</label>
-        <input type="number" name="capacityKg" id="capacity_ton" class="form-control" placeholder="4"
+        <input type="number" name="capacityKg" id="capacity_ton" class="form-control" placeholder="4000"
                data-error="Capacity must be a number" required
                value="${requestScope.capacityKg}">
         <div class="help-block with-errors"></div>
@@ -47,7 +47,7 @@
     </div>
     <div class="form-group">
         <label for="city">Current location</label>
-        <input type="text" id="city" name="city" placeholder="Berlin" class="form-control"
+        <input type="text" id="city" name="city" placeholder="City..." class="form-control"
                value="${requestScope.cityName}" required>
         <input type="hidden" id="city_id" name="cityId" value="${requestScope.cityId}">
         <div class="help-block with-errors"></div>

@@ -33,5 +33,11 @@ $(function () {
                     if (item) return item.split('=');
                 })));
         },
+        cityValidator: function ($el) {
+            var matchValue = $el.data("equals") // foo
+            if ($el.val() !== matchValue) {
+                return "Hey, that's not valid! It's gotta be " + matchValue
+            }
+        }
     }
 });

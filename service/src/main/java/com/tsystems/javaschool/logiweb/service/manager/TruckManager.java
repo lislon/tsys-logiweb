@@ -41,8 +41,11 @@ public interface TruckManager extends BaseManager<Truck> {
     /**
      * Saves the truck and it's location in single transaction
      *
-     * @param truck
-     * @param cityId
+     * @param truck Truck's entity (without city)
+     * @param cityId Current location of truck
+     *
+     * @throws EntityNotFoundException when cityId is not found
+     * @throws DuplicateKeyException when truck with same name already exists
      */
     void save(Truck truck, int cityId) throws EntityNotFoundException, DuplicateKeyException;
 }

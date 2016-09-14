@@ -8,7 +8,9 @@ package com.tsystems.javaschool.logiweb.service.manager;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -36,6 +38,4 @@ public interface DriverManager extends BaseManager<Driver> {
 
     void save(Driver entity, int cityId, Integer truckId)
             throws EntityNotFoundException;
-
-
 }

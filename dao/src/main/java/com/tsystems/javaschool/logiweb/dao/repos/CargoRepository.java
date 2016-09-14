@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
  * Created by Igor Avdeev on 9/12/16.
  */
 public class CargoRepository extends BaseRepository<Cargo> {
-    public CargoRepository(Class<Cargo> type, EntityManager em) {
-        super(type, em);
+    public CargoRepository(EntityManager em) {
+        super(Cargo.class, em);
     }
 }

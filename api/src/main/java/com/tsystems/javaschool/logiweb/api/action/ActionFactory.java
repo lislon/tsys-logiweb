@@ -7,9 +7,9 @@ package com.tsystems.javaschool.logiweb.api.action;
 
 
 
+import com.tsystems.javaschool.logiweb.api.action.json.order.RouteMetaGetAction;
 import com.tsystems.javaschool.logiweb.api.action.json.city.AutocompleteGetAction;
 import com.tsystems.javaschool.logiweb.api.action.json.driver.DriverListAction;
-import com.tsystems.javaschool.logiweb.api.action.json.order.OrderDeleteAction;
 import com.tsystems.javaschool.logiweb.api.action.json.truck.TruckDeleteAction;
 import com.tsystems.javaschool.logiweb.api.action.json.truck.TruckListAction;
 import com.tsystems.javaschool.logiweb.api.action.servlet.order.ListOrdersAction;
@@ -40,21 +40,22 @@ public class ActionFactory {
         actions.put("GET /api/city/autocomplete.do", new AutocompleteGetAction());
 
         // order
-        actions.put("GET /order/list.do",           new ListOrdersAction());
-        actions.put("GET /order/edit.do",           new ShowEditFormAction());
-        actions.put("DELETE /order/edit.do",        new OrderDeleteAction());
+        actions.put("GET /order/list.do",          new ListOrdersAction());
+        actions.put("GET /order/edit.do",          new ShowEditFormAction());
 
         actions.put("GET /api/order/cargoes.do",   new com.tsystems.javaschool.logiweb.api.action.json.order.OrderGetCargoesAction());
         actions.put("GET /api/order/list.do",      new com.tsystems.javaschool.logiweb.api.action.json.order.OrderListAction());
-        actions.put("GET /api/order/routeMeta.do", new com.tsystems.javaschool.logiweb.api.action.json.order.RouteMetaGetAction());
+        actions.put("GET /api/order/routeMeta.do", new RouteMetaGetAction());
         actions.put("GET /api/order/drivers.do",   new com.tsystems.javaschool.logiweb.api.action.json.order.OrderListAvailableDriversAction());
+        actions.put("POST /api/order/edit.do",     new com.tsystems.javaschool.logiweb.api.action.json.order.OrderSaveAction());
+        actions.put("DELETE /api/order/delete.do", new com.tsystems.javaschool.logiweb.api.action.json.order.OrderDeleteAction());
 
 
         // driver
-        actions.put("GET /driver/list.do",       new com.tsystems.javaschool.logiweb.api.action.servlet.driver.ListGetAction());
-        actions.put("GET /api/driver/list.do",   new DriverListAction());
-        actions.put("POST /api/driver/edit.do",  new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverUpdateAction());
-        actions.put("DELETE /api/driver/edit.do",  new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverDeleteAction());
+        actions.put("GET /driver/list.do",          new com.tsystems.javaschool.logiweb.api.action.servlet.driver.ListGetAction());
+        actions.put("GET /api/driver/list.do",      new DriverListAction());
+        actions.put("POST /api/driver/edit.do",     new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverUpdateAction());
+        actions.put("DELETE /api/driver/edit.do",   new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverDeleteAction());
 
 
 //        actions.put("GET /order/list.do", new com.tsystems.javaschool.logiweb.api.action.servlet.truck.DriverListAction());

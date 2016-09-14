@@ -16,8 +16,6 @@ var $table = $('#table').bootstrapTable({
 });
 var $alert = $('#table-alert').hide();
 
-
-
 $(function () {
 
     App.Utils.cityAutocomplete("#cityName", "#cityId");
@@ -121,18 +119,22 @@ function showModal(title, row) {
     for (var name in row) {
         $modal.find('input[name="' + name + '"]').val(row[name]);
     }
-    $modal.find('input[name="cityId"]').val(row.city.id);
-    $modal.find('input[name="cityName"]').val(row.city.name);
+    $modal.find('input[name=cityId]').val(row.city.id);
+    $modal.find('input[name=cityName]').val(row.city.name);
+    $modal.find('select[name=status]').selectpicker('val', row.status);
     $modal.find('form').validator("destroy");
     $modal.find('form').validator().on('submit', onSubmit);
     $modal.modal('show');
 }
 
 
-function showAlert(title, type) {
-    $alert.attr('class', 'alert alert-' + type || 'success')
-        .html('<i class="glyphicon glyphicon-check"></i> ' + title).show();
-    setTimeout(function () {
-        $alert.hide();
-    }, 3000);
+function cellStyle(value, row, index) {
+    if (value == 'REST') {
+        return {
+            classes: 'success'
+        };
+    }
+    return {
+        classes: 'warning'
+    };
 }

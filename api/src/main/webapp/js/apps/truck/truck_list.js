@@ -72,4 +72,16 @@ window.actionEvents = {
             });
         }
     }
+
+
 };
+
+
+function cellStyle(value, row, index) {
+    if (value == 'BROKEN') {
+        return {
+            classes: 'danger'
+        };
+    }
+    return {};
+}
