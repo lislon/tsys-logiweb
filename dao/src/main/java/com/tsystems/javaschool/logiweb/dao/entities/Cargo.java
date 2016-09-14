@@ -54,7 +54,7 @@ public class Cargo {
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return name != null ? name.hashCode() : 0;
     }
 
     @Override
