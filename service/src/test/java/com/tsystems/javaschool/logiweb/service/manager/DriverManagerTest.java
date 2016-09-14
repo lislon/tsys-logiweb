@@ -5,7 +5,6 @@
 
 package com.tsystems.javaschool.logiweb.service.manager;
 
-import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
 import com.tsystems.javaschool.logiweb.service.impl.DriverManagerImpl;
@@ -40,10 +39,9 @@ public class DriverManagerTest {
 
         LocalDateTime time1 = LocalDateTime.of(2016, 1, 1, 0, 0, 0);
         LocalDateTime time2 = LocalDateTime.of(2016, 1, 2, 1, 0, 0);
-        City city = new City();
-        manager.findDriversForTrip(city, time1, time2);
+        manager.findDriversForTrip(0, time1, time2);
 
-        verify(mockRepo).findFreeDriversInCity(city, 25);
+        verify(mockRepo).findFreeDriversInCity(0, 25);
     }
 
     @Test
@@ -51,31 +49,30 @@ public class DriverManagerTest {
 
         LocalDateTime time1 = LocalDateTime.of(2016, 1, 31, 20, 0, 0);
         LocalDateTime time2 = LocalDateTime.of(2016, 2, 10, 1, 0, 0);
-        City city = new City();
-        manager.findDriversForTrip(city, time1, time2);
+        manager.findDriversForTrip(0, time1, time2);
 
-        verify(mockRepo).findFreeDriversInCity(city, 4);
+        verify(mockRepo).findFreeDriversInCity(0, 4);
     }
 
 
     @Test
     public void calcSmallRoutes() throws Exception {
         // 80km: 1 driver = 1 hour
-        assertEquals(1.0, manager.calculateRouteHours(80, 1), 1e-15);
+        assertEquals(1.0, manager.calculateTripDuration(80, 1), 1e-15);
         // 80km: 2 driver = 1 hour
-        assertEquals(1.0, manager.calculateRouteHours(80, 2), 1e-15);
+        assertEquals(1.0, manager.calculateTripDuration(80, 2), 1e-15);
     }
 
     @Test
     public void calcSingleDriverLongRoute() throws Exception {
         // 1000km: 1 driver. 8 hours (drive 640 km) + 14 hours (sleep) + 4.5 hours (360 km)
-        assertEquals(28.5, manager.calculateRouteHours(1000, 1), 1e-15);
+        assertEquals(28.5, manager.calculateTripDuration(1000, 1), 1e-15);
     }
 
     @Test
     public void calcTwoDriversLongRoute() throws Exception {
         // 1000km: 2 drivers. 12.5 hours (drive 1000km)
-        assertEquals(12.5, manager.calculateRouteHours(1000, 2), 1e-15);
+        assertEquals(12.5, manager.calculateTripDuration(1000, 2), 1e-15);
     }
 
     @Test

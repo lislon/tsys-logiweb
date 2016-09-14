@@ -26,7 +26,7 @@ import java.util.SortedSet;
 @Entity
 @Table(name = "orders")
 @Data
-@ToString(exclude = "waypoints")
+@ToString(exclude = "waypoints,drivers")
 @NoArgsConstructor
 public class Order {
     @Id
@@ -51,5 +51,22 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "truck_id")
     private Truck truck;
+
+    @ManyToMany
+    @JoinTable(name="orders_drivers", joinColumns=@JoinColumn(name="order_id"),
+            inverseJoinColumns=@JoinColumn(name="driver_id"))
+    private Set<Driver> drivers;
+
+    /**
+     * Returns departure city or null when no waypoints have been set.
+     *
+     * @return Departure city
+     */
+    public City getDepartureCity() {
+        if (waypoints.size() > 0) {
+            return waypoints.first().getCity();
+        }
+        return null;
+    }
 
 }

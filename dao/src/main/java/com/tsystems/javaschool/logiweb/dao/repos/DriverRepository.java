@@ -30,10 +30,10 @@ public class DriverRepository extends BaseRepository<Driver> {
      * @param hoursRemaining
      * @return
      */
-    public List<Driver> findFreeDriversInCity(City city, int hoursRemaining) {
-        Query query = em.createQuery("from Driver d where d.city = :city and d.status = :status and d.hoursWorked < :maxHoursWorked");
+    public List<Driver> findFreeDriversInCity(int cityId, int hoursRemaining) {
+        Query query = em.createQuery("from Driver d where d.city.id = :cityId and d.status = :status and d.hoursWorked < :maxHoursWorked");
 
-        query.setParameter("city", city);
+        query.setParameter("cityId", cityId);
         query.setParameter("status", Driver.Status.REST);
         query.setParameter("maxHoursWorked", Driver.MONTH_DUTY_HOURS - hoursRemaining);
 

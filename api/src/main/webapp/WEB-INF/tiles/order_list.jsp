@@ -16,7 +16,7 @@
         <th data-field="cityEndName">Arrival city</th>
         <th data-field="routeLength">Route lenght</th>
         <th data-field="maxPayload">Max payload</th>
-        <th data-field="dateCreated">Date</th>
+        <th data-field="dateCreated" data-formatter="dateFormatter">Date</th>
         <th data-field="status">Status</th>
         <th data-field="action"
             data-align="center"

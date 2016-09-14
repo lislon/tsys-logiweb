@@ -37,11 +37,11 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
     /**
      * Find unassigned drivers in city `departure` available to work from now till tillDate.
      *
-     * @param city City in which we search drivers.
+     * @param cityId City in which we search drivers.
      * @param dutyEnd
      * @return
      */
-    public List<Driver> findDriversForTrip(City city, LocalDateTime dutyStart, LocalDateTime dutyEnd) {
+    public List<Driver> findDriversForTrip(Integer cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd) {
 
         long requiredWorkHours;
 
@@ -58,7 +58,7 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
             requiredWorkHours = ChronoUnit.HOURS.between(dutyStart, endOfMonth);
         }
 
-        return repo.findFreeDriversInCity(city, (int)requiredWorkHours);
+        return repo.findFreeDriversInCity(cityId, (int)requiredWorkHours);
     }
 
     /**
@@ -68,12 +68,12 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
      * @param numDrivers  Number of drivers in truck
      * @return double number of total hours required to do trip, include rest time.
      */
-    public double calculateRouteHours(int routeLength, int numDrivers) {
+    public int calculateTripDuration(int routeLength, int numDrivers) {
         double distancePerDay = (Math.min(numDrivers * LIMIT_HOURS_DAY_DRIVE, 24) * AVG_TRUCK_SPEED);
 
         double hours = Math.floor(routeLength / distancePerDay) * 24 + (routeLength % distancePerDay) / AVG_TRUCK_SPEED;
 
-        return hours;
+        return (int)Math.ceil(hours);
     }
 
     @Override

@@ -24,8 +24,16 @@ function actionFormatter(value, row) {
     return [
         '<a class="update" href="' + EDIT_URL + row.id + '" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
         '<a class="remove" href="javascript:" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>',
-    ].join('');
+    ].join(' ');
 }
+
+function dateFormatter(value) {
+    var date = new Date(value);
+    return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+}
+
+
+
 // update and delete events
 window.actionEvents = {
     'click .remove': function (e, value, row) {

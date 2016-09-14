@@ -45,14 +45,12 @@ $(function () {
         });
     });
 });
-function queryParams(params) {
-    return {};
-}
+
 function actionFormatter(value, row) {
     return [
         '<a class="update" href="' + EDIT_URL + row.id + '" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
         '<a class="remove" href="javascript:" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>',
-    ].join('');
+    ].join(' ');
 }
 // update and delete events
 window.actionEvents = {
@@ -75,25 +73,3 @@ window.actionEvents = {
         }
     }
 };
-function showModal(title, row) {
-    row = row || {
-            id: '',
-            name: '',
-            stargazers_count: 0,
-            forks_count: 0,
-            description: ''
-        }; // default row value
-    $modal.data('id', row.id);
-    $modal.find('.modal-title').text(title);
-    for (var name in row) {
-        $modal.find('input[name="' + name + '"]').val(row[name]);
-    }
-    $modal.modal('show');
-}
-function showAlert(title, type) {
-    $alert.attr('class', 'alert alert-' + type || 'success')
-        .html('<i class="glyphicon glyphicon-check"></i> ' + title).show();
-    setTimeout(function () {
-        $alert.hide();
-    }, 3000);
-}

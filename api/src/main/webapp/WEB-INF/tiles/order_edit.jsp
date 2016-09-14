@@ -85,7 +85,7 @@
     <table class="route-summary-table">
         <tr>
             <td>Distance</td>
-            <td>{{length}} km</td>
+            <td>{{routeLength}} km</td>
         </tr>
         <tr>
             <td>Required capacity</td>
@@ -95,7 +95,11 @@
 </script>
 
 <script id="truck-select-template" type="text/x-handlebars-template">
-    <option data-subtext="{{pluralCount seats 'seat' 'seats'}}">{{ name }}</option>
+    <option data-subtext="{{pluralCount maxDrivers 'seat' 'seats'}}" value="{{id}}">{{name}}, {{capacityTon}} ton</option>
+</script>
+
+<script id="driver-select-template" type="text/x-handlebars-template">
+    <option data-subtext="{{pluralCount workedHours 'hour' 'hours'}} worked" value="{{id}}">{{name}}</option>
 </script>
 
 
@@ -112,8 +116,8 @@
             <thead>
             <tr>
                 <th>Description</th>
-                <th>City</th>
-                <th>Action</th>
+                <th data-align="center">City</th>
+                <th data-align="center">Action</th>
             </tr>
             </thead>
             <tbody></tbody>
@@ -130,18 +134,14 @@
     <div>
         <h2 class="section-title section-title-truck">3. Truck</h2>
         <div class="form-group">
-            <select class="selectpicker truck-selector">
-                <option data-subtext="Heinz">Ketchup</option>
+            <select class="selectpicker truck-selector" name="truck">
             </select>
         </div>
     </div>
     <div>
         <h2 class="section-title section-title-drivers">4. Drivers<small></small></h2>
         <div class="form-group">
-            <select class="selectpicker" multiple data-max-options="2" disabled>
-                <option>Mustard</option>
-                <option>Ketchup</option>
-                <option>Relish</option>
+            <select class="selectpicker driver-selector" multiple data-max-options="2" disabled name="drivers">
             </select>
         </div>
     </div>
@@ -153,5 +153,8 @@
     </div>
 </form>
 
-
 <script src="<%= request.getContextPath() %>/js/apps/order/order_edit.js"></script>
+<script lang="javascript">
+    // intial order data
+    window.bootstrap = <%= request.getAttribute("bootstrapJson") %>;
+</script>

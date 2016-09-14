@@ -32,6 +32,19 @@ public abstract class JsonResult {
         };
     }
 
+    public static JsonResult wrongArgs(String message) {
+        return new JsonResult() {
+            @Override
+            void write(HttpServletResponse resp) throws IOException {
+                resp.setStatus(400);
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("errorMessage", message);
+                Json.createWriter(resp.getWriter()).writeObject(objectBuilder.build());
+
+            }
+        };
+    }
+
     public static JsonResult error(String message) {
         return new JsonResult() {
             @Override

@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="capacity_ton">Capacity (tons)</label>
+        <label for="capacity_ton">Capacity (kg)</label>
         <input type="number" name="capacityKg" id="capacity_ton" class="form-control" placeholder="4"
                data-error="Capacity must be a number" required
                value="${requestScope.capacityKg}">

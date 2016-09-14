@@ -68,7 +68,7 @@ function actionFormatter(value, row) {
     return [
         '<a class="update" href="javascript:" title="Update Item"><i class="glyphicon glyphicon-edit"></i></a>',
         '<a class="remove" href="javascript:" title="Delete Item"><i class="glyphicon glyphicon-remove-circle"></i></a>',
-    ].join('');
+    ].join(' ');
 }
 
 function statusFormatter(value) {

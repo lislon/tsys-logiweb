@@ -7,6 +7,8 @@ package com.tsystems.javaschool.logiweb.dao.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -67,4 +69,26 @@ public class Driver {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+
+    @Override
+    public int hashCode() {
+        return (new HashCodeBuilder())
+                .append(personalCode)
+                .build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Driver))
+            return false;
+        if (obj == this)
+            return true;
+
+        Driver rhs = (Driver) obj;
+        return (new EqualsBuilder())
+                .append(personalCode, rhs.personalCode)
+                .build();
+    }
+
 }

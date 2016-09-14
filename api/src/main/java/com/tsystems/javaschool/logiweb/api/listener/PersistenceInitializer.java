@@ -26,7 +26,7 @@ public class PersistenceInitializer implements ServletContextListener {
     private static EntityManagerFactory emf = null;
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        logger.error("Application started");
+        logger.info("Application started");
         LocalEntityManagerFactory.initializeFactory();
     }
 

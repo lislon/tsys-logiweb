@@ -33,12 +33,12 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
      * Returned trucks are not executing any orders and in working condition.
      *
      * @param city Location of search.
-     * @param cargoWeight Weight of cargo to carry.
+     * @param maxPayload Weight of cargo to carry.
      * @return List of trucks capable to transport this cargo at specified city.
      */
-    public List<TruckDTO> findReadyToGoTrucks(City city, int cargoWeight)
+    public List<TruckDTO> findReadyToGoTrucks(City city, int maxPayload)
     {
-        List<Truck> readyToGoTrucks = repo.findReadyToGoTrucks(city, cargoWeight);
+        List<Truck> readyToGoTrucks = repo.findReadyToGoTrucks(city, maxPayload);
         return getDTOs(readyToGoTrucks);
     }
 

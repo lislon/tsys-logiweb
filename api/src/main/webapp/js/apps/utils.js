@@ -1,6 +1,8 @@
 "use strict"
-var App = App || {};
+
 $(function () {
+    var App = window.App = window.App || {};
+
     App.Utils = {
         cityAutocomplete: function (selector, selectorId, $el) {
             if ($el == null) {

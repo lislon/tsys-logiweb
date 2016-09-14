@@ -20,6 +20,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
+@ToString(exclude = "order")
 @NamedQuery(name = "orderWaypoint.findByOrderId",
         query = "from OrderWaypoint w where w.order.id = :orderId order by w.waypointWeight asc")
 @Table(name = "orders_waypoints")
@@ -61,9 +62,9 @@ public class OrderWaypoint implements Comparable<OrderWaypoint> {
             return 0;
         }
         if (o.waypointWeight > waypointWeight) {
-            return 1;
+            return -1;
         }
-        return -1;
+        return 1;
     }
 
     @Override

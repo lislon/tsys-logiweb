@@ -6,7 +6,6 @@
        data-show-refresh="true"
        data-show-columns="true"
        data-search="true"
-       data-query-params="queryParams"
        data-toolbar=".toolbar">
     <thead>
     <tr>

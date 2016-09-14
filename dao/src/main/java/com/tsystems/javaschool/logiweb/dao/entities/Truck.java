@@ -7,6 +7,8 @@ package com.tsystems.javaschool.logiweb.dao.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -61,4 +63,25 @@ public class Truck {
     public void setCapacityKg(int capacityKg) {
         this.capacityKg = capacityKg;
     }
+
+    @Override
+    public int hashCode() {
+        return (new HashCodeBuilder())
+                .append(name)
+                .build();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Truck))
+            return false;
+        if (obj == this)
+            return true;
+
+        Truck rhs = (Truck) obj;
+        return (new EqualsBuilder())
+                .append(name, rhs.name)
+                .build();
+    }
+
 }

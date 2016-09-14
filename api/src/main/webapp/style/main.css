@@ -172,12 +172,15 @@ a.ajax-link:hover {
 }
 .section-title-route {
     background: url(../img/route.png) no-repeat;
+    padding-top: 5px;
 }
 .section-title-truck {
     background: url(../img/truck.png) no-repeat;
+    padding-top: 2px;
 }
 .section-title-drivers {
     background: url(../img/courier.png) no-repeat;
+    padding-top: 5px;
 }
 
 .route-summary-table td {

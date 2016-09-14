@@ -26,10 +26,10 @@ public interface TruckManager extends BaseManager<Truck> {
      * Returned trucks are not executing any orders and in working condition.
      *
      * @param city Location of search.
-     * @param cargoWeight Weight of cargo to carry.
+     * @param maxPayload Weight of cargo to carry.
      * @return List of trucks capable to transport this cargo at specified city.
      */
-    List<TruckDTO> findReadyToGoTrucks(City city, int cargoWeight);
+    List<TruckDTO> findReadyToGoTrucks(City city, int maxPayload);
 
     /**
      * Returns a list of all trucks, regardless of their condition and location.
