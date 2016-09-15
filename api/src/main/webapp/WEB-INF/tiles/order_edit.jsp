@@ -106,7 +106,15 @@
 
 <span class="alert" id="table-alert"></span>
 <form method="post">
-    <h1>New order</h1>
+    <c:choose>
+        <c:when test="${requestScope.id}">
+            <h1>Order #${requestScope.id}</h1>
+        </c:when>
+        <c:otherwise>
+            <h1>New order</h1>
+        </c:otherwise>
+
+    </c:choose>
     <h2 class="section-title section-title-cargo">1. Cargo</h2>
 
     <div class="form-group">

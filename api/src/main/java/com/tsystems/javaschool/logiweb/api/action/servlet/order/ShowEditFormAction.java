@@ -58,18 +58,32 @@ public class ShowEditFormAction implements Action {
         List<TruckDTO> trucksCollection = managers.getTruckManager()
                 .findReadyToGoTrucks(order.getDepartureCity(), maxPayload);
 
-        List<DriverJsonDTO> drivers = new LinkedList<DriverJsonDTO>();
+        List<DriverJsonDTO> driversAvail = new LinkedList<>();
 
         if (order.getTruck() != null) {
+
+            // add current truck to truck list collection
+            trucksCollection.add(TruckDTO.fromEntity(order.getTruck()));
+
             int tripHours = managers.getDriverManager()
                     .calculateTripDuration(routeLength, order.getTruck().getMaxDrivers());
 
-            drivers = managers.getDriverManager()
-                    .findDriversForTrip(order.getDepartureCity().getId(),
+            driversAvail = managers.getDriverManager()
+                    .findDriversForTrip(
+                            order.getDepartureCity().getId(),
                             LocalDateTime.now(),
-                            LocalDateTime.now().plusHours(tripHours)).stream()
-                    .map(DriverJsonDTO::map)
-                    .collect(Collectors.toList());
+                            LocalDateTime.now().plusHours(tripHours)
+                    ).stream().map(DriverJsonDTO::map).collect(Collectors.toList());
+
+            // add current drivers to list of available drivers
+            if (!order.getDrivers().isEmpty()) {
+                driversAvail.addAll(
+                        order.getDrivers().stream()
+                            .map(DriverJsonDTO::map)
+                            .collect(Collectors.toList())
+                );
+            }
+
         }
 
         List<DriverJsonDTO> driversSelected = order.getDrivers().stream()
@@ -79,7 +93,7 @@ public class ShowEditFormAction implements Action {
         BootstrapOrderDTO result = new BootstrapOrderDTO(
                 cargoCollection,
                 trucksCollection,
-                drivers,
+                driversAvail,
                 order.getTruck() != null ? order.getTruck().getId() : null,
                 driversSelected,
                 routeLength,

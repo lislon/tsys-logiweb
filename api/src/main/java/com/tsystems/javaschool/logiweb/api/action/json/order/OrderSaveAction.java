@@ -32,8 +32,12 @@ public class OrderSaveAction extends JsonAction {
         OrderDataDTO orderDto = mapper.readValue(req.getReader(), OrderDataDTO.class);
         try {
             SortedSet<OrderWaypoint> waypoints = RouteDTOConverter.getOrderWaypoints(managers.getCityManager(), orderDto);
-
-            Order order = managers.getOrderManager().create(waypoints, orderDto.selectedTruckId, orderDto.selectedDrivers);
+            if (req.getParameter("id") == null) {
+                managers.getOrderManager().create(waypoints, orderDto.selectedTruckId, orderDto.selectedDrivers);
+            } else {
+                int orderId = Integer.parseInt(req.getParameter("id"));
+                managers.getOrderManager().update(orderId, orderDto.selectedTruckId, orderDto.selectedDrivers);
+            }
             return JsonResult.success();
         } catch (BusinessLogicException e) {
             return JsonResult.error("Invalid request " + e.getMessage());

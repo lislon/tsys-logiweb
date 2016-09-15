@@ -108,7 +108,7 @@ function showModal(title, row) {
             lastName: '',
             personalCode: '',
             hoursWorked: 0,
-            status: '',
+            status: 'REST',
             city: {
                 id: 0,
                 name: ''

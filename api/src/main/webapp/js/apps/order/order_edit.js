@@ -769,7 +769,8 @@ _.extend(App.OrderController.prototype, Backbone.Events, {
         };
 
         // truck selected, load the drivers
-        $.ajax(CONTEXT_PATH + "/api/order/edit.do", {
+        var id = App.Utils.parseUrl().id;
+        $.ajax(CONTEXT_PATH + "/api/order/edit.do" + (id != null ? '?id=' + id : ''), {
             context: this,
             method: "POST",
             data: JSON.stringify(data),

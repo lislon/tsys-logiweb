@@ -12,7 +12,6 @@ import com.tsystems.javaschool.logiweb.dao.repos.OrderWaypointRepository;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
-import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.exception.RouteNotValidException;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
@@ -243,6 +242,27 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
 
         order.setWaypoints(waypoints);
 
+        assignTruckAndDrivers(truckId, driversIds, order);
+
+        repo.update(order);
+
+        return order;
+    }
+
+    @Override
+    public Collection<Order> findDriverAssignments(String personalNumber) {
+        Collection<Order> ordersForDriver = repo.findOrdersForDriver(personalNumber);
+        return ordersForDriver;
+    }
+
+    @Override
+    public void update(int orderId, Integer selectedTruckId, List<Integer> selectedDrivers) throws EntityNotFoundException {
+        Order o = repo.find(orderId);
+        assignTruckAndDrivers(selectedTruckId, selectedDrivers, o);
+        repo.update(o);
+    }
+
+    private void assignTruckAndDrivers(Integer truckId, Collection<Integer> driversIds, Order order) throws EntityNotFoundException {
         order.setTruck(truckId == null ? null : services.getTruckManager().findOne(truckId));
 
         Set<Driver> drivers = new HashSet<>();
@@ -252,9 +272,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         }
 
         order.setDrivers(drivers);
-
-        repo.update(order);
-
-        return order;
     }
+
+
 }

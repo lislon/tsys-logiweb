@@ -26,7 +26,7 @@ import java.util.SortedSet;
 @Entity
 @Table(name = "orders")
 @Data
-@ToString(exclude = {"waypoints","drivers","cargoes"})
+@ToString(exclude = {"waypoints","drivers"})
 @NoArgsConstructor
 public class Order {
 
@@ -59,8 +59,6 @@ public class Order {
             inverseJoinColumns=@JoinColumn(name="driver_id"))
     private Set<Driver> drivers;
 
-//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-//    private Set<Cargo> cargoes;
 
 
     /**
@@ -74,5 +72,7 @@ public class Order {
         }
         return null;
     }
+
+
 
 }

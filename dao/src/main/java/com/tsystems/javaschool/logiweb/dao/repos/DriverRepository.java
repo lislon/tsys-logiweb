@@ -26,12 +26,14 @@ public class DriverRepository extends BaseRepository<Driver> {
 
     /**
      * Searchs a driver with free status in given city, which have less then `maxHoursWorked` worked.
-     * @param city City, where we search drivers
+     * @param cityId City, where we search drivers
      * @param hoursRemaining
      * @return
      */
     public List<Driver> findFreeDriversInCity(int cityId, int hoursRemaining) {
-        Query query = em.createQuery("from Driver d where d.city.id = :cityId and d.status = :status and d.hoursWorked < :maxHoursWorked");
+        Query query = em.createQuery("from Driver d " +
+                "where d.city.id = :cityId and d.status = :status and d.hoursWorked < :maxHoursWorked " +
+                "and not exists (from Order o join o.drivers od where od = d and o.isCompleted = false )");
 
         query.setParameter("cityId", cityId);
         query.setParameter("status", Driver.Status.REST);

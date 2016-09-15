@@ -85,22 +85,9 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
     private List<TruckDTO> getDTOs(List<Truck> listOfTrucks) {
         return listOfTrucks
                 .stream()
-                .map(TruckManagerImpl::Entity2DTO)
+                .map(TruckDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
-    private static TruckDTO Entity2DTO(Truck t) {
-        if (t == null) {
-            return null;
-        }
-        return new TruckDTO(
-                t.getId(),
-                t.getName(),
-                t.getMaxDrivers(),
-                t.getCapacityKg(),
-                t.getCondition(),
-                t.getCity().getId(),
-                t.getCity().getName()
-        );
-    }
+
 }

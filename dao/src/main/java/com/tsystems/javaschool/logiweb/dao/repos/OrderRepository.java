@@ -12,6 +12,7 @@ import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -44,5 +45,15 @@ public class OrderRepository extends BaseRepository<Order> {
                 "order by ow.waypointWeight asc");
         query.setParameter("id", orderId);
         return (List<OrderWaypoint>)query.getResultList();
+    }
+
+    public Collection<Order> findOrdersForDriver(String personalNumber) {
+        Query query = em.createQuery("from Order o " +
+                "join fetch o.drivers d " +
+                "join fetch o.truck " +
+                "join fetch o.waypoints " +
+                "where d.personalCode = :personalNumber");
+        query.setParameter("personalNumber", personalNumber);
+        return (List<Order>)query.getResultList();
     }
 }

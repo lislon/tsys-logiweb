@@ -3,7 +3,7 @@
  * Igor Avdeev
  */
 
-package com.tsystems.javaschool.logiweb.api.servlet;
+package com.tsystems.javaschool.logiweb.api;
 
 import com.tsystems.javaschool.logiweb.api.action.Action;
 import com.tsystems.javaschool.logiweb.api.action.ActionFactory;
@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * Created by Igor Avdeev on 8/28/16.
  */
-public class HomeServlet extends HttpServlet {
+public class RouteServlet extends HttpServlet {
     private ActionFactory factory = new ActionFactory();
 
     @Override
@@ -45,7 +45,5 @@ public class HomeServlet extends HttpServlet {
                 em.close();
             }
         }
-
-
     }
 }

@@ -7,6 +7,7 @@ package com.tsystems.javaschool.logiweb.api.action;
 
 
 
+import com.tsystems.javaschool.logiweb.api.action.json.assignment.ListAssignmentsAction;
 import com.tsystems.javaschool.logiweb.api.action.json.order.RouteMetaGetAction;
 import com.tsystems.javaschool.logiweb.api.action.json.city.AutocompleteGetAction;
 import com.tsystems.javaschool.logiweb.api.action.json.driver.DriverListAction;
@@ -57,10 +58,12 @@ public class ActionFactory {
         actions.put("POST /api/driver/edit.do",     new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverUpdateAction());
         actions.put("DELETE /api/driver/edit.do",   new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverDeleteAction());
 
+        // assignment
+        actions.put("GET /assignment/list.do",    new com.tsystems.javaschool.logiweb.api.action.servlet.assignment.ShowFormAssignmentsAction());
+        actions.put("GET /api/assignment/list.do",    new ListAssignmentsAction());
 
-//        actions.put("GET /order/list.do", new com.tsystems.javaschool.logiweb.api.action.servlet.truck.DriverListAction());
-//        actions.put("GET /order/edit.do", new DriverFormEditAction());
-
+        // cargoes
+        actions.put("GET /cargo/list.do",    new com.tsystems.javaschool.logiweb.api.action.servlet.assignment.ShowFormAssignmentsAction());
     }
 
     public Action getAction(HttpServletRequest req) {

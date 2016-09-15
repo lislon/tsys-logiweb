@@ -9,11 +9,8 @@ import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
-import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.exception.RouteNotValidException;
-
-import javafx.print.Collation;
 
 import java.util.*;
 
@@ -68,4 +65,15 @@ public interface OrderManager extends BaseManager<Order> {
      */
     Order create(SortedSet<OrderWaypoint> waypoints, Integer truckId, Collection<Integer> driversIds)
             throws RouteNotValidException, EntityNotFoundException;
+
+    Collection<Order> findDriverAssignments(String personalNumber);
+
+    /**
+     * Update selectedTruckId and selectedDrivers for Order
+     *
+     * @param orderId
+     * @param selectedTruckId
+     * @param selectedDrivers
+     */
+    void update(int orderId, Integer selectedTruckId, List<Integer> selectedDrivers) throws EntityNotFoundException;
 }

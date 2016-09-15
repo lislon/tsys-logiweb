@@ -7,6 +7,7 @@ package com.tsystems.javaschool.logiweb.dao.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -21,6 +22,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "trucks")
+@ToString(exclude = "orders")
 @Data
 @NoArgsConstructor
 public class Truck {

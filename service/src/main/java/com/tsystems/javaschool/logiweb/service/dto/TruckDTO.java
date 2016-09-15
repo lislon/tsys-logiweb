@@ -22,4 +22,20 @@ public class TruckDTO {
     public final Truck.Condition condition;
     public final int cityId;
     public final String cityName;
+
+    public static TruckDTO fromEntity(Truck t) {
+        if (t == null) {
+            return null;
+        }
+        return new TruckDTO(
+                t.getId(),
+                t.getName(),
+                t.getMaxDrivers(),
+                t.getCapacityKg(),
+                t.getCondition(),
+                t.getCity().getId(),
+                t.getCity().getName()
+        );
+    }
+
 }

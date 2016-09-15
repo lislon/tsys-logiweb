@@ -5,5 +5,7 @@
         <m:navmenuitem url="/order/list.do" highlight="/order/" title="Orders"/>
         <m:navmenuitem url="/driver/list.do" highlight="/driver/" title="Drivers"/>
         <m:navmenuitem url="/truck/list.do" highlight="/truck/" title="Trucks"/>
+        <m:navmenuitem url="/assignment/list.do" highlight="/assignment/" title="Assignment"/>
     </ul>
 </div>
+

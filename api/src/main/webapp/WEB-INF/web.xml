@@ -52,7 +52,7 @@
 
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>com.tsystems.javaschool.logiweb.api.servlet.HomeServlet</servlet-class>
+        <servlet-class>com.tsystems.javaschool.logiweb.api.RouteServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
