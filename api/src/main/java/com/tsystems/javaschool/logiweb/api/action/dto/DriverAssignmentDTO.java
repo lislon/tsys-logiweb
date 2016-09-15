@@ -19,4 +19,5 @@ public class DriverAssignmentDTO {
     public List<WaypointDTO> waypoints;
     public String truckName;
     public String routeDescription;
+    public String status;
 }

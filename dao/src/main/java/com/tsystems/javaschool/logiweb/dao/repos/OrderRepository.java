@@ -51,7 +51,6 @@ public class OrderRepository extends BaseRepository<Order> {
         Query query = em.createQuery("from Order o " +
                 "join fetch o.drivers d " +
                 "join fetch o.truck " +
-                "join fetch o.waypoints " +
                 "where d.personalCode = :personalNumber");
         query.setParameter("personalNumber", personalNumber);
         return (List<Order>)query.getResultList();

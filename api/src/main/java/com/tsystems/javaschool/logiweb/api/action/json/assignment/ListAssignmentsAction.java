@@ -27,6 +27,10 @@ public class ListAssignmentsAction extends JsonAction {
         if (req.getParameter("personalNumber") == null) {
             return JsonResult.list(Collections.emptyList());
         }
+
+        // save personal number per session
+        req.getSession().setAttribute("personalNumber", req.getParameter("personalNumber"));
+
         Collection<Order> orders = managers.getOrderManager()
                 .findDriverAssignments(req.getParameter("personalNumber"));
 
@@ -45,7 +49,8 @@ public class ListAssignmentsAction extends JsonAction {
                                     w.getCargo().getName()
                             )).collect(Collectors.toList()),
                     o.getTruck().getName(),
-                    o.getWaypoints().first().getCity().getName() + " -> " + o.getWaypoints().last().getCity().getName()
+                    o.getWaypoints().first().getCity().getName() + " -> " + o.getWaypoints().last().getCity().getName(),
+                    o.isCompleted() ? "Completed" : "Not completed"
             ));
         }
 
