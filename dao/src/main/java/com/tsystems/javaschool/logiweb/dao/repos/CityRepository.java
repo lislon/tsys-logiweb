@@ -28,8 +28,7 @@ public class CityRepository extends BaseRepository<City> {
      * @param search Beginning of city name
      * @return List of matching cities (max 10 items)
      */
-    public Collection<City> getAutocompleteCities(String search)
-    {
+    public Collection<City> getAutocompleteCities(String search) {
         Query query = em.createQuery("from City c " +
                 "where c.name like :name " +
                 "order by c.name asc");

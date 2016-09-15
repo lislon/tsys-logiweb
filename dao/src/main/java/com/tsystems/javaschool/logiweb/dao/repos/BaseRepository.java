@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
- * Created by Igor Avdeev on 8/24/16.
+ * Provides basic methods for working with raw Entities.
  */
 public abstract class BaseRepository<T> {
 
@@ -24,10 +24,20 @@ public abstract class BaseRepository<T> {
         this.em = em;
     }
 
+    /**
+     * Creates (persist) the entity into database.
+     *
+     * @param entity
+     */
     public void create(T entity) {
         em.persist(entity);
     }
 
+    /**
+     * Updates the entity (Key must be set).
+     *
+     * @param entity
+     */
     public void update(T entity) {
         em.merge(entity);
     }
@@ -41,6 +51,11 @@ public abstract class BaseRepository<T> {
         return false;
     }
 
+    /**
+     * Retrieves all values of entity from database.
+     *
+     * @return
+     */
     public List<T> findAll() {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<T> query = criteriaBuilder.createQuery(classType);
@@ -49,6 +64,12 @@ public abstract class BaseRepository<T> {
         return em.createQuery(query).getResultList();
     }
 
+    /**
+     * Searchs single value by primary key.
+     *
+     * @param key Primary key
+     * @return Enity or null when entity not found.
+     */
     public T find(Object key) {
         return em.find(classType, key);
     }

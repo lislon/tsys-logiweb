@@ -17,7 +17,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Set;
 
 /**
- * Created by Igor Avdeev on 8/23/16.
+ * Cargo for transportation (Contains in OrderWaypoint)
  */
 @Entity
 @Table(name = "cargoes")
@@ -32,24 +32,39 @@ public class Cargo {
     @Column(name = "id")
     private int id;
 
+    /**
+     * Unique cargo identifier for given order.
+     */
     @Column(name = "name")
     @NotNull
     @Size(min = 1)
     private String name;
 
+    /**
+     * Cargo description.
+     */
     @Column(name = "title")
     @NotNull
     @Size(min = 1)
     private String title;
 
+    /**
+     * Cargo weight in kg.
+     */
     @Column(name = "weight")
     @Min(1)
     private Integer weight;
 
+    /**
+     * Owning order.
+     */
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
+    /**
+     * Order waypoints where operations are carried with this cargo.
+     */
     @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL)
     private Set<OrderWaypoint> waypoints;
 

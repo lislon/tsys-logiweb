@@ -66,6 +66,12 @@ public interface OrderManager extends BaseManager<Order> {
     Order create(SortedSet<OrderWaypoint> waypoints, Integer truckId, Collection<Integer> driversIds)
             throws RouteNotValidException, EntityNotFoundException;
 
+    /**
+     * Returns a list of orders where given driver is involved.
+     *
+     * @param personalNumber Personal driver number
+     * @return
+     */
     Collection<Order> findDriverAssignments(String personalNumber);
 
     /**

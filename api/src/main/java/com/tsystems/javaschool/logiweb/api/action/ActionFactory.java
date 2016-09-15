@@ -59,8 +59,8 @@ public class ActionFactory {
         actions.put("DELETE /api/driver/edit.do",   new com.tsystems.javaschool.logiweb.api.action.json.driver.DriverDeleteAction());
 
         // assignment
-        actions.put("GET /assignment/list.do",    new com.tsystems.javaschool.logiweb.api.action.servlet.assignment.ShowFormAssignmentsAction());
-        actions.put("GET /api/assignment/list.do",    new ListAssignmentsAction());
+        actions.put("GET /assignment/list.do",      new com.tsystems.javaschool.logiweb.api.action.servlet.assignment.ShowFormAssignmentsAction());
+        actions.put("GET /api/assignment/list.do",  new ListAssignmentsAction());
 
         // cargoes
         actions.put("GET /cargo/list.do",    new com.tsystems.javaschool.logiweb.api.action.servlet.assignment.ShowFormAssignmentsAction());

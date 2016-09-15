@@ -33,6 +33,7 @@ public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
 
     /**
      * Persist the entity
+     *
      * @param entity
      */
     public void save(E entity)
@@ -40,11 +41,23 @@ public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
         repo.create(entity);
     }
 
+    /**
+     * Retrieve entity by primary key.
+     *
+     * @param key
+     * @return Entity or null when it's not found
+     */
     public E find(int key)
     {
         return repo.find(key);
     }
 
+    /**
+     * Retrieve entity by primary key or throw exception if it's not found
+     * @param key
+     * @return Entity
+     * @throws EntityNotFoundException
+     */
     public E findOne(int key) throws EntityNotFoundException
     {
         E e = repo.find(key);
@@ -58,6 +71,8 @@ public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
     }
 
     /**
+     * Deletes an entity by primary key.
+     *
      * @param id Entity identifier
      * @return true when entity was deleted, false when entity was not found
      */

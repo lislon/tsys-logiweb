@@ -54,6 +54,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
                     .routeLength(getRouteLength(wp))
                     .status(getOrderStatus(order));
 
+            // Fill departure and desticantion city names when waypoints are present
             if (wp.size() > 0) {
                 builder.cityStartId(wp.first().getCity().getId())
                        .cityStartName(wp.first().getCity().getName())
@@ -61,6 +62,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
                        .cityEndName(wp.last().getCity().getName());
             }
 
+            // Fill truck name if it's assigned.
             if (order.getTruck() != null) {
                 builder.truckName(order.getTruck().getName())
                        .truckId(order.getTruck().getId());
@@ -192,15 +194,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
     public boolean delete(int id) {
         Order o = repo.find(id);
 
-
-
         if (o != null) {
             o.getWaypoints().clear();
-//            for (OrderWaypoint w : o.getWaypoints()) {
-////                OrderWaypoint w2 = waypointRepository.find(w.getId());
-//                waypointRepository.delete(w.getId());
-//            }
-//            o.setWaypoints(new TreeSet<>());
         }
         return super.delete(id);
     }
