@@ -27,9 +27,33 @@ function actionFormatter(value, row) {
     ].join(' ');
 }
 
+function routeLengthFormatter(value) {
+    return value + ' km';
+}
+function payloadFormatter(value) {
+    return value + ' kg';
+}
+function truckFormatter(value, row) {
+    if (value != null) {
+        return '<a href="' + CONTEXT_PATH + '/truck/edit.do?id=' + row.truckId + '">' + value + "";
+    }
+}
+
 function dateFormatter(value) {
     var date = new Date(value);
-    return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
+    var month = date.getMonth();
+    var day = date.getDate();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+
+
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (month   < 10) {month   = "0"+month;}
+    if (day < 10)       {day = "0"+day;}
+
+    return date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
 }
 
 
@@ -43,10 +67,10 @@ window.actionEvents = {
                 type: 'delete',
                 success: function () {
                     $table.bootstrapTable('refresh');
-                    showAlert('Delete item successful!', 'success');
+                    showAlert('Order deleted', 'success');
                 },
                 error: function () {
-                    showAlert('Delete item error!', 'danger');
+                    showAlert('Delete order error!', 'danger');
                 }
             })
         }

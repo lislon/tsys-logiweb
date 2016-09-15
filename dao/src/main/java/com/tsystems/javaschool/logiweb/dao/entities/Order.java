@@ -46,7 +46,7 @@ public class Order {
     @Column(name = "is_completed")
     private boolean isCompleted;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     @OrderBy(clause = "waypointWeight asc")
     private SortedSet<OrderWaypoint> waypoints;
 

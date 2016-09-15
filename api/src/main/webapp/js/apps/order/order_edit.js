@@ -113,6 +113,8 @@ App.CityCollection = Backbone.Collection.extend({
         _.forEach(oldSeqCities, function (id) {
             this.remove(this.where({'id': id}))
         }, this);
+
+        this.trigger('sync');
     },
 
 
@@ -482,12 +484,12 @@ var TruckListView = Backbone.View.extend({
 
     initialize: function (options) {
         this.order = options.order;
-        this.listenTo(this.collection, "update reset", this.render);
-        this.listenTo(this.collection, "update reset", this.resetSelected);
+        this.listenTo(this.collection, "reset", this.render);
+        this.listenTo(this.collection, "reset", this.resetSelected);
     },
 
     events: {
-        'change .truck-selector': 'truckSelected',
+        'change': 'truckSelected',
     },
 
     resetSelected: function () {
@@ -498,15 +500,16 @@ var TruckListView = Backbone.View.extend({
     },
 
     truckSelected: function () {
-        var id = this.$el.find("select").val();
+        var id = this.$el.val();
         this.order.set('selectedTruckId', id == "" ? null : +id);
     },
 
     render: function () {
-        var $select = this.$el.find("select");
 
-        $select.html("");
-        $select.prop("disabled", this.collection.length == 0);
+        var $select = this.$el;
+
+        $select.html('');
+
         if (this.collection.length == 0) {
             $select.append("<option>No available trucks</option>");
         } else {
@@ -514,9 +517,12 @@ var TruckListView = Backbone.View.extend({
             this.collection.forEach(function (truck) {
                 $select.append(this.template(truck.attributes));
             }, this)
-            console.log("Selected truck id=" + this.order.get('selectedTruckId'));
-            $select.val(this.order.get('selectedTruckId'));
+            console.log("Render trucks done. Selected truck id=" + this.order.get('selectedTruckId'));
+            if (this.order.get('selectedTruckId') != null) {
+                $select.val(this.order.get('selectedTruckId'));
+            }
         }
+        $select.prop("disabled", this.collection.length == 0);
         this.$el.selectpicker('refresh')
     }
 });
@@ -529,18 +535,22 @@ var DriverListView = Backbone.View.extend({
     initialize: function (options) {
         this.order = options.order;
 
-        // trucksCollection is needed just to get order.maxDrivers
+        // truckCollection is needed just to get order.maxDrivers
         this.trucksCollection = options.trucksCollection;
         this.listenTo(this.collection, "update reset", this.render);
-        // this.listenTo(this.order, "change:selectedTruckId", this.resetSelected);
+        this.listenTo(this.order, "change:selectedTruckId", this.resetSelected);
     },
 
     events: {
-        'change .driver-selector': 'driverSelected',
+        'change': 'driverSelected',
+    },
+
+    resetSelected: function () {
+        this.$el.selectpicker('deselectAll');
     },
 
     driverSelected: function () {
-        var drivers = this.$el.find("select").val();
+        var drivers = this.$el.val();
         if (typeof drivers !== 'object') {
             drivers = new Array(drivers);
         }
@@ -554,26 +564,30 @@ var DriverListView = Backbone.View.extend({
     },
 
     render: function () {
-        var $select = this.$el.find("select");
+        var $select = this.$el;
 
+
+
+        $select.html("");
+        if (this.collection.length == 0) {
+            $select.append("<option>No available drivers</option>");
+        } else {
+            this.collection.forEach(function (driver) {
+                $select.append(this.template(driver.attributes));
+            }, this)
+        }
+        $select.prop("disabled", this.collection.length == 0);
         // set max variants to choose
         if (this.order.get('selectedTruckId') != null) {
             this.$el.selectpicker({
                 maxOptions: this.order.getMaxDrivers(this.trucksCollection)
             });
+            if (this.order.get('selectedDriversCollection')) {
+                $select.val(this.order.get('selectedDriversCollection').pluck('id'));
+            }
 
         }
 
-        $select.html("");
-        if (this.collection.length == 0) {
-            $select.append("<option>No available drivers</option>");
-            $select.prop("disabled", true);
-        } else {
-            $select.prop("disabled", false);
-            this.collection.forEach(function (driver) {
-                $select.append(this.template(driver.attributes));
-            }, this)
-        }
         this.$el.selectpicker('refresh')
     }
 });
@@ -622,7 +636,7 @@ _.extend(App.OrderController.prototype, Backbone.Events, {
             context: this,
             data: { route: JSON.stringify(request) },
         }).done(function (json) {
-            console.log("Route meta arrived");
+            console.log("Route meta arrived. " + json.trucks.length + " trucks");
             this.order.set('routeLength', json.length);
             this.order.set('requiredCapacity', json.requiredCapacity);
             this.trucksCollection.reset(json.trucks);
@@ -633,18 +647,16 @@ _.extend(App.OrderController.prototype, Backbone.Events, {
 
     bootstrap: function () {
         if (window.bootstrap != null) {
-            this.trucksCollection.reset(window.bootstrap.trucksCollection);
+            this.trucksCollection.reset(window.bootstrap.truckCollection);
+            this.driversCollection.reset(window.bootstrap.driverCollection);
+
             this.order.get('cargoCollection').reset(window.bootstrap.cargoCollection);
-            this.order.get('driverCollection').reset(window.bootstrap.driverCollection);
-            this.order.get('selectedDriversCollection').reset(window.bootstrap.driversSelectedCollection);
+            this.order.get('selectedDriversCollection').reset(window.bootstrap.selectedDriverCollection);
+            this.order.set('routeLength', window.bootstrap.routeLength);
+            this.order.set('requiredCapacity', window.bootstrap.requiredCapacity);
+            this.order.set('selectedTruckId', window.bootstrap.selectedTruckId);
 
-            // wait till we will receive routeLenght and then display the form with selected driver
-            // this.listenToOnce(this.order, 'change:routeLength', this.updateDriversList);
-
-            // set truckId only when routeLenght is loaded
-            this.listenToOnce(this.order, 'change:routeLength', function () {
-                this.order.set('selectedTruckId', window.bootstrap.selectedTruckId);
-            });
+            this.refreshCitiesOrder();
 
             return true;
         }
@@ -652,6 +664,9 @@ _.extend(App.OrderController.prototype, Backbone.Events, {
     },
 
     start: function () {
+
+        this.bootstrap();
+
 
         // refresh cities when something changes in cargoes
         this.listenTo(this.order.get('cargoCollection'), [
@@ -668,9 +683,9 @@ _.extend(App.OrderController.prototype, Backbone.Events, {
         ].join(' '), this.refreshMetaAndGetDrivers);
 
         // update meta when changing city order
-        this.listenTo(this.order.get('cityOrderCollection'), 'update', this.refreshMetaAndGetDrivers);
+        this.listenTo(this.order.get('cityOrderCollection'), 'sync', this.refreshMetaAndGetDrivers);
 
-        this.listenTo(this.order, 'change:selectedTruckId', this.updateDriversList)
+        this.listenTo(this.order, 'change:selectedTruckId', this.updateDriversList);
 
         // cargo table
         var viewCargoes = new CargoTableView({collection: this.order.get('cargoCollection')});
@@ -688,7 +703,13 @@ _.extend(App.OrderController.prototype, Backbone.Events, {
 
         $("#submit").click(_.bind(this.onSubmitClicked, this));
 
-        this.bootstrap();
+        if (window.bootstrap != null) {
+            viewCargoes.render();
+            this.viewCities.render();
+            viewRouteSummary.render();
+            viewTruckList.render();
+            viewDriverList.render();
+        }
     },
 
 
@@ -734,7 +755,7 @@ _.extend(App.OrderController.prototype, Backbone.Events, {
     onSubmitClicked: function () {
         // this.order.get('cargoCollection').reset(window.bootstrap.cargoCollection);
         // this.order.get('driverCollection').reset(window.bootstrap.driverCollection);
-        // this.order.get('selectedDriversCollection').reset(window.bootstrap.driversSelectedCollection);
+        // this.order.get('selectedDriverCollection').reset(window.bootstrap.driversSelectedCollection);
 
         var data = {
             cargoes:    this.order.get('cargoCollection').map(function (cargo) {

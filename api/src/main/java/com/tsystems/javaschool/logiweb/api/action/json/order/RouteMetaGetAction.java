@@ -23,6 +23,7 @@ import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,17 +56,20 @@ public class RouteMetaGetAction extends JsonAction {
 
             int maxPayload = orderManager.getMaxPayload(waypoints);
             int routeLength = orderManager.getRouteLength(waypoints);
+            List<TruckJsonDTO> truckList = new LinkedList<>();
 
-            List<TruckJsonDTO> truckList = truckManager
-                    .findReadyToGoTrucks(cities.get(0), maxPayload)
-                    .stream()
-                    .map(truck -> new TruckJsonDTO(
-                            truck.getId(),
-                            truck.getName(),
-                            truck.getMaxDrivers(),
-                            (int)Math.floor(truck.getCapacityKg() / 1000)
-                    ))
-                    .collect(Collectors.toList());
+            if (cities.size() > 0) {
+                truckList = truckManager
+                        .findReadyToGoTrucks(cities.get(0), maxPayload)
+                        .stream()
+                        .map(truck -> new TruckJsonDTO(
+                                truck.getId(),
+                                truck.getName(),
+                                truck.getMaxDrivers(),
+                                (int) Math.floor(truck.getCapacityKg() / 1000)
+                        ))
+                        .collect(Collectors.toList());
+            }
 
 
             RouteMetaResponseDTO result = new RouteMetaResponseDTO(

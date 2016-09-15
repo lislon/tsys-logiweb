@@ -43,7 +43,11 @@ public class ServiceContainer {
 
     public OrderManager getOrderManager()
     {
-        return (OrderManager)transactionProxy.createProxy(new OrderManagerImpl(new OrderRepository(em), new CargoRepository(em), this));
+        return (OrderManager)transactionProxy.createProxy(new OrderManagerImpl(
+                new OrderRepository(em),
+                new CargoRepository(em),
+                new OrderWaypointRepository(em),
+                this));
     }
 
     public DriverManager getDriverManager()

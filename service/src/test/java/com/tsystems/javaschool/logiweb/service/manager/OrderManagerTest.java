@@ -8,10 +8,7 @@ package com.tsystems.javaschool.logiweb.service.manager;
 import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
-import com.tsystems.javaschool.logiweb.dao.repos.CargoRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
+import com.tsystems.javaschool.logiweb.dao.repos.*;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.impl.CityManagerImpl;
 import com.tsystems.javaschool.logiweb.service.impl.DriverManagerImpl;
@@ -33,6 +30,7 @@ public class OrderManagerTest {
 
     OrderRepository mockRepo;
     CargoRepository  cargoRepo;
+    OrderWaypointRepository waypointRepo;
     OrderManagerImpl manager;
     ServiceContainer container;
 
@@ -40,8 +38,9 @@ public class OrderManagerTest {
     public void createManager() {
         mockRepo = mock(OrderRepository.class);
         cargoRepo = mock(CargoRepository.class);
+        waypointRepo = mock(OrderWaypointRepository.class);
         container = mock(ServiceContainer.class);
-        manager = new OrderManagerImpl(mockRepo, cargoRepo, container);
+        manager = new OrderManagerImpl(mockRepo, cargoRepo, waypointRepo, container);
 
     }
 

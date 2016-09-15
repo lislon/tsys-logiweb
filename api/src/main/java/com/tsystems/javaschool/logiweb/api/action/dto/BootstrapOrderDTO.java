@@ -21,8 +21,10 @@ import java.util.Collection;
 @Data
 public class BootstrapOrderDTO {
     public Collection<OrderCargoDTO> cargoCollection;
-    public Collection<TruckDTO> trucksCollection;
-    public Collection<DriverJsonDTO> driversCollection;
+    public Collection<TruckDTO> truckCollection;
+    public Collection<DriverJsonDTO> driverCollection;
     public Integer selectedTruckId;
-    public Collection<DriverJsonDTO> selectedDriversCollection;
+    public Collection<DriverJsonDTO> selectedDriverCollection;
+    public Integer routeLength;
+    public Integer requiredCapacity;
 }

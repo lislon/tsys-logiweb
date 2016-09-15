@@ -81,7 +81,9 @@ public class ShowEditFormAction implements Action {
                 trucksCollection,
                 drivers,
                 order.getTruck() != null ? order.getTruck().getId() : null,
-                driversSelected
+                driversSelected,
+                routeLength,
+                maxPayload
         );
 
         // Save data to jackson

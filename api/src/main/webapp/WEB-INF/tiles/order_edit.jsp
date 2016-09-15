@@ -136,14 +136,14 @@
     <div>
         <h2 class="section-title section-title-truck">3. Truck</h2>
         <div class="form-group">
-            <select class="selectpicker truck-selector" name="truck">
+            <select class="selectpicker truck-selector" name="truck" id="truck-selector">
             </select>
         </div>
     </div>
     <div>
         <h2 class="section-title section-title-drivers">4. Drivers<small></small></h2>
         <div class="form-group">
-            <select class="selectpicker driver-selector" multiple disabled name="drivers">
+            <select class="selectpicker driver-selector" multiple disabled name="drivers" id="driver-selector">
             </select>
         </div>
     </div>

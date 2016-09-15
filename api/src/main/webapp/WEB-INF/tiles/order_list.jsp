@@ -11,11 +11,11 @@
     <thead>
     <tr>
         <th data-field="id">Order Id</th>
-        <th data-field="truckName">Truck</th>
+        <th data-field="truckName" data-formatter="truckFormatter">Truck</th>
         <th data-field="cityStartName">Departure city</th>
         <th data-field="cityEndName">Arrival city</th>
-        <th data-field="routeLength">Route lenght</th>
-        <th data-field="maxPayload">Max payload</th>
+        <th data-field="routeLength" data-formatter="routeLengthFormatter">Route lenght</th>
+        <th data-field="maxPayload" data-formatter="payloadFormatter">Max payload</th>
         <th data-field="dateCreated" data-formatter="dateFormatter">Date</th>
         <th data-field="status">Status</th>
         <th data-field="action"

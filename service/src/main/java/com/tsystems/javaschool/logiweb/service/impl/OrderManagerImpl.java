@@ -8,6 +8,7 @@ package com.tsystems.javaschool.logiweb.service.impl;
 import com.tsystems.javaschool.logiweb.dao.entities.*;
 import com.tsystems.javaschool.logiweb.dao.repos.CargoRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
+import com.tsystems.javaschool.logiweb.dao.repos.OrderWaypointRepository;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
@@ -28,10 +29,15 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         implements OrderManager {
 
     private CargoRepository cargoRepository;
+    private OrderWaypointRepository waypointRepository;
 
-    public OrderManagerImpl(OrderRepository orderRepository, CargoRepository cargoRepository, ServiceContainer services) {
+    public OrderManagerImpl(OrderRepository orderRepository,
+                            CargoRepository cargoRepository,
+                            OrderWaypointRepository waypointRepository,
+                            ServiceContainer services) {
         super(orderRepository, services);
         this.cargoRepository = cargoRepository;
+        this.waypointRepository = waypointRepository;
     }
 
     @Override
@@ -184,6 +190,23 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
     }
 
     @Override
+    public boolean delete(int id) {
+        Order o = repo.find(id);
+
+
+
+        if (o != null) {
+            o.getWaypoints().clear();
+//            for (OrderWaypoint w : o.getWaypoints()) {
+////                OrderWaypoint w2 = waypointRepository.find(w.getId());
+//                waypointRepository.delete(w.getId());
+//            }
+//            o.setWaypoints(new TreeSet<>());
+        }
+        return super.delete(id);
+    }
+
+    @Override
     public Order create(SortedSet<OrderWaypoint> waypoints, Integer truckId, Collection<Integer> driversIds)
             throws RouteNotValidException, EntityNotFoundException {
 
@@ -194,8 +217,6 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
 
         // we need order.id in further operations
         repo.create(order);
-
-
 
         // replace same objects, that are same by equals by their references.
         HashMap<Cargo, Cargo> uniqueCargoes = new HashMap<>();
@@ -236,6 +257,4 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
 
         return order;
     }
-
-
 }

@@ -14,6 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.util.Set;
 
 /**
  * Created by Igor Avdeev on 8/23/16.
@@ -50,6 +51,10 @@ public class Truck {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+    @OneToMany(mappedBy = "truck")
+    private Set<Order> orders;
+
 
     public int getCapacityKg() {
         return capacityKg;

@@ -21,7 +21,11 @@ public class TruckRepository extends BaseRepository<Truck> {
 
     public List<Truck> findReadyToGoTrucks(City city, int minCapacity) {
         return em.createQuery("select t from Truck t " +
-                "where t.condition = :condition and t.capacityKg >= :min_capacity and t.city = :city")
+                "where " +
+                " t.condition = :condition and " +
+                " t.capacityKg >= :min_capacity and " +
+                " t.city = :city and " +
+                " not exists (from Order o where o.truck = t and o.isCompleted = false)")
                 .setParameter("condition", Truck.Condition.OK)
                 .setParameter("min_capacity", minCapacity)
                 .setParameter("city", city)

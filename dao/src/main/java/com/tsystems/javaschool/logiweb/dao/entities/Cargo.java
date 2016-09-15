@@ -14,12 +14,14 @@ import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.Set;
+
 /**
  * Created by Igor Avdeev on 8/23/16.
  */
 @Entity
 @Table(name = "cargoes")
-@ToString(exclude = "order")
+@ToString(exclude = {"order", "waypoints"})
 @Data
 @NoArgsConstructor
 public class Cargo {
@@ -47,6 +49,10 @@ public class Cargo {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+    @OneToMany(mappedBy = "cargo", cascade = CascadeType.ALL)
+    private Set<OrderWaypoint> waypoints;
+
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

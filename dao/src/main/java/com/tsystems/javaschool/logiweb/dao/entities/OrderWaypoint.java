@@ -14,6 +14,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Igor Avdeev on 9/3/16.
@@ -43,15 +44,16 @@ public class OrderWaypoint implements Comparable<OrderWaypoint> {
     private Operation operation;
 
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cargo_id")
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "cargo_id", nullable = false)
     private Cargo cargo;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @Column(name = "waypoint_weight")

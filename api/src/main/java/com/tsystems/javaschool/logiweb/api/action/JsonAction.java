@@ -32,10 +32,6 @@ public abstract class JsonAction implements Action {
             result.write(resp);
         } catch (NumberFormatException e) {
             JsonResult.wrongArgs("Mailformed parameter (Sorry, you have to guess it's name by youself)").write(resp);
-        } catch (IOException e) {
-            JsonResult.error(e.getMessage()).write(resp);
-            logger.warn("Error on request: " + req.getRequestURI(), e);
-            throw e;
         } catch (Exception e) {
             JsonResult.error(e.getMessage()).write(resp);
             logger.error("Error on request: " + req.getRequestURI(), e);
