@@ -6,11 +6,11 @@
 package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
+import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.InvalidStateException;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,21 +21,45 @@ public interface DriverManager extends BaseManager<Driver> {
     /**
      * Find unassigned drivers in city `departure` available to work from now till tillDate.
      *
-     * @param cityId City in which we search drivers.
+     * @param cityId
+     * @param dutyStart
      * @param dutyEnd
      * @return
      */
-    List<Driver> findDriversForTrip(Integer cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd);
+    List<Driver> findDriversForTrip(int cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd);
 
     /**
-     * Return approximation of trip duration with given number of drivers.
+     * Adds new driver to database.
      *
-     * @param routeLength Route length in km
-     * @param numDrivers  Number of drivers in truck
-     * @return double number of total hours required to do trip, include rest time.
+     * @param driverData Driver fields
+     * @throws EntityNotFoundException when driver city not found
      */
-    int calculateTripDuration(int routeLength, int numDrivers);
+    int create(DriverDTO driverData) throws EntityNotFoundException;
 
-    void save(Driver entity, int cityId, Integer truckId)
-            throws EntityNotFoundException;
+    /**
+     * Updates driver information in database.
+     *
+     * @param id Driver id
+     * @param driverData Driver fields
+     * @throws EntityNotFoundException when driver city not found
+     */
+    void update(int id, DriverDTO driverData) throws EntityNotFoundException;
+
+    /**
+     * Returns Driver or throws exception.
+     *
+     * @param id
+     * @return
+     * @throws EntityNotFoundException
+     */
+    DriverDTO findDto(int id) throws EntityNotFoundException;
+
+    /**
+     * Changes driver status for given order (OffDuty, OnDuty, OnDutyRest).
+     *
+     * @param driverId
+     * @param newStatus
+     */
+    void changeDriverStatus(int driverId, Driver.Status newStatus) throws EntityNotFoundException, InvalidStateException;
+
 }

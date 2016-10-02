@@ -8,10 +8,12 @@
     <artifactId>logiweb</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+
     <modules>
         <module>dao</module>
         <module>service</module>
         <module>api</module>
+        <!--<module>..</module>-->
     </modules>
 
 
@@ -22,6 +24,11 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring.version>4.3.2.RELEASE</spring.version>
+        <spring-security.version>4.1.2.RELEASE</spring-security.version>
+        <hibernate.version>5.1.1.Final</hibernate.version>
+
+
     </properties>
 
     <developers>
@@ -31,12 +38,6 @@
     </developers>
 
     <dependencies>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
 
         <!-- Logging -->
         <dependency>
@@ -54,6 +55,37 @@
             <artifactId>log4j-core</artifactId>
             <version>2.6.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
+
 
     </dependencies>
     <reporting>

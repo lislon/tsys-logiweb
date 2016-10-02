@@ -2,6 +2,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
     <persistence-unit name="logiweb">
+        <description>This is the development application database</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.tsystems.javaschool.logiweb.dao.entities.Driver</class>
         <class>com.tsystems.javaschool.logiweb.dao.entities.Truck</class>
@@ -12,14 +13,15 @@
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/logiweb"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.username" value="root"/>
-            <property name="hibernate.connection.password" value="toor"/>
+            <property name="hibernate.connection.username" value="logiweb"/>
+            <!--<property name="hibernate.connection.password" value=""/>-->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
             <property name="hibernate.globally_quoted_identifiers" value="true"/>
-            <property name="hibernate.archive.autodetection" value="class"/>
             <property name="hibernate.show_sql" value="false"/>
             <property name="hibernate.format_sql" value="true"/>
-            <property name="hbm2ddl.auto" value="update"/>
+
+            <!-- Scan for annotated classes and Hibernate mapping XML files -->
+            <property name="hibernate.archive.autodetection" value="class"/>
         </properties>
     </persistence-unit>
 </persistence>

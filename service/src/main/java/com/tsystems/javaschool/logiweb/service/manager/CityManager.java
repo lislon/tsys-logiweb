@@ -6,8 +6,6 @@
 package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.City;
-import com.tsystems.javaschool.logiweb.dao.helper.LatLngDistanceCalculator;
-import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
 
 import java.util.Collection;
 

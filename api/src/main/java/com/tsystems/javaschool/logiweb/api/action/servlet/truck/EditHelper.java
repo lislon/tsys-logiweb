@@ -6,10 +6,9 @@
 package com.tsystems.javaschool.logiweb.api.action.servlet.truck;
 
 import com.tsystems.javaschool.logiweb.api.helper.RenderHelper;
+import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
-import com.tsystems.javaschool.logiweb.dao.entities.City;
-import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

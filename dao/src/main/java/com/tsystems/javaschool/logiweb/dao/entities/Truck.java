@@ -29,10 +29,15 @@ public class Truck {
 
     public enum Condition { OK, BROKEN }
 
+    /**
+     * Average truck speed (km/h)
+     */
+    public static final int AVG_TRUCK_SPEED = 80;
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Pattern(regexp = "[A-Z]{2}\\d{5}")
     @Column(name = "name")

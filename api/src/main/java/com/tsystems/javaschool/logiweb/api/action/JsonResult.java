@@ -7,12 +7,10 @@ package com.tsystems.javaschool.logiweb.api.action;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.jms.ObjectMessage;
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
 
 /**
  * Created by Igor Avdeev on 9/12/16.
@@ -58,7 +56,7 @@ public abstract class JsonResult {
         };
     }
 
-    public static JsonResult list(Collection<?> collection) {
+    public static JsonResult list(Iterable<?> collection) {
         return JsonResult.object(collection);
     }
 

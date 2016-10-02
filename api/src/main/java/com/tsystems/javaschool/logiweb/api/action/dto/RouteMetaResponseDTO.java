@@ -5,6 +5,7 @@
 
 package com.tsystems.javaschool.logiweb.api.action.dto;
 
+import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -16,5 +17,5 @@ import java.util.List;
 public class RouteMetaResponseDTO {
     public int length;
     public int requiredCapacity;
-    public List<TruckJsonDTO> trucks;
+    public List<TruckDTO> trucks;
 }

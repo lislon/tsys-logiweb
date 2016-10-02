@@ -17,6 +17,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Null;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -30,10 +31,12 @@ import java.util.SortedSet;
 @NoArgsConstructor
 public class Order {
 
+    public enum Status {NEW, PREPARED, FINISHED};
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "date_created")
     @UpdateTimestamp
@@ -41,7 +44,7 @@ public class Order {
 
     @Column(name = "date_completed")
     @Null
-    private Timestamp dateCompleted;
+    private Date dateCompleted;
 
     @Column(name = "is_completed")
     private boolean isCompleted;

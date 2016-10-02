@@ -5,7 +5,8 @@
 
 package com.tsystems.javaschool.logiweb.api.action.dto;
 
-import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
+import com.tsystems.javaschool.logiweb.api.action.dto.driver.DriverJsonDTO;
+import com.tsystems.javaschool.logiweb.service.dto.CargoLegDTO;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,8 +20,9 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+
 public class BootstrapOrderDTO {
-    public Collection<OrderCargoDTO> cargoCollection;
+    public Collection<CargoLegDTO> cargoCollection;
     public Collection<TruckDTO> truckCollection;
     public Collection<DriverJsonDTO> driverCollection;
     public Integer selectedTruckId;
