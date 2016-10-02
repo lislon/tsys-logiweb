@@ -5,16 +5,13 @@
 
 package com.tsystems.javaschool.logiweb.api.action.json.order;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsystems.javaschool.logiweb.api.action.JsonAction;
 import com.tsystems.javaschool.logiweb.api.action.JsonResult;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
 
-import javax.json.Json;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Collection;
 
 /**

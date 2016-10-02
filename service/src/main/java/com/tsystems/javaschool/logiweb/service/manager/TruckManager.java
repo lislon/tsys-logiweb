@@ -29,7 +29,7 @@ public interface TruckManager extends BaseManager<Truck> {
      * @param maxPayload Weight of cargo to carry.
      * @return List of trucks capable to transport this cargo at specified city.
      */
-    List<TruckDTO> findReadyToGoTrucks(City city, int maxPayload);
+    List<TruckDTO> findReadyToGoTrucks(City city, Integer maxPayload);
 
     /**
      * Returns a list of all trucks, regardless of their condition and location.
@@ -47,5 +47,5 @@ public interface TruckManager extends BaseManager<Truck> {
      * @throws EntityNotFoundException when cityId is not found
      * @throws DuplicateKeyException when truck with same name already exists
      */
-    void save(Truck truck, int cityId) throws EntityNotFoundException, DuplicateKeyException;
+    void save(Truck truck, Integer cityId) throws EntityNotFoundException, DuplicateKeyException;
 }

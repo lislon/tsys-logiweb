@@ -15,44 +15,48 @@ import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
 import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import javax.persistence.EntityManager;
 
 /**
  * Created by Igor Avdeev on 9/12/16.
  */
-public class ServiceContainer {
+public class ServiceContainer implements ApplicationContextAware {
 
-    private EntityManager em;
-    private TransactionProxy transactionProxy;
+    private ApplicationContext appContext;
 
-    public ServiceContainer(EntityManager em) {
-        this.em = em;
-        this.transactionProxy = new TransactionProxy(em);
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.appContext = applicationContext;
+    }
+
+    private ApplicationContext context;
+
+    public ServiceContainer(ApplicationContext appContext) {
+        this.appContext = appContext;
     }
 
     public TruckManager getTruckManager()
     {
-        return (TruckManager)transactionProxy.createProxy(new TruckManagerImpl(new TruckRepository(em), this));
+        return context.getBean(TruckManagerImpl.class);
     }
 
     public CityManager getCityManager()
     {
-        return (CityManager)transactionProxy.createProxy(new CityManagerImpl(new CityRepository(em), this));
+        return context.getBean(CityManagerImpl.class);
     }
 
     public OrderManager getOrderManager()
     {
-        return (OrderManager)transactionProxy.createProxy(new OrderManagerImpl(
-                new OrderRepository(em),
-                new CargoRepository(em),
-                new OrderWaypointRepository(em),
-                this));
+        return context.getBean(OrderManagerImpl.class);
     }
 
     public DriverManager getDriverManager()
     {
-        return (DriverManager)transactionProxy.createProxy(new DriverManagerImpl(new DriverRepository(em), this));
+        return context.getBean(DriverManagerImpl.class);
     }
 
 }

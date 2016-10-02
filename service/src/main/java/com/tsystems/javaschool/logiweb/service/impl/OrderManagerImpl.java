@@ -9,13 +9,16 @@ import com.tsystems.javaschool.logiweb.dao.entities.*;
 import com.tsystems.javaschool.logiweb.dao.repos.CargoRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderWaypointRepository;
-import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.exception.RouteNotValidException;
+import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
 import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
+import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,19 +27,24 @@ import java.util.stream.Collectors;
 /**
  * Created by Igor Avdeev on 9/3/16.
  */
+@Service
 public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         implements OrderManager {
 
     private CargoRepository cargoRepository;
     private OrderWaypointRepository waypointRepository;
+    private CityManager cityManager;
+    private DriverManager driverManager;
+    private TruckManager truckManager;
 
-    public OrderManagerImpl(OrderRepository orderRepository,
-                            CargoRepository cargoRepository,
-                            OrderWaypointRepository waypointRepository,
-                            ServiceContainer services) {
-        super(orderRepository, services);
+    @Autowired
+    public OrderManagerImpl(OrderRepository orderRepository, CargoRepository cargoRepository, OrderWaypointRepository waypointRepository, CityManager cityManager, DriverManager driverManager, TruckManager truckManager) {
+        super(orderRepository);
         this.cargoRepository = cargoRepository;
         this.waypointRepository = waypointRepository;
+        this.cityManager = cityManager;
+        this.driverManager = driverManager;
+        this.truckManager = truckManager;
     }
 
     @Override
@@ -74,7 +82,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
     }
 
     @Override
-    public Collection<OrderCargoDTO> getOrderCargoes(int orderId) {
+    public Collection<OrderCargoDTO> getOrderCargoes(Integer orderId) {
         Map<Integer, OrderCargoDTO> cargoes = new HashMap<>();
         List<OrderWaypoint> orderWaypoints = repo.findOrderWaypoints(orderId);
 
@@ -120,7 +128,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
      * @return route length in KM
      */
     @Override
-    public int getRouteLength(Collection<OrderWaypoint> waypointCollection) {
+    public Integer getRouteLength(Collection<OrderWaypoint> waypointCollection) {
 
         if (waypointCollection.size() <= 1) {
             return 0;
@@ -132,10 +140,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         while (iterator.hasNext()) {
             City thisCity = iterator.next().getCity();
             if (!thisCity.equals(lastCity)) {
-                totalDistance += services.getCityManager().getDistance(
-                        lastCity,
-                        thisCity
-                );
+                totalDistance += cityManager.getDistance( lastCity, thisCity );
             }
             lastCity = thisCity;
         }
@@ -174,7 +179,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
      * @return Maximum weight carried for single segment (in kg)
      */
     @Override
-    public int getMaxPayload(Collection<OrderWaypoint> waypointCollection) {
+    public Integer getMaxPayload(Collection<OrderWaypoint> waypointCollection) {
         int maxPayload = 0;
         Set<Cargo> cargoOnBoard = new HashSet<>();
         for (OrderWaypoint p : waypointCollection) {
@@ -191,8 +196,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
     }
 
     @Override
-    public boolean delete(int id) {
-        Order o = repo.find(id);
+    public boolean delete(Integer id) {
+        Order o = repo.findOne(id);
 
         if (o != null) {
             o.getWaypoints().clear();
@@ -210,7 +215,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         Order order = new Order();
 
         // we need order.id in further operations
-        repo.create(order);
+        repo.save(order);
 
         // replace same objects, that are same by equals by their references.
         HashMap<Cargo, Cargo> uniqueCargoes = new HashMap<>();
@@ -232,14 +237,14 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
             }
 
             waypoint.setOrder(order);
-            cargoRepository.create(cargo);
+            cargoRepository.save(cargo);
         }
 
         order.setWaypoints(waypoints);
 
         assignTruckAndDrivers(truckId, driversIds, order);
 
-        repo.update(order);
+        repo.save(order);
 
         return order;
     }
@@ -251,23 +256,20 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
     }
 
     @Override
-    public void update(int orderId, Integer selectedTruckId, List<Integer> selectedDrivers) throws EntityNotFoundException {
-        Order o = repo.find(orderId);
+    public void update(Integer orderId, Integer selectedTruckId, List<Integer> selectedDrivers) throws EntityNotFoundException {
+        Order o = findOneOrDie(orderId);
         assignTruckAndDrivers(selectedTruckId, selectedDrivers, o);
-        repo.update(o);
+        repo.save(o);
     }
 
     private void assignTruckAndDrivers(Integer truckId, Collection<Integer> driversIds, Order order) throws EntityNotFoundException {
-        order.setTruck(truckId == null ? null : services.getTruckManager().findOne(truckId));
+        order.setTruck(truckId == null ? null : truckManager.findOneOrDie(truckId));
 
         Set<Driver> drivers = new HashSet<>();
-        DriverManager driverManager = services.getDriverManager();
         for (Integer driverId : driversIds) {
-            drivers.add(driverManager.findOne(driverId));
+            drivers.add(driverManager.findOneOrDie(driverId));
         }
 
         order.setDrivers(drivers);
     }
-
-
 }

@@ -6,12 +6,10 @@
 package com.tsystems.javaschool.logiweb.api.filter;
 
 import com.tsystems.javaschool.logiweb.api.helper.UserAlert;
-import org.springframework.http.server.ServerHttpRequest;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.registry.infomodel.User;
 import java.io.IOException;
 
 /**

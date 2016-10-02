@@ -8,23 +8,31 @@ package com.tsystems.javaschool.logiweb.service.impl;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.dao.repos.TruckRepository;
-import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import com.tsystems.javaschool.logiweb.service.exception.DuplicateKeyException;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by Igor Avdeev on 8/24/16.
  */
+@Service
 public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
     implements TruckManager {
 
-    public TruckManagerImpl(TruckRepository repo, ServiceContainer services) {
-        super(repo, services);
+    private CityManager cityManager;
+
+    @Autowired
+    public TruckManagerImpl(TruckRepository truckRepository, CityManager cityManager) {
+        super(truckRepository);
+        this.cityManager = cityManager;
     }
 
     /**
@@ -36,9 +44,9 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
      * @param maxPayload Weight of cargo to carry.
      * @return List of trucks capable to transport this cargo at specified city.
      */
-    public List<TruckDTO> findReadyToGoTrucks(City city, int maxPayload)
+    public List<TruckDTO> findReadyToGoTrucks(City city, Integer maxPayload)
     {
-        List<Truck> readyToGoTrucks = repo.findReadyToGoTrucks(city, maxPayload);
+        List<Truck> readyToGoTrucks = repo.findReadyToGoTrucks(city.getId(), maxPayload);
         return getDTOs(readyToGoTrucks);
     }
 
@@ -61,18 +69,18 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
      * @throws EntityNotFoundException when cityId is not found
      * @throws DuplicateKeyException when truck with same name already exists
      */
-    public void save(Truck truck, int cityId) throws EntityNotFoundException, DuplicateKeyException
+    public void save(Truck truck, Integer cityId) throws EntityNotFoundException, DuplicateKeyException
     {
         Truck existing = repo.findByName(truck.getName());
         if (existing != null && existing.getId() != truck.getId()) {
             throw new DuplicateKeyException("Truck with number " + truck.getName() + " already exists");
         }
-        City city = services.getCityManager().findOne(cityId);
+        City city = cityManager.findOneOrDie(cityId);
         truck.setCity(city);
         if (truck.getId() > 0) {
-            repo.update(truck);
+            repo.save(truck);
         } else {
-            repo.create(truck);
+            repo.save(truck);
         }
     }
 
@@ -82,9 +90,8 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
      * @param listOfTrucks List of truck entities
      * @return list of truck TruckDTO
      */
-    private List<TruckDTO> getDTOs(List<Truck> listOfTrucks) {
-        return listOfTrucks
-                .stream()
+    private List<TruckDTO> getDTOs(Iterable<Truck> listOfTrucks) {
+        return StreamSupport.stream(listOfTrucks.spliterator(), false)
                 .map(TruckDTO::fromEntity)
                 .collect(Collectors.toList());
     }

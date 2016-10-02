@@ -8,20 +8,23 @@ package com.tsystems.javaschool.logiweb.service.impl;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.helper.LatLngDistanceCalculator;
 import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
-import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
 /**
  * Created by Igor Avdeev on 8/28/16.
  */
-public class CityManagerImpl extends BaseManagerImpl<City, CityRepository>
-    implements CityManager {
+@Service
+public class CityManagerImpl extends BaseManagerImpl<City, CityRepository> implements CityManager {
 
-
-    public CityManagerImpl(CityRepository cityRepository, ServiceContainer services) {
-        super(cityRepository, services);
+    @Autowired
+    public CityManagerImpl(CityRepository cityRepository) {
+        super(cityRepository);
     }
 
     /**
@@ -31,7 +34,8 @@ public class CityManagerImpl extends BaseManagerImpl<City, CityRepository>
      * @return List of matching cities (max 10 items)
      */
     public Collection<City> getAutocompleteCities(String search) {
-        return repo.getAutocompleteCities(search);
+        Pageable topTen = new PageRequest(0, 10);
+        return repo.findByNameOrderByNameStartingWith(search, topTen);
     }
 
     /**

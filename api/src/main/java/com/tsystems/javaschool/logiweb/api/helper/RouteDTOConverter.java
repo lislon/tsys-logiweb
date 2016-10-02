@@ -13,8 +13,8 @@ import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by Igor Avdeev on 9/14/16.
@@ -27,7 +27,7 @@ public class RouteDTOConverter {
 
         for (Integer cityId : order.citiesOrder) {
 
-            City city = cityManager.findOne(cityId);
+            City city = cityManager.findOneOrDie(cityId);
 
             for (CargoJsonDTO dto : order.cargoes) {
                 if (dto.srcCityId == city.getId()) {

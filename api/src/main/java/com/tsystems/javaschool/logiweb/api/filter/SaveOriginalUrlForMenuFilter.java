@@ -5,7 +5,6 @@
 
 package com.tsystems.javaschool.logiweb.api.filter;
 
-import org.apache.commons.digester.RegexMatcher;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

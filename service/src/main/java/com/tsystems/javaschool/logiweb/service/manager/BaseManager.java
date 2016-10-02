@@ -5,17 +5,14 @@
 
 package com.tsystems.javaschool.logiweb.service.manager;
 
-import com.tsystems.javaschool.logiweb.dao.repos.BaseRepository;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
-
-import java.util.List;
 
 /**
  * Created by Igor Avdeev on 9/12/16.
  */
 public interface BaseManager<E> {
 
-    List<E> findAll();
+    Iterable<E> findAll();
 
     /**
      * Persist the entity
@@ -23,14 +20,14 @@ public interface BaseManager<E> {
      */
     void save(E entity);
 
-    E find(int key);
+    E find(Integer key);
 
-    E findOne(int key) throws EntityNotFoundException;
+    E findOneOrDie(Integer key) throws EntityNotFoundException;
 
     /**
      * @param id Entity identifier
      * @return true when entity was deleted, false when entity was not found
      */
-    boolean delete(int id);
+    boolean delete(Integer id);
 
 }

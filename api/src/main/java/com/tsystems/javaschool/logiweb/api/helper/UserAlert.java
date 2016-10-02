@@ -5,10 +5,7 @@
 
 package com.tsystems.javaschool.logiweb.api.helper;
 
-import jdk.internal.dynalink.support.TypeUtilities;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Igor Avdeev on 8/29/16.

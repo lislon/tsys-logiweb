@@ -9,6 +9,8 @@ import com.tsystems.javaschool.logiweb.api.action.Action;
 import com.tsystems.javaschool.logiweb.api.action.ActionFactory;
 import com.tsystems.javaschool.logiweb.dao.helper.LocalEntityManagerFactory;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
@@ -32,9 +34,10 @@ public class RouteServlet extends HttpServlet {
 
         try {
             if (action != null) {
+                ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(req.getServletContext());
 
                 em = LocalEntityManagerFactory.createEntityManager();
-                req.setAttribute("serviceContainer", new ServiceContainer(em));
+                req.setAttribute("serviceContainer", new ServiceContainer(context));
 
                 action.execute(req, resp);
             } else {

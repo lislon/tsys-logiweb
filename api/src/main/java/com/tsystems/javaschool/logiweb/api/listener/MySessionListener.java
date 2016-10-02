@@ -5,7 +5,6 @@
 
 package com.tsystems.javaschool.logiweb.api.listener;
 
-import javax.servlet.http.HttpSessionActivationListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 

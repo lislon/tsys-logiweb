@@ -5,29 +5,25 @@
 
 package com.tsystems.javaschool.logiweb.service.impl;
 
-import com.tsystems.javaschool.logiweb.dao.repos.BaseRepository;
-import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.BaseManager;
+import org.springframework.data.repository.CrudRepository;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.List;
 
 /**
  * Created by Igor Avdeev on 9/12/16.
  */
-public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
+public class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>>
         implements BaseManager<E> {
 
     final protected REPO repo;
-    final protected ServiceContainer services;
 
-    public BaseManagerImpl(REPO repo, ServiceContainer services) {
+    public BaseManagerImpl(REPO repo) {
         this.repo = repo;
-        this.services = services;
     }
 
-    public List<E> findAll() {
+    public Iterable<E> findAll() {
         return repo.findAll();
     }
 
@@ -38,7 +34,7 @@ public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
      */
     public void save(E entity)
     {
-        repo.create(entity);
+        repo.save(entity);
     }
 
     /**
@@ -47,9 +43,9 @@ public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
      * @param key
      * @return Entity or null when it's not found
      */
-    public E find(int key)
+    public E find(Integer key)
     {
-        return repo.find(key);
+        return repo.findOne(key);
     }
 
     /**
@@ -58,9 +54,9 @@ public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
      * @return Entity
      * @throws EntityNotFoundException
      */
-    public E findOne(int key) throws EntityNotFoundException
+    public E findOneOrDie(Integer key) throws EntityNotFoundException
     {
-        E e = repo.find(key);
+        E e = repo.findOne(key);
         if (e == null) {
             // gets class name
             Class<E> eClass = (Class<E>)((ParameterizedType)getClass().getGenericSuperclass())
@@ -76,8 +72,12 @@ public class BaseManagerImpl<E, REPO extends BaseRepository<E>>
      * @param id Entity identifier
      * @return true when entity was deleted, false when entity was not found
      */
-    public boolean delete(int id) {
-        return repo.delete(id);
+    public boolean delete(Integer id) {
+        if (repo.findOne(id) == null) {
+            return false;
+        }
+        repo.delete(id);
+        return true;
     }
 
 }

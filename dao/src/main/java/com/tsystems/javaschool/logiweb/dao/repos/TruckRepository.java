@@ -7,6 +7,11 @@ package com.tsystems.javaschool.logiweb.dao.repos;
 
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -14,28 +19,18 @@ import java.util.List;
 /**
  * Created by Igor Avdeev on 8/24/16.
  */
-public class TruckRepository extends BaseRepository<Truck> {
-    public TruckRepository(EntityManager em) {
-        super(Truck.class, em);
-    }
+@Service
+@Repository
+public interface TruckRepository extends CrudRepository<Truck, Integer> {
+    @Query("select t from Truck t " +
+            "where " +
+            " t.condition = :condition and " +
+            " t.capacityKg >= :min_capacity and " +
+            " t.city = :cityId and " +
+            " not exists (from Order o where o.truck = t and o.isCompleted = false)")
+    List<Truck> findReadyToGoTrucks(@Param("cityId") int cityId,
+                                    @Param("maxDrivers") int maxDrivers);
 
-    public List<Truck> findReadyToGoTrucks(City city, int minCapacity) {
-        return em.createQuery("select t from Truck t " +
-                "where " +
-                " t.condition = :condition and " +
-                " t.capacityKg >= :min_capacity and " +
-                " t.city = :city and " +
-                " not exists (from Order o where o.truck = t and o.isCompleted = false)")
-                .setParameter("condition", Truck.Condition.OK)
-                .setParameter("min_capacity", minCapacity)
-                .setParameter("city", city)
-                .getResultList();
-    }
-
-    public Truck findByName(String name) {
-        List<Truck> list = em.createQuery("from Truck t where t.name = :name")
-                .setParameter("name", name)
-                .getResultList();
-        return list.isEmpty() ? null : list.get(0);
-    }
+    Truck findByName(String name);
 }
+

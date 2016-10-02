@@ -33,7 +33,7 @@ public interface OrderManager extends BaseManager<Order> {
      * @param orderId Order identifier
      * @return
      */
-    Collection<OrderCargoDTO> getOrderCargoes(int orderId);
+    Collection<OrderCargoDTO> getOrderCargoes(Integer orderId);
 
     /**
      * Return a route length in KM
@@ -41,7 +41,7 @@ public interface OrderManager extends BaseManager<Order> {
      * @param waypointCollection
      * @return route length in KM
      */
-    int getRouteLength(Collection<OrderWaypoint> waypointCollection);
+    Integer getRouteLength(Collection<OrderWaypoint> waypointCollection);
 
 
     /**
@@ -50,7 +50,7 @@ public interface OrderManager extends BaseManager<Order> {
      * @param waypointCollection List of waypoints for given route
      * @return Maximum weight carried for single segment (in kg)
      */
-    int getMaxPayload(Collection<OrderWaypoint> waypointCollection);
+    Integer getMaxPayload(Collection<OrderWaypoint> waypointCollection);
 
     /**
      * Creates a new order. Also saves associated waypoints and cargoes.
@@ -76,10 +76,9 @@ public interface OrderManager extends BaseManager<Order> {
 
     /**
      * Update selectedTruckId and selectedDrivers for Order
-     *
-     * @param orderId
+     *  @param orderId
      * @param selectedTruckId
      * @param selectedDrivers
      */
-    void update(int orderId, Integer selectedTruckId, List<Integer> selectedDrivers) throws EntityNotFoundException;
+    void update(Integer orderId, Integer selectedTruckId, List<Integer> selectedDrivers) throws EntityNotFoundException;
 }

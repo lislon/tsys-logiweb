@@ -9,37 +9,33 @@ import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.List;
+
 
 
 /**
  * Created by Igor Avdeev on 8/23/16.
  */
-public class DriverRepository extends BaseRepository<Driver> {
-
-    public DriverRepository(EntityManager manager) {
-        super(Driver.class, manager);
-    }
+@Repository
+@Service
+public interface DriverRepository extends CrudRepository<Driver, Integer> {
 
     /**
-     * Searchs a driver with free status in given city, which have less then `maxHoursWorked` worked.
+     * Searchs all drivers who are located in given city, free of duty and worked no more them `maxHours` hours in current month.
      * @param cityId City, where we search drivers
-     * @param hoursRemaining
+     * @param maxHours Maximum hours worked in current month.
      * @return
      */
-    public List<Driver> findFreeDriversInCity(int cityId, int hoursRemaining) {
-        Query query = em.createQuery("from Driver d " +
-                "where d.city.id = :cityId and d.status = :status and d.hoursWorked < :maxHoursWorked " +
-                "and not exists (from Order o join o.drivers od where od = d and o.isCompleted = false )");
-
-        query.setParameter("cityId", cityId);
-        query.setParameter("status", Driver.Status.REST);
-        query.setParameter("maxHoursWorked", Driver.MONTH_DUTY_HOURS - hoursRemaining);
-
-        return (List<Driver>)query.getResultList();
-    }
+    @Query("from Driver d " +
+            "where d.city.id = :cityId and d.status = Driver.Status.REST and d.hoursWorked < :maxHours" +
+            "and not exists (from Order o join o.drivers od where od = d and o.isCompleted = false )")
+    List<Driver> findFreeDriversInCity(@Param("cityId") int cityId, @Param("maxHours") int maxHours);
 
 }

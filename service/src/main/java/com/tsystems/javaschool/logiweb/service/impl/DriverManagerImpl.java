@@ -8,9 +8,11 @@ package com.tsystems.javaschool.logiweb.service.impl;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
-import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -19,6 +21,7 @@ import java.util.List;
 /**
  * Created by Igor Avdeev on 8/24/16.
  */
+@Service
 public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
         implements DriverManager {
     /**
@@ -30,11 +33,15 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
      */
     private static final int AVG_TRUCK_SPEED = 80;
 
-    public DriverManagerImpl(DriverRepository driverRepository, ServiceContainer services) {
-        super(driverRepository, services);
+    private CityManager cityManager;
+
+    @Autowired
+    public DriverManagerImpl(DriverRepository driverRepository, CityManager cityManager) {
+        super(driverRepository);
+        this.cityManager = cityManager;
     }
 
-    /**
+    /**<context:component-scan base-package="com.tsystems.javaschool.logiweb.service" /><context:component-scan base-package="com.tsystems.javaschool.logiweb.service" />
      * Find unassigned drivers in city `departure` available to work from now till tillDate.
      *
      * @param cityId City in which we search drivers.
@@ -58,7 +65,7 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
             requiredWorkHours = ChronoUnit.HOURS.between(dutyStart, endOfMonth);
         }
 
-        return repo.findFreeDriversInCity(cityId, (int)requiredWorkHours);
+        return repo.findFreeDriversInCity(cityId, Driver.MONTH_DUTY_HOURS - (int)requiredWorkHours);
     }
 
     /**
@@ -68,7 +75,7 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
      * @param numDrivers  Number of drivers in truck
      * @return double number of total hours required to do trip, include rest time.
      */
-    public int calculateTripDuration(int routeLength, int numDrivers) {
+    public int calculateTripDuration(Integer routeLength, Integer numDrivers) {
         double distancePerDay = (Math.min(numDrivers * LIMIT_HOURS_DAY_DRIVE, 24) * AVG_TRUCK_SPEED);
 
         double hours = Math.floor(routeLength / distancePerDay) * 24 + (routeLength % distancePerDay) / AVG_TRUCK_SPEED;
@@ -77,15 +84,15 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
     }
 
     @Override
-    public void save(Driver driver, int cityId, Integer truckId)
+    public void save(Driver driver, Integer cityId, Integer truckId)
             throws EntityNotFoundException {
 
-        City city = services.getCityManager().findOne(cityId);
+        City city = cityManager.findOneOrDie(cityId);
         driver.setCity(city);
         if (driver.getId() > 0) {
-            repo.update(driver);
+            repo.save(driver);
         } else {
-            repo.create(driver);
+            repo.save(driver);
         }
     }
 }

@@ -7,11 +7,9 @@ package com.tsystems.javaschool.logiweb.api.action.servlet.truck;
 
 import com.tsystems.javaschool.logiweb.api.action.Action;
 import com.tsystems.javaschool.logiweb.api.helper.UserAlert;
-import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 
 import javax.servlet.http.HttpServletRequest;

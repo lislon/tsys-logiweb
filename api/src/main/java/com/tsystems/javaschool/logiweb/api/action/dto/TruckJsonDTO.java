@@ -5,8 +5,6 @@
 
 package com.tsystems.javaschool.logiweb.api.action.dto;
 
-import com.tsystems.javaschool.logiweb.dao.entities.Driver;
-import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

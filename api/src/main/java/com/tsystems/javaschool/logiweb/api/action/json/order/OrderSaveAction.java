@@ -10,14 +10,12 @@ import com.tsystems.javaschool.logiweb.api.action.JsonAction;
 import com.tsystems.javaschool.logiweb.api.action.JsonResult;
 import com.tsystems.javaschool.logiweb.api.action.dto.OrderDataDTO;
 import com.tsystems.javaschool.logiweb.api.helper.RouteDTOConverter;
-import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.List;
 import java.util.SortedSet;
 
 /**
