@@ -31,7 +31,7 @@ public interface CityRepository extends CrudRepository<City, Integer> {
      * @param search Beginning of city name
      * @return List of matching cities (max 10 items)
      */
-    Collection<City> findByNameOrderByNameStartingWith(String search, Pageable topTen);
+    List<City> findByNameStartingWith(String search, Pageable topTen);
 
 //    @Query("from City c where c.name like %?1 order by c.name asc limit 10")
 //    Collection<City> getAutocompleteCities(String search) {

@@ -35,7 +35,7 @@ public class CityManagerImpl extends BaseManagerImpl<City, CityRepository> imple
      */
     public Collection<City> getAutocompleteCities(String search) {
         Pageable topTen = new PageRequest(0, 10);
-        return repo.findByNameOrderByNameStartingWith(search, topTen);
+        return repo.findByNameStartingWith(search, topTen);
     }
 
     /**

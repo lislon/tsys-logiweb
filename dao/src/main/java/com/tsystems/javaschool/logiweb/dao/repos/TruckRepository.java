@@ -22,14 +22,14 @@ import java.util.List;
 @Service
 @Repository
 public interface TruckRepository extends CrudRepository<Truck, Integer> {
-    @Query("select t from Truck t " +
-            "where " +
-            " t.condition = :condition and " +
-            " t.capacityKg >= :min_capacity and " +
+    @Query("select t from Truck t" +
+            " where " +
+            " t.condition = 'OK' and" +
+            " t.capacityKg >= :minCapacity and" +
             " t.city = :cityId and " +
             " not exists (from Order o where o.truck = t and o.isCompleted = false)")
     List<Truck> findReadyToGoTrucks(@Param("cityId") int cityId,
-                                    @Param("maxDrivers") int maxDrivers);
+                                    @Param("minCapacity") int minCapacity);
 
     Truck findByName(String name);
 }

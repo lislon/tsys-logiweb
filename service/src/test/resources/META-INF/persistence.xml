@@ -18,7 +18,7 @@
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/logiweb_test"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="logiweb"/>
-            <property name="hibernate.connection.password" value=""/>
+            <!--<property name="hibernate.connection.password" value=""/>-->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
             <property name="hibernate.globally_quoted_identifiers" value="true"/>
             <property name="hibernate.archive.autodetection" value="class"/>

@@ -17,27 +17,6 @@
     <!-- DI -->
     <context:component-scan base-package="com.tsystems.javaschool.logiweb.service"/>
 
-    <!-- connect jpa and spring -->
-    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="logiweb" />
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
-        </property>
-        <!--<property name="packagesToScan" value="org.lislon.model"/>-->
-    </bean>
-
-    <!-- Transaction manager for spring data and spring annotations -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="emf"/>
-    </bean>
-
-    <!-- Spring Data Repository classes -->
-    <jpa:repositories base-package="com.tsystems.javaschool.logiweb.dao.repos"
-                      entity-manager-factory-ref="emf"
-                      transaction-manager-ref="transactionManager"/>
-
-    <!-- Configure transaction annotations -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>
 

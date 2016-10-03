@@ -34,8 +34,8 @@ public interface DriverRepository extends CrudRepository<Driver, Integer> {
      * @return
      */
     @Query("from Driver d " +
-            "where d.city.id = :cityId and d.status = Driver.Status.REST and d.hoursWorked < :maxHours" +
-            "and not exists (from Order o join o.drivers od where od = d and o.isCompleted = false )")
+            " where d.city.id = :cityId and d.status = 'RES' and d.hoursWorked < :maxHours" +
+            " and not exists (from Order o join o.drivers od where od = d and o.isCompleted = false )")
     List<Driver> findFreeDriversInCity(@Param("cityId") int cityId, @Param("maxHours") int maxHours);
 
 }
