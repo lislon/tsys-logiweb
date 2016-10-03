@@ -24,6 +24,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring.version>4.3.2.RELEASE</spring.version>
+        <hibernate.version>5.1.1.Final</hibernate.version>
+
     </properties>
 
     <developers>

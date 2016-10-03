@@ -1,1 +1,1 @@
--- INSERT INTO drivers (personal_code, first_name) VALUES ('AB', 'Test driver');
+INSERT INTO drivers (name, max_drivers) VALUES ('test', 1);

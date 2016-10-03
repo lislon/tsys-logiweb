@@ -17,11 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-/**
- * Marker class for integration tests.
- */
 @RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath*:/META-INF/spring/applicationContext.xml"} )
 @ContextHierarchy({
     @ContextConfiguration(locations = { "classpath*:/META-INF/spring/applicationContext.xml" }),
     @ContextConfiguration("/testApplicationContext.xml")
