@@ -9,6 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.jdbc.Sql;
@@ -23,21 +25,21 @@ import java.net.URLClassLoader;
     @ContextConfiguration("/testApplicationContext.xml")
 })
 @Sql
-//@ContextConfiguration("/META-INF/spring/applicationContext.xml")
-//@ContextConfiguration("/testApplicationContext.xml")
 public class DriverServiceTest {
-    private static final Log logger = LogFactory.getLog(DriverServiceTest.class);
+    @Autowired
+    ApplicationContext context;
 
-   @Test
-   public void testHello() {
-       System.out.println("Hi");
-       logger.debug("Hello from log");
-       ClassLoader cl = ClassLoader.getSystemClassLoader();
+    @Test
+    public void testHello() {
+
+
+        System.out.println("Hi");
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
 
         URL[] urls = ((URLClassLoader)cl).getURLs();
 
         for(URL url: urls){
-        	System.out.println(url.getFile());
+            System.out.println(url.getFile());
         }
-   }
+    }
 }

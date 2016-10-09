@@ -7,13 +7,11 @@ package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
-import com.tsystems.javaschool.logiweb.dao.repos.TruckRepository;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import com.tsystems.javaschool.logiweb.service.exception.DuplicateKeyException;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by Igor Avdeev on 8/24/16.
@@ -29,7 +27,7 @@ public interface TruckManager extends BaseManager<Truck> {
      * @param maxPayload Weight of cargo to carry.
      * @return List of trucks capable to transport this cargo at specified city.
      */
-    List<TruckDTO> findReadyToGoTrucks(City city, Integer maxPayload);
+    List<TruckDTO> findReadyToGoTrucks(City city, int maxPayload);
 
     /**
      * Returns a list of all trucks, regardless of their condition and location.

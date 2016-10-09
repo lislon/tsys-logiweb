@@ -27,7 +27,7 @@ public class RouteDTOConverter {
 
         for (Integer cityId : order.citiesOrder) {
 
-            City city = cityManager.findOneOrDie(cityId);
+            City city = cityManager.findOneOrFail(cityId);
 
             for (CargoJsonDTO dto : order.cargoes) {
                 if (dto.srcCityId == city.getId()) {

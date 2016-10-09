@@ -8,9 +8,11 @@ package com.tsystems.javaschool.logiweb.service.impl;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
+import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,14 +43,14 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
         this.cityManager = cityManager;
     }
 
-    /**<context:component-scan base-package="com.tsystems.javaschool.logiweb.service" /><context:component-scan base-package="com.tsystems.javaschool.logiweb.service" />
+    /**
      * Find unassigned drivers in city `departure` available to work from now till tillDate.
      *
      * @param cityId City in which we search drivers.
      * @param dutyEnd
      * @return
      */
-    public List<Driver> findDriversForTrip(Integer cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd) {
+    public List<Driver> findDriversForTrip(int cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd) {
 
         long requiredWorkHours;
 
@@ -73,9 +75,9 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
      *
      * @param routeLength Route length in km
      * @param numDrivers  Number of drivers in truck
-     * @return double number of total hours required to do trip, include rest time.
+     * @return double number of total hours required to trip, include rest time.
      */
-    public int calculateTripDuration(Integer routeLength, Integer numDrivers) {
+    public int calculateTripDuration(int routeLength, int numDrivers) {
         double distancePerDay = (Math.min(numDrivers * LIMIT_HOURS_DAY_DRIVE, 24) * AVG_TRUCK_SPEED);
 
         double hours = Math.floor(routeLength / distancePerDay) * 24 + (routeLength % distancePerDay) / AVG_TRUCK_SPEED;
@@ -83,16 +85,68 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
         return (int)Math.ceil(hours);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void save(Driver driver, Integer cityId, Integer truckId)
-            throws EntityNotFoundException {
+    public int create(DriverDTO driverDTO) throws EntityNotFoundException {
 
-        City city = cityManager.findOneOrDie(cityId);
-        driver.setCity(city);
-        if (driver.getId() > 0) {
-            repo.save(driver);
-        } else {
-            repo.save(driver);
+        Driver driver = new Driver();
+
+        convertToEntity(driverDTO, driver);
+
+        repo.save(driver);
+
+        return driver.getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void update(int id, DriverDTO driverDTO) throws EntityNotFoundException {
+
+        Driver driver = this.findOneOrFail(id);
+
+        convertToEntity(driverDTO, driver);
+
+        repo.save(driver);
+    }
+
+    @Override
+    public DriverDTO findDto(int id) throws EntityNotFoundException {
+
+        return convertToDto(this.findOneOrFail(id));
+
+    }
+
+    private DriverDTO convertToDto(Driver from) throws EntityNotFoundException {
+
+        DriverDTO to = new DriverDTO();
+
+        to.setId(from.getId());
+        to.setFirstName(from.getFirstName());
+        to.setLastName(from.getLastName());
+        to.setStatus(from.getStatus());
+        to.setHoursWorked(from.getHoursWorked());
+        to.setPersonalCode(from.getPersonalCode());
+        if (from.getCity() != null) {
+            to.setCityId(from.getCity().getId());
+            to.setCityName(from.getCity().getName());
+        }
+        return to;
+    }
+
+    private void convertToEntity(DriverDTO from, Driver to) throws EntityNotFoundException {
+
+        to.setFirstName(from.getFirstName());
+        to.setLastName(from.getLastName());
+        to.setStatus(from.getStatus());
+        to.setHoursWorked(from.getHoursWorked());
+        to.setPersonalCode(from.getPersonalCode());
+
+        if (from.getCityId() != null) {
+            to.setCity(cityManager.findOneOrFail(from.getCityId()));
         }
     }
 }

@@ -43,7 +43,7 @@ public class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>>
      * @param key
      * @return Entity or null when it's not found
      */
-    public E find(Integer key)
+    public E find(int key)
     {
         return repo.findOne(key);
     }
@@ -54,13 +54,14 @@ public class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>>
      * @return Entity
      * @throws EntityNotFoundException
      */
-    public E findOneOrDie(Integer key) throws EntityNotFoundException
+    public E findOneOrFail(int key) throws EntityNotFoundException
     {
         E e = repo.findOne(key);
         if (e == null) {
             // gets class name
-            Class<E> eClass = (Class<E>)((ParameterizedType)getClass().getGenericSuperclass())
-                    .getActualTypeArguments()[0];
+            // unchecked cast: Type argument is guarantied to be same as E, because it is defined in class type argument
+            @SuppressWarnings("uncheked")
+            Class<E> eClass = (Class<E>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
             throw new EntityNotFoundException("Entity " + eClass.getSimpleName() + " with id = " + key + " is not found");
         }
         return e;
@@ -72,7 +73,7 @@ public class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>>
      * @param id Entity identifier
      * @return true when entity was deleted, false when entity was not found
      */
-    public boolean delete(Integer id) {
+    public boolean delete(int id) {
         if (repo.findOne(id) == null) {
             return false;
         }

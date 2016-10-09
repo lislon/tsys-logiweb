@@ -44,7 +44,7 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
      * @param maxPayload Weight of cargo to carry.
      * @return List of trucks capable to transport this cargo at specified city.
      */
-    public List<TruckDTO> findReadyToGoTrucks(City city, Integer maxPayload)
+    public List<TruckDTO> findReadyToGoTrucks(City city, int maxPayload)
     {
         List<Truck> readyToGoTrucks = repo.findReadyToGoTrucks(city.getId(), maxPayload);
         return getDTOs(readyToGoTrucks);
@@ -75,7 +75,7 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
         if (existing != null && existing.getId() != truck.getId()) {
             throw new DuplicateKeyException("Truck with number " + truck.getName() + " already exists");
         }
-        City city = cityManager.findOneOrDie(cityId);
+        City city = cityManager.findOneOrFail(cityId);
         truck.setCity(city);
         if (truck.getId() > 0) {
             repo.save(truck);

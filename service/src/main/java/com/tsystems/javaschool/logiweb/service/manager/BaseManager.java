@@ -20,14 +20,14 @@ public interface BaseManager<E> {
      */
     void save(E entity);
 
-    E find(Integer key);
+    E find(int key);
 
-    E findOneOrDie(Integer key) throws EntityNotFoundException;
+    E findOneOrFail(int key) throws EntityNotFoundException;
 
     /**
      * @param id Entity identifier
      * @return true when entity was deleted, false when entity was not found
      */
-    boolean delete(Integer id);
+    boolean delete(int id);
 
 }

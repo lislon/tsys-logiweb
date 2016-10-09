@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsystems.javaschool.logiweb.api.action.Action;
 import com.tsystems.javaschool.logiweb.api.action.dto.BootstrapOrderDTO;
-import com.tsystems.javaschool.logiweb.api.action.dto.DriverJsonDTO;
+import com.tsystems.javaschool.logiweb.api.action.dto.driver.DriverJsonDTO;
 import com.tsystems.javaschool.logiweb.api.helper.RenderHelper;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;

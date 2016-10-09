@@ -196,7 +196,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
     }
 
     @Override
-    public boolean delete(Integer id) {
+    public boolean delete(int id) {
         Order o = repo.findOne(id);
 
         if (o != null) {
@@ -257,17 +257,17 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
 
     @Override
     public void update(Integer orderId, Integer selectedTruckId, List<Integer> selectedDrivers) throws EntityNotFoundException {
-        Order o = findOneOrDie(orderId);
+        Order o = findOneOrFail(orderId);
         assignTruckAndDrivers(selectedTruckId, selectedDrivers, o);
         repo.save(o);
     }
 
     private void assignTruckAndDrivers(Integer truckId, Collection<Integer> driversIds, Order order) throws EntityNotFoundException {
-        order.setTruck(truckId == null ? null : truckManager.findOneOrDie(truckId));
+        order.setTruck(truckId == null ? null : truckManager.findOneOrFail(truckId));
 
         Set<Driver> drivers = new HashSet<>();
         for (Integer driverId : driversIds) {
-            drivers.add(driverManager.findOneOrDie(driverId));
+            drivers.add(driverManager.findOneOrFail(driverId));
         }
 
         order.setDrivers(drivers);

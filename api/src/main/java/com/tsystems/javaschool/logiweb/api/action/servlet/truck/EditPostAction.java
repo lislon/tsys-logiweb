@@ -53,7 +53,7 @@ public class EditPostAction implements Action {
 
             UserAlert.injectInSession(req, req.getParameter("name") + " truck is saved", UserAlert.Type.SUCCESS);
 
-            resp.sendRedirect(req.getContextPath() + "/truck/list.do");
+            resp.sendRedirect(req.getContextPath() + "/truck/list");
 
         } catch (BusinessLogicException e) {
             UserAlert.injectInRequest(req, e.getMessage(), UserAlert.Type.DANGER);

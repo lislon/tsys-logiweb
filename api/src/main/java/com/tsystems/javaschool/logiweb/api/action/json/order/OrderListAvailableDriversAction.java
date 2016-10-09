@@ -7,7 +7,7 @@ package com.tsystems.javaschool.logiweb.api.action.json.order;
 
 import com.tsystems.javaschool.logiweb.api.action.JsonAction;
 import com.tsystems.javaschool.logiweb.api.action.JsonResult;
-import com.tsystems.javaschool.logiweb.api.action.dto.DriverJsonDTO;
+import com.tsystems.javaschool.logiweb.api.action.dto.driver.DriverJsonDTO;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 
 import javax.servlet.http.HttpServletRequest;

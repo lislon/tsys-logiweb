@@ -39,9 +39,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath*:META-INF/spring/applicationContext.xml
-            classpath:WEB-INF/spring/applicationContext.xml
-            classpath:WEB-INF/spring/servletContext.xml
+            classpath:WEB-INF/spring/rootContext.xml
         </param-value>
     </context-param>
 
@@ -52,6 +50,7 @@
     </listener>
 
     <filter>
+
         <filter-name>UserAlertFilter</filter-name>
         <filter-class>com.tsystems.javaschool.logiweb.api.filter.UserAlertFilter</filter-class>
     </filter>
@@ -70,9 +69,13 @@
         </filter-class>
     </filter>
     <filter>
-        <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
-        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilterr</filter-class>
+        <filter-name>OpenEntityManagerInViewFilter</filter-name>
+        <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
     </filter>
+    <filter-mapping>
+        <filter-name>OpenEntityManagerInViewFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>HttpMethodFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -83,17 +86,17 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>UserAlertFilter</filter-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>*</url-pattern>
     </filter-mapping>
 
     <filter-mapping>
         <filter-name>EntityManagerFilter</filter-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>*</url-pattern>
     </filter-mapping>
 
     <filter-mapping>
         <filter-name>SaveOriginalUrlForMenuFilter</filter-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>*</url-pattern>
     </filter-mapping>
 
     <!-- Spring's primary servlet -->

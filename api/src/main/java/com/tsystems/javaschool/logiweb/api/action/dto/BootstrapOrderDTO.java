@@ -5,6 +5,7 @@
 
 package com.tsystems.javaschool.logiweb.api.action.dto;
 
+import com.tsystems.javaschool.logiweb.api.action.dto.driver.DriverJsonDTO;
 import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import lombok.AllArgsConstructor;

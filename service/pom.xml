@@ -50,6 +50,11 @@
             <version>4.2.2.RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>0.7.6</version>
+        </dependency>
     </dependencies>
 
 

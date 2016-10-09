@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by Igor Avdeev on 8/28/16.
@@ -34,8 +35,12 @@ public class CityManagerImpl extends BaseManagerImpl<City, CityRepository> imple
      * @return List of matching cities (max 10 items)
      */
     public Collection<City> getAutocompleteCities(String search) {
-        Pageable topTen = new PageRequest(0, 10);
-        return repo.findByNameStartingWith(search, topTen);
+        if (search.length() > 1) {
+            Pageable topTen = new PageRequest(0, 10);
+            return repo.findByNameStartingWith(search, topTen);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     /**

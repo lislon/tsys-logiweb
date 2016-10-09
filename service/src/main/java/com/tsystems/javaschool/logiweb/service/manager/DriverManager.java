@@ -6,6 +6,7 @@
 package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
+import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 
 import java.time.LocalDateTime;
@@ -19,21 +20,38 @@ public interface DriverManager extends BaseManager<Driver> {
     /**
      * Find unassigned drivers in city `departure` available to work from now till tillDate.
      *
-     * @param cityId City in which we search drivers.
+     * @param cityId
+     * @param dutyStart
      * @param dutyEnd
      * @return
      */
-    List<Driver> findDriversForTrip(Integer cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd);
+    List<Driver> findDriversForTrip(int cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd);
 
     /**
      * Return approximation of trip duration with given number of drivers.
      *
      * @param routeLength Route length in km
      * @param numDrivers  Number of drivers in truck
-     * @return double number of total hours required to do trip, include rest time.
+     * @return double number of total hours required to trip, include rest time.
      */
-    int calculateTripDuration(Integer routeLength, Integer numDrivers);
+    int calculateTripDuration(int routeLength, int numDrivers);
 
-    void save(Driver entity, Integer cityId, Integer truckId)
-            throws EntityNotFoundException;
+    /**
+     * Adds new driver to database.
+     *
+     * @param driverData Driver fields
+     * @throws EntityNotFoundException when driver city not found
+     */
+    int create(DriverDTO driverData) throws EntityNotFoundException;
+
+    /**
+     * Updates driver information in database.
+     *
+     * @param id Driver id
+     * @param driverData Driver fields
+     * @throws EntityNotFoundException when driver city not found
+     */
+    void update(int id, DriverDTO driverData) throws EntityNotFoundException;
+
+    DriverDTO findDto(int id) throws EntityNotFoundException;
 }
