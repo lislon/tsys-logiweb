@@ -1,10 +1,17 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<%@ taglib prefix="m" tagdir="/WEB-INF/tags/" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="mytitle" value="Title"/>
+
 <%--
   ~ Copyright (c) 2016.
   ~ Igor Avdeev
   --%>
 
 <p class="toolbar">
-    <a class="create btn btn-default" href="javascript:">Add Driver</a>
+    <a class="create btn btn-default" href="${s:mvcUrl('DC#create').build()}">Add Driver</a>
     <span class="alert" id="table-alert"></span>
 </p>
 <table id="table"
@@ -14,18 +21,19 @@
        data-striped="true"
        data-toolbar=".toolbar">
     <thead>
-        <tr>
-            <th data-field="personalCode" data-sortable="true">Personal code</th>
-            <th data-field="firstName" data-formatter="nameFormatter" data-sortable="true">Name</th>
-            <th data-field="hoursWorked" data-sortable="true">Hours worked</th>
-            <th data-field="status" data-formatter="statusFormatter" data-sortable="true" data-cell-style="cellStyle">Status</th>
-            <th data-field="city.name" data-sortable="true">Current city</th>
-            <%--<th data-field="truckName">Current truck</th>--%>
-            <th data-field="action"
-                data-align="center"
-                data-formatter="actionFormatter"
-                data-events="actionEvents">Action</th>
-        </tr>
+    <tr>
+        <th data-field="personalCode" data-sortable="true">Personal code</th>
+        <th data-field="firstName" data-formatter="app.nameFormatter" data-sortable="true">Name</th>
+        <th data-field="hoursWorked" data-sortable="true">Hours worked</th>
+        <th data-field="status" data-formatter="app.statusFormatter" data-sortable="true" data-cell-style="cellStyle">Status</th>
+        <th data-field="city.name" data-sortable="true">Current city</th>
+        <%--<th data-field="truckName">Current truck</th>--%>
+        <th data-field="action"
+            data-align="center"
+            data-formatter="app.actionFormatter"
+            data-="app.actionFormatter"
+            data-events="actionEvents">Action</th>
+    </tr>
     </thead>
 </table>
 
@@ -84,5 +92,3 @@
         </form>
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<script src="<%= request.getContextPath() %>/resources/js/apps/driver/driver_list.js"></script>

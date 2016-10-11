@@ -9,18 +9,21 @@
 <%@attribute name="url" required="true" type="java.lang.String" description="Relative url from project root starting with /" %>
 <%@attribute name="highlight" required="true" type="java.lang.String" description="Menu section to check against url to highlight" %>
 <%@attribute name="title" required="true" type="java.lang.String" %>
+
+<c:set var="isActive" value="${fn:startsWith(requestScope.origin, highlight)}"/>
+
 <c:choose>
-    <c:when test="${fn:startsWith(requestScope.origin, highlight)}">
+    <c:when test="${isActive}">
         <li class="active">
             <a href="<%= request.getContextPath() %>${url}">
-                    ${title} <span class="sr-only">(current)</span>
+                <i class="fa fa-link"></i> <span>${title}</span>
             </a>
         </li>
     </c:when>
     <c:otherwise>
         <li>
             <a href="<%= request.getContextPath() %>${url}">
-                    ${title}
+                <i class="fa fa-link"></i> <span>${title}</span>
             </a>
         </li>
     </c:otherwise>

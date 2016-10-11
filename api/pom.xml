@@ -108,6 +108,8 @@
                 </executions>
             </plugin>
 
+            <!--  Copy bower.json from root to target directory before execute -->
+
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.0.1</version>
@@ -128,25 +130,28 @@
                     <outputDirectory>${basedir}/target</outputDirectory>
                     <resources>
                         <resource>
-                            <directory>${basedir}</directory>
+                            <directory>${basedir}/src/main/webapp</directory>
                             <filtering>true</filtering>
                             <includes>
-                                <include>*.json</include>
+                                <include>package.json</include>
                                 <include>.bowerrc</include>
+                                <include>bower.json</include>
+                                <include>gulpfile.js</include>
                             </includes>
                         </resource>
                     </resources>
                 </configuration>
-                
             </plugin>
+
+            <!--  Execute bower.json in target directory -->
 
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.0</version>
                 <configuration>
-                    <installDirectory>target</installDirectory>
-                    <workingDirectory>target</workingDirectory>
+                    <!--<installDirectory>target</installDirectory>-->
+                    <!--<workingDirectory>target</workingDirectory>-->
                     <nodeVersion>v6.3.1</nodeVersion>
                     <npmVersion>3.10.5</npmVersion>
                 </configuration>
@@ -168,14 +173,25 @@
                         </goals>
                     </execution>
 
-                    <!-- install bower.json dependencies -->
+                    <!-- run webpack to copy  -->
                     <execution>
-                        <id>bower install</id>
+                        <id>webpack</id>
                         <goals>
-                            <goal>bower</goal>
+                            <goal>webpack build</goal>
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- do not copy node_modules folder -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <warSourceExcludes>frontend/**</warSourceExcludes>
+                </configuration>
             </plugin>
 
         </plugins>
