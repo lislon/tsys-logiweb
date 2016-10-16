@@ -8,6 +8,7 @@ package com.tsystems.javaschool.logiweb.dao.repos;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 @Service
 @Repository
-public interface OrderRepository extends CrudRepository<Order, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query("from Order o left join fetch o.truck")
     List<Order> getAllOrdersSummary();

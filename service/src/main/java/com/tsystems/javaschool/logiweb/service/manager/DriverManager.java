@@ -8,6 +8,7 @@ package com.tsystems.javaschool.logiweb.service.manager;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.InvalidStateException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,15 +29,6 @@ public interface DriverManager extends BaseManager<Driver> {
     List<Driver> findDriversForTrip(int cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd);
 
     /**
-     * Return approximation of trip duration with given number of drivers.
-     *
-     * @param routeLength Route length in km
-     * @param numDrivers  Number of drivers in truck
-     * @return double number of total hours required to trip, include rest time.
-     */
-    int calculateTripDuration(int routeLength, int numDrivers);
-
-    /**
      * Adds new driver to database.
      *
      * @param driverData Driver fields
@@ -53,5 +45,21 @@ public interface DriverManager extends BaseManager<Driver> {
      */
     void update(int id, DriverDTO driverData) throws EntityNotFoundException;
 
+    /**
+     * Returns Driver or throws exception.
+     *
+     * @param id
+     * @return
+     * @throws EntityNotFoundException
+     */
     DriverDTO findDto(int id) throws EntityNotFoundException;
+
+    /**
+     * Changes driver status for given order (OffDuty, OnDuty, OnDutyRest).
+     *
+     * @param driverId
+     * @param newStatus
+     */
+    void changeDriverStatus(int driverId, Driver.Status newStatus) throws EntityNotFoundException, InvalidStateException;
+
 }

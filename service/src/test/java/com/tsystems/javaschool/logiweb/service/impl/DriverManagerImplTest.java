@@ -7,14 +7,11 @@ package com.tsystems.javaschool.logiweb.service.impl;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
-import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
-import com.tsystems.javaschool.logiweb.test.DriverServiceTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
@@ -61,29 +58,6 @@ public class DriverManagerImplTest {
     }
 
 
-    @Test
-    public void calcSmallRoutes() throws Exception {
-        // 80km: 1 driver = 1 hour
-        assertEquals(1, manager.calculateTripDuration(80, 1));
-        // 80km: 2 driver = 1 hour
-        assertEquals(1, manager.calculateTripDuration(80, 2));
-    }
-
-    @Test
-    public void checkDurationOfLongRouteWithOneDriver() throws Exception {
-        // 1000km: 1 driver. 8 hours (drive 640 km) + 14 hours (sleep) + 4.5 hours (360 km)
-        // roudning to 28.5 29
-        int distanceKm = 1000;
-        assertEquals(29, manager.calculateTripDuration(distanceKm, 1));
-    }
-
-    @Test
-    public void checkDurationOfLongRouteWithTwoDrivers() throws Exception {
-        // 1000km: 2 drivers. 12.5 hours (drive 1000km)
-        // rounding 12.5 -> 13
-        int distanceKm = 1000;
-        assertEquals(13, manager.calculateTripDuration(distanceKm, 2));
-    }
 
     @Test
     public void canAddDriver() {
@@ -97,11 +71,4 @@ public class DriverManagerImplTest {
 
         verify(mockRepo).save(driver);
     }
-
-    @Test
-    @Category(DriverServiceTest.class)
-    public void findDriversForTrip() throws Exception {
-
-    }
-
 }

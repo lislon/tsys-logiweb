@@ -8,7 +8,6 @@ package com.tsystems.javaschool.logiweb.api.action.json.assignment;
 import com.tsystems.javaschool.logiweb.api.action.JsonAction;
 import com.tsystems.javaschool.logiweb.api.action.JsonResult;
 import com.tsystems.javaschool.logiweb.api.action.dto.DriverAssignmentDTO;
-import com.tsystems.javaschool.logiweb.api.action.dto.WaypointDTO;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.service.ServiceContainer;
 
@@ -46,7 +45,7 @@ public class ListAssignmentsAction extends JsonAction {
                             .map(d -> d.getPersonalCode() + " (" + d.getFirstName() + ")")
                             .collect(Collectors.toList()),
                     o.getWaypoints().stream()
-                            .map(w -> new WaypointDTO(
+                            .map(w -> new DriverAssignmentDTO.WaypointDTO(
                                     w.getCity().getName(),
                                     w.getOperation(),
                                     w.getCargo().getName()

@@ -5,14 +5,17 @@
 
 package com.tsystems.javaschool.logiweb.service.manager;
 
+import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
+import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
-import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
-import com.tsystems.javaschool.logiweb.service.dto.OrderCargoDTO;
+import com.tsystems.javaschool.logiweb.service.dto.WaypointDTO;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.exception.RouteNotValidException;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.SortedSet;
 
 
 /**
@@ -26,31 +29,14 @@ public interface OrderManager extends BaseManager<Order> {
      * @return Collection of orders with additional data. (See {OrderSummaryDTO})
      */
     List<OrderSummaryDTO> getAllOrdersSummary();
-
-    /**
-     * Return collection of cargoes of this order
-     *
-     * @param orderId Order identifier
-     * @return
-     */
-    Collection<OrderCargoDTO> getOrderCargoes(Integer orderId);
-
-    /**
-     * Return a route length in KM
-     *
-     * @param waypointCollection
-     * @return route length in KM
-     */
-    Integer getRouteLength(Collection<OrderWaypoint> waypointCollection);
-
-
-    /**
-     * Returns maximum summary carried weight for segment along the route.
-     *
-     * @param waypointCollection List of waypoints for given route
-     * @return Maximum weight carried for single segment (in kg)
-     */
-    Integer getMaxPayload(Collection<OrderWaypoint> waypointCollection);
+//
+//    /**
+//     * Return collection of cargoes of this order
+//     *
+//     * @param orderId Order identifier
+//     * @return
+//     */
+//    Collection<CargoLegDTO> getOrderCargoes(Integer orderId);
 
     /**
      * Creates a new order. Also saves associated waypoints and cargoes.
@@ -63,8 +49,8 @@ public interface OrderManager extends BaseManager<Order> {
      * @throws RouteNotValidException when route is not valid.
      * @throws EntityNotFoundException when City, Truck or Driver associated with order is not found.
      */
-    Order create(SortedSet<OrderWaypoint> waypoints, Integer truckId, Collection<Integer> driversIds)
-            throws RouteNotValidException, EntityNotFoundException;
+//    Order create(SortedSet<OrderWaypoint> waypoints, Integer truckId, Collection<Integer> driversIds)
+//            throws RouteNotValidException, EntityNotFoundException;
 
     /**
      * Returns a list of orders where given driver is involved.
@@ -75,10 +61,17 @@ public interface OrderManager extends BaseManager<Order> {
     Collection<Order> findDriverAssignments(String personalNumber);
 
     /**
-     * Update selectedTruckId and selectedDrivers for Order
-     *  @param orderId
-     * @param selectedTruckId
-     * @param selectedDrivers
+     * Updates completed order status.
+     *
+     * @param orderId Id of order
+     * @param isCompleted true if order is done, false otherwise.
      */
-    void update(Integer orderId, Integer selectedTruckId, List<Integer> selectedDrivers) throws EntityNotFoundException;
+    void markOrderCompleted(int orderId, boolean isCompleted) throws EntityNotFoundException;
+
+    void updateWaypoints(int orderId, List<WaypointDTO> waypointsDto) throws EntityNotFoundException;
+
+    int createOrder();
+
+    Order.Status getOrderStatus(Order o);
+
 }

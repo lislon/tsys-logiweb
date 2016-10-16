@@ -13,3 +13,6 @@ api/src/webapp/WEB-INF/design
 /*/target/
 *.bak
 /api/vendor/
+/api/node_modules/
+/api/src/main/webapp/dist/vendor/
+api/src/main/webapp/dist/

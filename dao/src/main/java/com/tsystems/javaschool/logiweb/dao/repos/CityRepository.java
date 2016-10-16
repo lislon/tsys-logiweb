@@ -8,6 +8,7 @@ package com.tsystems.javaschool.logiweb.dao.repos;
 import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.helper.LatLngDistanceCalculator;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -23,7 +24,7 @@ import java.util.Map;
  */
 @Service
 @Repository
-public interface CityRepository extends CrudRepository<City, Integer> {
+public interface CityRepository extends JpaRepository<City, Integer> {
 
     /**
      * Return a short list of cities matching name.

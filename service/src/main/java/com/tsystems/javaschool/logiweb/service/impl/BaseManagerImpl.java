@@ -7,14 +7,17 @@ package com.tsystems.javaschool.logiweb.service.impl;
 
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.BaseManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.ParameterizedType;
 
 /**
  * Created by Igor Avdeev on 9/12/16.
  */
-public class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>>
+@Service
+public abstract class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>>
         implements BaseManager<E> {
 
     final protected REPO repo;

@@ -13,6 +13,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.Set;
 
 
 /**
@@ -28,6 +30,11 @@ public class Driver {
      * Maximum duty hours per month.
      */
     public static final int MONTH_DUTY_HOURS = 176;
+
+    /**
+     * How many hours driver can work per day.
+     */
+    public static final int LIMIT_HOURS_DAY_DRIVE = 8;
 
     public enum Status {
         /**
@@ -45,8 +52,9 @@ public class Driver {
     }
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "first_name")
     @Size(min = 1, max = 64)
@@ -70,6 +78,19 @@ public class Driver {
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
+
+    /**
+     * Current driver order or null if non assigned
+     */
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    private Order currentOrder;
+
+    /**
+     * Date of beginning current duty
+     */
+    @Column(name = "duty_since")
+    private Date lastDutySince;
 
 
     @Override

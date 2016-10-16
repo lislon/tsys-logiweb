@@ -5,6 +5,7 @@
 
 package com.tsystems.javaschool.logiweb.api.action.dto;
 
+import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -14,6 +15,14 @@ import java.util.List;
  */
 @AllArgsConstructor
 public class DriverAssignmentDTO {
+
+    @AllArgsConstructor
+    public static class WaypointDTO {
+        public String cityName;
+        public OrderWaypoint.Operation operation;
+        public String cargoName;
+    }
+
     public int orderId;
     public List<String> coDrivers;
     public List<WaypointDTO> waypoints;

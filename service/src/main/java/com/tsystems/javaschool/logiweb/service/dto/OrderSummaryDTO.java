@@ -5,6 +5,7 @@
 
 package com.tsystems.javaschool.logiweb.service.dto;
 
+import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,9 +17,8 @@ import java.util.Date;
 @Data
 @Builder
 public class OrderSummaryDTO {
-    public enum Status {NEW, PREPARED, FINISHED};
 
-    private int id;
+    private Integer id;
     private String truckName;
     private String cityStartName;
     private String cityEndName;
@@ -27,6 +27,6 @@ public class OrderSummaryDTO {
     private int truckId;
     private int maxPayload;
     private Date dateCreated;
-    private Status status;
+    private Order.Status status;
     private int routeLength;
 }

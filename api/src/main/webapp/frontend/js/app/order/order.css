@@ -1,0 +1,80 @@
+/*
+ * Copyright (c) 2016.
+ * Igor Avdeev
+ */
+
+a:active .ajax-link, a:focus .ajax-link {
+    text-decoration: dashed;
+}
+
+a.ajax-link, a.ajax-link {
+    border-bottom: 1px blue dotted;
+}
+
+a.ajax-link:hover {
+    text-decoration: none;
+}
+
+.route-cities li {
+    float: left;
+    margin-right: 25px;
+}
+
+.route-cities-heading {
+    padding: 5px 10px 5px 5px;
+    position: relative;
+}
+.route-arrow {
+    position: absolute;
+    right: -20px;
+    top: 5px;
+}
+
+.route-cities li:not(.ui-sortable-placeholder):last-child .route-arrow, .ui-sortable-helper .route-arrow {
+    display: none;
+}
+
+.section-title {
+    padding-left: 84px;
+    display: inline-block;
+    line-height: 64px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.section-title-cargo {
+    background: url(img/delivery-packages-on-a-trolley.png) no-repeat;
+}
+.section-title-route {
+    background: url(img/route.png) no-repeat;
+    padding-top: 5px;
+}
+.section-title-truck {
+    background: url(img/truck.png) no-repeat;
+    padding-top: 2px;
+}
+.section-title-drivers {
+    background: url(../common/img/courier.png) no-repeat;
+    padding-top: 5px;
+}
+
+.route-summary-table td {
+    padding: 0 5px;
+}
+
+.route-summary-table td:first-child {
+    text-align: right;
+}
+
+/* show the move cursor as the user moves the mouse over the panel header.*/
+ol:not(.ui-sortable-disabled) .panel-heading {
+    cursor: move;
+}
+
+ol:not(.ui-sortable-disabled) .route-city-name:before {
+    content: '⋮'
+}
+
+.label-lg {
+    font-size: large;
+}

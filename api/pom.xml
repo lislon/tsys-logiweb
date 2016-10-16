@@ -9,6 +9,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>logiweb-api</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+    </properties>
     <packaging>war</packaging>
 
     <parent>
@@ -25,30 +27,16 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <!-- xerces version resolution was added to prevent error from apache.titles. Solution from http://stackoverflow.com/questions/7034008/spring-3-0-5-tiles-2-2-error >-->
-            <!-- 10:57:53.514 [RMI TCP Connection(2)-127.0.0.1] ERROR org.apache.commons.digester.Digester - Digester.getParser:
-    java.lang.UnsupportedOperationException: This parser does not support specification "null" version "null
-            at javax.xml.parsers.SAXParserFactory.setSchema(SAXParserFactory.java:394) ~[?:1.8.0_102] -->
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>2.8.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tiles</groupId>
-            <artifactId>tiles-extras</artifactId>
-            <version>3.0.5</version>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-parameter-names</artifactId>
             <version>2.8.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.dbunit</groupId>
-            <artifactId>dbunit</artifactId>
-            <version>2.2</version>
+        <!--<dependency>-->
+            <!--<groupId>org.dbunit</groupId>-->
+            <!--<artifactId>dbunit</artifactId>-->
+            <!--<version>2.2</version>-->
             <!--<scope>test</scope>-->
-        </dependency>
+        <!--</dependency>-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -80,6 +68,7 @@
             <artifactId>modelmapper</artifactId>
             <version>0.7.6</version>
         </dependency>
+
     </dependencies>
 
 
@@ -110,38 +99,38 @@
 
             <!--  Copy bower.json from root to target directory before execute -->
 
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <!-- here the phase you need -->
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- copy bower.json and package.json to taget folder to prevent polluting project root
-                     I did not found any other way to install node into target folder
-                    -->
-                    <outputDirectory>${basedir}/target</outputDirectory>
-                    <resources>
-                        <resource>
-                            <directory>${basedir}/src/main/webapp</directory>
-                            <filtering>true</filtering>
-                            <includes>
-                                <include>package.json</include>
-                                <include>.bowerrc</include>
-                                <include>bower.json</include>
-                                <include>gulpfile.js</include>
-                            </includes>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<artifactId>maven-resources-plugin</artifactId>-->
+                <!--<version>3.0.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>copy-resources</id>-->
+                        <!--&lt;!&ndash; here the phase you need &ndash;&gt;-->
+                        <!--<phase>generate-resources</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>copy-resources</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash; copy bower.json and package.json to taget folder to prevent polluting project root-->
+                     <!--I did not found any other way to install node into target folder-->
+                    <!--&ndash;&gt;-->
+                    <!--<outputDirectory>${basedir}/target</outputDirectory>-->
+                    <!--<resources>-->
+                        <!--<resource>-->
+                            <!--<directory>${basedir}/src/main/webapp</directory>-->
+                            <!--<filtering>true</filtering>-->
+                            <!--<includes>-->
+                                <!--<include>package.json</include>-->
+                                <!--<include>.bowerrc</include>-->
+                                <!--<include>bower.json</include>-->
+                                <!--<include>gulpfile.js</include>-->
+                            <!--</includes>-->
+                        <!--</resource>-->
+                    <!--</resources>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
 
             <!--  Execute bower.json in target directory -->
 
@@ -177,7 +166,7 @@
                     <execution>
                         <id>webpack</id>
                         <goals>
-                            <goal>webpack build</goal>
+                            <goal>webpack</goal>
                         </goals>
                     </execution>
                 </executions>

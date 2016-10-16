@@ -8,34 +8,40 @@ package com.tsystems.javaschool.logiweb.service.dto;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * Created by Igor Avdeev on 9/12/16.
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class TruckDTO {
-    public final int id;
-    public final String name;
-    public final int maxDrivers;
-    public final int capacityKg;
-    public final Truck.Condition condition;
-    public final int cityId;
-    public final String cityName;
+    public Integer id;
 
-    public static TruckDTO fromEntity(Truck t) {
-        if (t == null) {
-            return null;
-        }
-        return new TruckDTO(
-                t.getId(),
-                t.getName(),
-                t.getMaxDrivers(),
-                t.getCapacityKg(),
-                t.getCondition(),
-                t.getCity().getId(),
-                t.getCity().getName()
-        );
-    }
+    @NotNull
+    @Pattern(regexp = "[A-Z]{2}\\d{5}")
+    public String name;
 
+    @Min(1)
+    @Max(4)
+    @NotNull
+    // Failed to convert property value of type [java.lang.String] to required type [int] for property capacityKg; nested exception is java.lang.NumberFormatException: For input string: ""
+    public int maxDrivers;
+
+    @NotNull
+    public int capacityKg;
+
+    @NotNull
+    public Truck.Condition condition;
+
+    @NotNull
+    public int cityId;
+
+    public String cityName;
 }

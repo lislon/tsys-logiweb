@@ -5,8 +5,6 @@
 
 package com.tsystems.javaschool.logiweb.service.exception;
 
-import java.io.IOException;
-
 /**
  * Created by Igor Avdeev on 9/12/16.
  */

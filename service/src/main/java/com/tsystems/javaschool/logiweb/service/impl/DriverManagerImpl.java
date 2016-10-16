@@ -5,35 +5,36 @@
 
 package com.tsystems.javaschool.logiweb.service.impl;
 
-import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
 import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
+import com.tsystems.javaschool.logiweb.service.dto.converter.DriverDTOConverter;
 import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.InvalidStateException;
+import com.tsystems.javaschool.logiweb.service.helper.WorkingHoursCalc;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
+
+import static com.tsystems.javaschool.logiweb.dao.entities.Driver.Status.DUTY_DRIVE;
+import static com.tsystems.javaschool.logiweb.dao.entities.Driver.Status.DUTY_REST;
+import static com.tsystems.javaschool.logiweb.dao.entities.Driver.Status.REST;
 
 /**
  * Created by Igor Avdeev on 8/24/16.
  */
 @Service
+@Transactional
 public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
         implements DriverManager {
-    /**
-     * How many hours driver can work per day.
-     */
-    private static final int LIMIT_HOURS_DAY_DRIVE = 8;
-    /**
-     * Average truck speed (km/h)
-     */
-    private static final int AVG_TRUCK_SPEED = 80;
 
     private CityManager cityManager;
 
@@ -52,38 +53,12 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
      */
     public List<Driver> findDriversForTrip(int cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd) {
 
-        long requiredWorkHours;
+        int requiredWorkHours = (int) WorkingHoursCalc.getRequiredWorkHoursInCurrentMonth(dutyStart, dutyEnd);
 
-        if (dutyStart.getMonthValue() == dutyEnd.getMonthValue()) {
-            requiredWorkHours = ChronoUnit.HOURS.between(dutyStart, dutyEnd);
-        } else {
-            // In case a trip passes the month border, we just care about current month
-            // Let's see how many hours left till month end
-            LocalDateTime endOfMonth =  LocalDateTime.of(
-                    dutyStart.getYear(),
-                    dutyStart.getMonth().plus(1),
-                    1,
-                    0, 0, 0);
-            requiredWorkHours = ChronoUnit.HOURS.between(dutyStart, endOfMonth);
-        }
-
-        return repo.findFreeDriversInCity(cityId, Driver.MONTH_DUTY_HOURS - (int)requiredWorkHours);
+        return repo.findFreeDriversInCity(cityId, Driver.MONTH_DUTY_HOURS - requiredWorkHours);
     }
 
-    /**
-     * Return aproximation of trip duration with given number of drivers.
-     *
-     * @param routeLength Route length in km
-     * @param numDrivers  Number of drivers in truck
-     * @return double number of total hours required to trip, include rest time.
-     */
-    public int calculateTripDuration(int routeLength, int numDrivers) {
-        double distancePerDay = (Math.min(numDrivers * LIMIT_HOURS_DAY_DRIVE, 24) * AVG_TRUCK_SPEED);
 
-        double hours = Math.floor(routeLength / distancePerDay) * 24 + (routeLength % distancePerDay) / AVG_TRUCK_SPEED;
-
-        return (int)Math.ceil(hours);
-    }
 
     /**
      * {@inheritDoc}
@@ -93,9 +68,9 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
 
         Driver driver = new Driver();
 
-        convertToEntity(driverDTO, driver);
+        DriverDTOConverter.convertToEntity(cityManager, driverDTO, driver);
 
-        repo.save(driver);
+        repo.saveAndFlush(driver);
 
         return driver.getId();
     }
@@ -108,7 +83,7 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
 
         Driver driver = this.findOneOrFail(id);
 
-        convertToEntity(driverDTO, driver);
+        DriverDTOConverter.convertToEntity(cityManager, driverDTO, driver);
 
         repo.save(driver);
     }
@@ -116,37 +91,66 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
     @Override
     public DriverDTO findDto(int id) throws EntityNotFoundException {
 
-        return convertToDto(this.findOneOrFail(id));
-
+        return DriverDTOConverter.convertToDto(this.findOneOrFail(id));
     }
 
-    private DriverDTO convertToDto(Driver from) throws EntityNotFoundException {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeDriverStatus(int driverId, Driver.Status newStatus) throws EntityNotFoundException, InvalidStateException {
 
-        DriverDTO to = new DriverDTO();
+        Driver driver = findOneOrFail(driverId);
 
-        to.setId(from.getId());
-        to.setFirstName(from.getFirstName());
-        to.setLastName(from.getLastName());
-        to.setStatus(from.getStatus());
-        to.setHoursWorked(from.getHoursWorked());
-        to.setPersonalCode(from.getPersonalCode());
-        if (from.getCity() != null) {
-            to.setCityId(from.getCity().getId());
-            to.setCityName(from.getCity().getName());
+        if (driver.getStatus() == newStatus) {
+            return;
         }
-        return to;
+
+        if (driver.getCurrentOrder() == null) {
+            throw new InvalidStateException("Driver have no assigned order to change status");
+        }
+
+        if (newStatus == REST && !driver.getCurrentOrder().isCompleted()) {
+            throw new InvalidStateException("Can't change status to rest, because order is not completed");
+        }
+
+        if (newStatus == DUTY_DRIVE) {
+            boolean isSomebodyElseDriving = driver.getCurrentOrder().getDrivers()
+                    .stream()
+                    .filter(d -> d != driver)
+                    .anyMatch(d -> d.getStatus() == DUTY_DRIVE);
+            if (isSomebodyElseDriving) {
+                throw new InvalidStateException("Can't change status to driving, because other driver is already driving");
+            }
+        }
+
+        updateDutyHours(newStatus, driver);
+
+
+        // assign driver from order
+        if (newStatus == REST) {
+            driver.setCurrentOrder(null);
+        }
+
+        driver.setStatus(newStatus);
+
+        repo.save(driver);
     }
 
-    private void convertToEntity(DriverDTO from, Driver to) throws EntityNotFoundException {
+    private void updateDutyHours(Driver.Status newStatus, Driver driver) {
+        if (newStatus == DUTY_DRIVE || newStatus == DUTY_REST) {
+            if (driver.getLastDutySince() == null) {
+                driver.setLastDutySince(new Date());
+            }
+        } else {
+            LocalDateTime dutyStart = LocalDateTime.ofInstant(
+                    driver.getLastDutySince().toInstant(),
+                    ZoneId.systemDefault());
 
-        to.setFirstName(from.getFirstName());
-        to.setLastName(from.getLastName());
-        to.setStatus(from.getStatus());
-        to.setHoursWorked(from.getHoursWorked());
-        to.setPersonalCode(from.getPersonalCode());
-
-        if (from.getCityId() != null) {
-            to.setCity(cityManager.findOneOrFail(from.getCityId()));
+            double hoursWorked = dutyStart.until(LocalDateTime.now(), ChronoUnit.HOURS);
+            driver.setHoursWorked(driver.getHoursWorked() + (int)Math.ceil(hoursWorked));
+            driver.setLastDutySince(null);
         }
     }
+
 }

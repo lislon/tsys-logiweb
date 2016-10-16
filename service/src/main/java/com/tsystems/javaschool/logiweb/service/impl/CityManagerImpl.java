@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +22,7 @@ import java.util.Collections;
  * Created by Igor Avdeev on 8/28/16.
  */
 @Service
+@Transactional
 public class CityManagerImpl extends BaseManagerImpl<City, CityRepository> implements CityManager {
 
     @Autowired
@@ -35,7 +37,7 @@ public class CityManagerImpl extends BaseManagerImpl<City, CityRepository> imple
      * @return List of matching cities (max 10 items)
      */
     public Collection<City> getAutocompleteCities(String search) {
-        if (search.length() > 1) {
+        if (search.length() > 0) {
             Pageable topTen = new PageRequest(0, 10);
             return repo.findByNameStartingWith(search, topTen);
         } else {

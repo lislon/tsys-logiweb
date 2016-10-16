@@ -5,8 +5,6 @@
 
 package com.tsystems.javaschool.logiweb.service;
 
-import com.tsystems.javaschool.logiweb.dao.repos.*;
-import com.tsystems.javaschool.logiweb.service.helper.TransactionProxy;
 import com.tsystems.javaschool.logiweb.service.impl.CityManagerImpl;
 import com.tsystems.javaschool.logiweb.service.impl.DriverManagerImpl;
 import com.tsystems.javaschool.logiweb.service.impl.OrderManagerImpl;
@@ -18,8 +16,6 @@ import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
-import javax.persistence.EntityManager;
 
 /**
  * Created by Igor Avdeev on 9/12/16.

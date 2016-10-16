@@ -5,12 +5,15 @@
 
 package com.tsystems.javaschool.logiweb.service.exception;
 
-import java.io.IOException;
-
 /**
  * Created by Igor Avdeev on 9/12/16.
  */
 public class EntityNotFoundException extends BusinessLogicException {
+
+    public EntityNotFoundException(String entity, int id) {
+        super("Enity " + entity + " with id '" + id + "' not found");
+    }
+
     public EntityNotFoundException(String message) {
         super(message);
     }

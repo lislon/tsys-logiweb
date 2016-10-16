@@ -9,6 +9,7 @@ import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 @Repository
 @Service
-public interface DriverRepository extends CrudRepository<Driver, Integer> {
+public interface DriverRepository extends JpaRepository<Driver, Integer> {
 
     /**
      * Searchs all drivers who are located in given city, free of duty and worked no more them `maxHours` hours in current month.
