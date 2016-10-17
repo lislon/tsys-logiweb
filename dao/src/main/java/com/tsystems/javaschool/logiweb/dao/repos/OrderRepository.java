@@ -7,19 +7,13 @@ package com.tsystems.javaschool.logiweb.dao.repos;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
-import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Igor Avdeev on 9/3/16.
@@ -43,4 +37,11 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
                 "join fetch o.truck " +
                 "where d.personalCode = ?1")
     Collection<Order> findOrdersForDriver(String personalNumber);
+
+    @Query("from Order o " +
+            "join fetch Driver d " +
+            "join fetch o.drivers " +
+            "where d.currentOrder.id = ?1")
+    Order findDriversCurrenetOrder(Integer driverId);
+
 }

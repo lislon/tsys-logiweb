@@ -70,6 +70,5 @@ export default Backbone.View.extend({
         }
 
         this.$el.selectpicker('refresh');
-        // console.log("Selectpicker");
     }
 });

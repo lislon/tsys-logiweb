@@ -7,8 +7,8 @@ package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
-import com.tsystems.javaschool.logiweb.service.exception.InvalidStateException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,11 +55,27 @@ public interface DriverManager extends BaseManager<Driver> {
     DriverDTO findDto(int id) throws EntityNotFoundException;
 
     /**
+     * List all drivers
+     *
+     * @return List of all drivers in database
+     */
+    List<DriverDTO> findAllDrivers();
+
+
+    /**
      * Changes driver status for given order (OffDuty, OnDuty, OnDutyRest).
      *
      * @param driverId
      * @param newStatus
      */
     void changeDriverStatus(int driverId, Driver.Status newStatus) throws EntityNotFoundException, InvalidStateException;
+
+    /**
+     * Deletes a driver by his id
+     * @param id Driver id
+     * @throws InvalidStateException when driver is assigned to order
+     * @throws EntityNotFoundException when driver not found
+     */
+    void deleteDriver(int id) throws InvalidStateException, EntityNotFoundException;
 
 }

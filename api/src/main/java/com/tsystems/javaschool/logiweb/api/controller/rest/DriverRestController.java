@@ -9,8 +9,10 @@ import com.tsystems.javaschool.logiweb.api.action.dto.driver.DriverJsonDTO;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
-import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
+import com.tsystems.javaschool.logiweb.service.exception.business.BusinessLogicException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
 import com.tsystems.javaschool.logiweb.service.helper.RouteCalculator;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +39,18 @@ public class DriverRestController extends BaseRestController {
     private RouteCalculator routeCalculator;
 
     @GetMapping("")
-    public @ResponseBody Iterable<Driver> apiList() {
-        return manager.findAll();
+    public @ResponseBody Iterable<DriverDTO> apiList() {
+        return manager.findAllDrivers();
     }
 
     @GetMapping("/exception")
     public @ResponseBody void exception() throws BusinessLogicException {
-        throw new EntityNotFoundException("Hello!");
+        throw new EntityNotFoundException("Test exception!");
     }
 
     @DeleteMapping("/{id}")
-    public void apiDelete(@PathVariable("id") int id) throws EntityNotFoundException {
-        if (!manager.delete(id)) {
-            throw new EntityNotFoundException("Driver with id=" + id + " is not found");
-        }
+    public void apiDelete(@PathVariable("id") int id) throws EntityNotFoundException, InvalidStateException {
+        manager.deleteDriver(id);
     }
 
     /**

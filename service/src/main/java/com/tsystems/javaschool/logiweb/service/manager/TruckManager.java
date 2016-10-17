@@ -5,11 +5,11 @@
 
 package com.tsystems.javaschool.logiweb.service.manager;
 
-import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
-import com.tsystems.javaschool.logiweb.service.exception.DuplicateKeyException;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.DuplicateEntityException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
 
 import java.util.List;
 
@@ -42,9 +42,9 @@ public interface TruckManager extends BaseManager<Truck> {
      * @param id Truck id
      * @param dto Truck fields
      * @throws EntityNotFoundException when driver city not found
-     * @throws DuplicateKeyException when truck with same name already exists
+     * @throws DuplicateEntityException when truck with same name already exists
      */
-    void update(int id, TruckDTO dto) throws EntityNotFoundException, DuplicateKeyException;
+    void update(int id, TruckDTO dto) throws EntityNotFoundException, DuplicateEntityException;
 
     /**
      * Returns Driver or throws exception.
@@ -55,14 +55,22 @@ public interface TruckManager extends BaseManager<Truck> {
      */
     TruckDTO findDto(int id) throws EntityNotFoundException;
 
-
     /**
      * Saves the truck and it's location in single transaction
      *
      * @param truck Truck's data
      *
      * @throws EntityNotFoundException when cityId is not found
-     * @throws DuplicateKeyException when truck with same name already exists
+     * @throws DuplicateEntityException when truck with same name already exists
      */
-    Integer create(TruckDTO truck) throws EntityNotFoundException, DuplicateKeyException;
+    Integer create(TruckDTO truck) throws EntityNotFoundException, DuplicateEntityException;
+
+    /**
+     * Deletes a truck if it's not assigned to any order
+     *
+     * @param id
+     * @throws EntityNotFoundException when truck not found
+     * @throws InvalidStateException when truck is assigned to some active order
+     */
+    void deleteTruck(int id) throws EntityNotFoundException, InvalidStateException;
 }

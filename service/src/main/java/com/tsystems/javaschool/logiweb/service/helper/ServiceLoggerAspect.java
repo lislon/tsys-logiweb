@@ -17,7 +17,7 @@ public class ServiceLoggerAspect {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceLoggerAspect.class);
 
     @Before("execution(* com.tsystems.javaschool.logiweb.service.impl.*.* (..))")
-    public void beforeAdvice(JoinPoint jp) throws Throwable {
+    public void beforeAdvice(JoinPoint jp) throws Exception {
         Class<?> clazz = jp.getTarget().getClass();
         String methodName = jp.getSignature().getName();
         Object[] args = jp.getArgs();

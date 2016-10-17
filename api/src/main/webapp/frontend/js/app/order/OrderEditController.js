@@ -17,6 +17,7 @@ import showAlert from "app/common/showAlert";
 import "./order.css";
 import RouteDataConverter from "./RouteDataConverter";
 import App from "app/order/App";
+import Logger from "js-logger";
 
 
     let OrderEditController = function (options) {
@@ -49,7 +50,7 @@ _.extend(OrderEditController.prototype, Backbone.Events, {
     },
 
     refreshRouteLengthAndGetTrucks: function () {
-        console.log("refreshMetaAndGetDriver");
+        Logger.debug("refreshMetaAndGetDriver");
 
         var request = RouteDataConverter.convert(
             this.order.get('cargoCollection'),
@@ -61,7 +62,7 @@ _.extend(OrderEditController.prototype, Backbone.Events, {
             data: JSON.stringify(request),
             contentType: "application/json",
         }).done(function (json) {
-            console.log("Route meta arrived. " + json.trucks.length + " trucks");
+            Logger.debug("Route meta arrived. " + json.trucks.length + " trucks");
             this.order.set('routeLength', json.length);
             this.order.set('requiredCapacity', json.requiredCapacity);
 
@@ -139,7 +140,7 @@ _.extend(OrderEditController.prototype, Backbone.Events, {
 
         if (this.order.get('selectedTruckId') == null) {
             this.driversCollection.reset();
-            console.log("Truck not selected. Reset drivers list");
+            Logger.debug("Truck not selected. Reset drivers list");
             return;
         }
         // hack check
@@ -151,7 +152,7 @@ _.extend(OrderEditController.prototype, Backbone.Events, {
 
         if (this.order.get('routeLength') != null && this.trucksCollection.length > 0) {
 
-            console.log("Ajax request drivers...");
+            Logger.debug("Ajax request drivers...");
 
             // truck selected, load the drivers
             $.ajax(apiUrls.urlDriverListAvailableApi(Utils.getIdFromUrl()), {
@@ -163,7 +164,7 @@ _.extend(OrderEditController.prototype, Backbone.Events, {
                 }
             })
                 .done(function (driverList) {
-                    console.log("List of drivers arrived ", driverList);
+                    Logger.debug("List of drivers arrived ", driverList);
                     this.driversCollection.reset(driverList);
                 })
                 .fail(function (jqXhr) {

@@ -21,9 +21,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "cargoes")
-@ToString(exclude = {"order", "waypoints"})
-@Data
-@NoArgsConstructor
 public class Cargo {
     public enum Status { PREPARED, SHIPPED, DELIVERED }
 
@@ -91,4 +88,70 @@ public class Cargo {
                 .build();
     }
 
+    @Override
+    public String toString() {
+        return "Cargo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
+                ", weight=" + weight +
+                ", status=" + status +
+                '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Set<OrderWaypoint> getWaypoints() {
+        return waypoints;
+    }
+
+    public void setWaypoints(Set<OrderWaypoint> waypoints) {
+        this.waypoints = waypoints;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

@@ -26,12 +26,9 @@ import java.util.SortedSet;
  */
 @Entity
 @Table(name = "orders")
-@Data
-@ToString(exclude = {"waypoints","drivers"})
-@NoArgsConstructor
 public class Order {
 
-    public enum Status {NEW, PREPARED, FINISHED};
+    public enum Status {NEW, PREPARED, FINISHED}
 
     @Id
     @Column(name = "id")
@@ -53,7 +50,7 @@ public class Order {
     @OrderBy(clause = "waypointWeight asc")
     private SortedSet<OrderWaypoint> waypoints;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "truck_id")
     private Truck truck;
 
@@ -62,7 +59,16 @@ public class Order {
             inverseJoinColumns=@JoinColumn(name="driver_id"))
     private Set<Driver> drivers;
 
-
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", isCompleted=" + isCompleted +
+                ", waypoints=" + waypoints +
+                ", truck=" + truck +
+                ", drivers=" + drivers +
+                '}';
+    }
 
     /**
      * Returns departure city or null when no waypoints have been set.
@@ -76,6 +82,59 @@ public class Order {
         return null;
     }
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
+    public Timestamp getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Timestamp dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public Date getDateCompleted() {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(Date dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
+    public SortedSet<OrderWaypoint> getWaypoints() {
+        return waypoints;
+    }
+
+    public void setWaypoints(SortedSet<OrderWaypoint> waypoints) {
+        this.waypoints = waypoints;
+    }
+
+    public Truck getTruck() {
+        return truck;
+    }
+
+    public void setTruck(Truck truck) {
+        this.truck = truck;
+    }
+
+    public Set<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(Set<Driver> drivers) {
+        this.drivers = drivers;
+    }
 }

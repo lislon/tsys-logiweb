@@ -9,19 +9,20 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Log in</title>
+    <title>Logiweb | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/bootstrap/css/bootstrap.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/admin-lte/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/admin-lte/css/skins/skin-blue.min.css">
     <!-- iCheck -->
-    <link rel="stylesheet" href="../../plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/icheck/skins/square/blue.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,20 +34,35 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <a href=${pageContext.request.contextPath}><b>Logiweb</b> (Yet Another)</a>
     </div>
     <!-- /.login-logo -->
-    <div class="login-box-body">
+    <div class="login-box-body"><link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/easy-autocomplete/easy-autocomplete.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/easy-autocomplete/easy-autocomplete.themes.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/bootstrap-table/bootstrap-table.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/admin-lte/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/admin-lte/css/skins/skin-blue.min.css">
         <p class="login-box-msg">Sign in to start your session</p>
 
-        <form action="../../index2.html" method="post">
-            <div class="form-group has-feedback">
-                <input type="email" class="form-control" placeholder="Email" name="username" >
+        <form method="post">
+            <div class="form-group has-feedback ${param.error == true ? "has-error" : ""}">
+                <input type="email" class="form-control" placeholder="Email" name="username" value="admin@test.ru" >
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
-            <div class="form-group has-feedback">
-                <input type="password" class="form-control" placeholder="Password" name="password">
+            <div class="form-group has-feedback ${param.error == true ? "has-error" : ""}">
+                <input type="password" class="form-control" placeholder="Password" name="password" value="admin@test.ru">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <c:if test="${param.error == true}">
+                    <span class="help-block">
+                        Invalid mail and password.
+                    </span>
+                </c:if>
             </div>
             <div class="row">
                 <div class="col-xs-8">
@@ -74,12 +90,11 @@
 </div>
 <!-- /.login-box -->
 
-<!-- jQuery 2.2.3 -->
-<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="${pageContext.request.contextPath}/dist/vendor/jquery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/dist/vendor/bootstrap/js/bootstrap.min.js"></script>
 <!-- iCheck -->
-<script src="../../plugins/iCheck/icheck.min.js"></script>
+<script src="${pageContext.request.contextPath}/dist/vendor/icheck/icheck.min.js"></script>
 <script>
     $(function () {
         $('input').iCheck({

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 /**
@@ -51,4 +52,7 @@ public class DriverDTO {
     // Used only for displaying
     @NotNull(message = "Location must be set")
     private String cityName;
+
+    @Null
+    private Integer userId;
 }

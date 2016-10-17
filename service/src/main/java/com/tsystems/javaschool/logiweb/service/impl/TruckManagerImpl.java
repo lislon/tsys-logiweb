@@ -9,8 +9,9 @@ import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.dao.repos.TruckRepository;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import com.tsystems.javaschool.logiweb.service.dto.converter.TruckDTOConverter;
-import com.tsystems.javaschool.logiweb.service.exception.DuplicateKeyException;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.DuplicateEntityException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
      * {@inheritDoc}
      */
     @Override
-    public void update(int id, TruckDTO dto) throws EntityNotFoundException, DuplicateKeyException {
+    public void update(int id, TruckDTO dto) throws EntityNotFoundException, DuplicateEntityException {
         checkForDuplicate(dto);
 
         Truck entity = findOneOrFail(id);
@@ -92,7 +93,7 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
      * {@inheritDoc}
      */
     @Override
-    public Integer create(TruckDTO dto) throws EntityNotFoundException, DuplicateKeyException {
+    public Integer create(TruckDTO dto) throws EntityNotFoundException, DuplicateEntityException {
         checkForDuplicate(dto);
 
         Truck entity = new Truck();
@@ -102,10 +103,19 @@ public class TruckManagerImpl extends BaseManagerImpl<Truck, TruckRepository>
         return entity.getId();
     }
 
-    private void checkForDuplicate(TruckDTO truck) throws DuplicateKeyException {
-        Truck existing = repo.findByName(truck.getName());
-        if (existing != null && existing.getId() != truck.getId()) {
-            throw new DuplicateKeyException("Truck with number " + truck.getName() + " already exists");
+    @Override
+    public void deleteTruck(int id) throws EntityNotFoundException, InvalidStateException {
+        Truck truck = findOneOrFail(id);
+        if (truck.getCurrentOrder() != null) {
+            throw new InvalidStateException("Driver is assigned to order #" + truck.getCurrentOrder().getId());
+        }
+        delete(id);
+    }
+
+    private void checkForDuplicate(TruckDTO truck) throws DuplicateEntityException {
+        Truck existing = repo.findByNameButNotWithId(truck.getName(), truck.getId());
+        if (existing != null) {
+            throw new DuplicateEntityException("Truck with number " + truck.getName() + " already exists");
         }
     }
 

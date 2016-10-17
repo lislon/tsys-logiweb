@@ -1,23 +1,35 @@
 package com.tsystems.javaschool.logiweb.service.impl;
 
-import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
+import com.tsystems.javaschool.logiweb.service.LogiwebConfig;
 import com.tsystems.javaschool.logiweb.service.helper.RouteCalculator;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ContextHierarchy;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextHierarchy({
+        @ContextConfiguration(locations = { "classpath*:/META-INF/spring/applicationContext.xml" }),
+        @ContextConfiguration("/testApplicationContext.xml")
+})
 public class RouteCalculatorTest {
-    
+
+    @Autowired
+    private LogiwebConfig appConfig;
+
     private RouteCalculator calculator;
 
     @Before
     public void createCalculator() {
         CityManager cityManager = mock(CityManager.class);
-        calculator = new RouteCalculator(cityManager);
+        calculator = new RouteCalculator(cityManager, appConfig);
     }
     
     @Test

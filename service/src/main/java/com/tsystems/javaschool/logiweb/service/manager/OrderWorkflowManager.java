@@ -1,9 +1,8 @@
 package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
-import com.tsystems.javaschool.logiweb.dao.entities.Driver;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
-import com.tsystems.javaschool.logiweb.service.exception.InvalidStateException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
 
 import java.util.List;
 

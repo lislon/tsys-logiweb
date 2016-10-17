@@ -22,17 +22,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "trucks")
-@ToString(exclude = "orders")
-@Data
-@NoArgsConstructor
 public class Truck {
 
     public enum Condition { OK, BROKEN }
 
-    /**
-     * Average truck speed (km/h)
-     */
-    public static final int AVG_TRUCK_SPEED = 80;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -59,8 +52,8 @@ public class Truck {
     @JoinColumn(name = "city_id")
     private City city;
 
-    @OneToMany(mappedBy = "truck")
-    private Set<Order> orders;
+    @OneToOne(mappedBy = "truck")
+    private Order currentOrder;
 
 
     public int getCapacityKg() {
@@ -68,7 +61,7 @@ public class Truck {
     }
 
     public double getCapacityTon() {
-        return capacityKg / 1000;
+        return capacityKg / 1000.0;
     }
 
     public void setCapacityTon(double capacityTon) {
@@ -99,4 +92,63 @@ public class Truck {
                 .build();
     }
 
+    @Override
+    public String toString() {
+        return "Truck{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", maxDrivers=" + maxDrivers +
+                ", capacityKg=" + capacityKg +
+                ", condition=" + condition +
+                ", city=" + city +
+                '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getMaxDrivers() {
+        return maxDrivers;
+    }
+
+    public void setMaxDrivers(int maxDrivers) {
+        this.maxDrivers = maxDrivers;
+    }
+
+    public Condition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(Condition condition) {
+        this.condition = condition;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(Order currentOrder) {
+        this.currentOrder = currentOrder;
+    }
 }

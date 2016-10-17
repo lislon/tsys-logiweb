@@ -1,35 +1,41 @@
-<!--<beans:beans xmlns="http://www.springframework.org/schema/security"-->
-             <!--xmlns:beans="http://www.springframework.org/schema/beans"-->
-             <!--xmlns:context="http://www.springframework.org/schema/context"-->
-             <!--xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
-             <!--xsi:schemaLocation="http://www.springframework.org/schema/beans-->
- <!--http://www.springframework.org/schema/beans/spring-beans-4.1.xsd-->
- <!--http://www.springframework.org/schema/context-->
- <!--http://www.springframework.org/schema/context/spring-context-4.1.xsd-->
-    <!--http://www.springframework.org/schema/security-->
-    <!--http://www.springframework.org/schema/security/spring-security-4.0.xsd">-->
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-4.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!--<global-method-security secured-annotations="enabled"/>-->
+    <global-method-security secured-annotations="enabled"/>
 
-    <!--<http use-expressions="true">-->
+    <http use-expressions="true">
         <!--<csrf disabled="true"/>-->
 
-        <!--<intercept-url pattern="/dist/**" access="permitAll" />-->
+        <intercept-url pattern="/dist/**" access="permitAll" />
 
-        <!--<intercept-url pattern="/login" access="permitAll" />-->
-        <!--<intercept-url pattern="/logout" access="permitAll" />-->
-        <!--<form-login login-page="/login" default-target-url="/"-->
-                    <!--authentication-failure-url="/login?error=true" />-->
-        <!--<logout invalidate-session="true" logout-success-url="/login" logout-url="/logout" />-->
-        <!--&lt;!&ndash;<remember-me />&ndash;&gt;-->
-    <!--</http>-->
+        <intercept-url pattern="/login" access="permitAll" />
+        <intercept-url pattern="/logout" access="permitAll" />
 
-    <!--<authentication-manager>-->
-        <!--<authentication-provider user-service-ref="userServiceImpl" >-->
-            <!--<password-encoder hash="md5"/>-->
-        <!--</authentication-provider>-->
-    <!--</authentication-manager>-->
+        <intercept-url pattern="/orders/**" access="hasRole('ROLE_MANAGER')" />
+        <intercept-url pattern="/drivers/**" access="hasRole('ROLE_MANAGER')" />
+        <intercept-url pattern="/trucks/**" access="hasRole('ROLE_MANAGER')" />
 
-    <!--<context:component-scan base-package="com.tsystems.javaschool.logiweb"/>-->
+        <intercept-url pattern="/" access="isAuthenticated()" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_MANAGER')" />
 
-<!--</beans:beans>-->
+        <form-login login-page="/login" default-target-url="/"
+                    authentication-failure-url="/login?error=true" authentication-success-handler-ref="authenticationHandler" />
+        <logout invalidate-session="true" logout-success-url="/login" logout-url="/logout" />
+        <!--<remember-me />-->
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userManagerImpl" >
+            <password-encoder hash="md5"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <context:component-scan base-package="com.tsystems.javaschool.logiweb"/>
+
+</beans:beans>

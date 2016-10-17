@@ -5,25 +5,20 @@
 
 package com.tsystems.javaschool.logiweb.api.controller.rest;
 
-import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.BusinessLogicException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * Exception handlers for rest controllers, which returns a valid json object with description of error.
+ * Exception handlers for rest controllers, which returns plain text with error for jquery.
  */
 public abstract class BaseRestController {
     @ExceptionHandler(BusinessLogicException.class)
     public void businessLogicException(HttpServletResponse response, Exception exception) throws IOException {
-        Map<String, String> result = new HashMap<>();
-//        result.put("errorText", exception.getMessage());
-
         response.getWriter().write(exception.getMessage());
 
         if (exception instanceof EntityNotFoundException) {
@@ -35,10 +30,8 @@ public abstract class BaseRestController {
 
     @ExceptionHandler(Exception.class)
     public void genericException(HttpServletResponse response, Exception exception) throws IOException {
-        Map<String, String> result = new HashMap<>();
-        response.getWriter().write(exception.getMessage());
+        response.getWriter().write("Error 500:" + exception.getMessage());
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-//        return result;
     }
 
 }

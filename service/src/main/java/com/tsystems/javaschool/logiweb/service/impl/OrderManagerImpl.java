@@ -5,17 +5,20 @@
 
 package com.tsystems.javaschool.logiweb.service.impl;
 
-import com.tsystems.javaschool.logiweb.dao.entities.*;
-import com.tsystems.javaschool.logiweb.dao.repos.*;
+import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
+import com.tsystems.javaschool.logiweb.dao.entities.Order;
+import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
+import com.tsystems.javaschool.logiweb.dao.repos.CargoRepository;
+import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
+import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
+import com.tsystems.javaschool.logiweb.dao.repos.OrderWaypointRepository;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.WaypointDTO;
 import com.tsystems.javaschool.logiweb.service.dto.converter.WaypointDTOConverter;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
-import com.tsystems.javaschool.logiweb.service.exception.RouteNotValidException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.RouteNotValidException;
 import com.tsystems.javaschool.logiweb.service.helper.RouteCalculator;
-import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
 import com.tsystems.javaschool.logiweb.service.manager.OrderManager;
-import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -165,13 +168,12 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
      * {@inheritDoc}
      */
     @Override
-    public boolean delete(int id) {
+    public void delete(int id) throws EntityNotFoundException {
         Order o = repo.findOne(id);
-
         if (o != null) {
             o.getWaypoints().clear();
         }
-        return super.delete(id);
+        super.delete(id);
     }
 
     public int createOrder() {
@@ -260,6 +262,11 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
     @Override
     public Collection<Order> findDriverAssignments(String personalNumber) {
         return repo.findOrdersForDriver(personalNumber);
+    }
+
+    @Override
+    public Order findOrderByDriver(int driverId) throws EntityNotFoundException {
+        return repo.findDriversCurrenetOrder(driverId);
     }
 
     @Override

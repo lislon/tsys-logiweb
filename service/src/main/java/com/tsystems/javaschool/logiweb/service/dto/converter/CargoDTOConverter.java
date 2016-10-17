@@ -1,9 +1,8 @@
 package com.tsystems.javaschool.logiweb.service.dto.converter;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
-import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.service.dto.CargoDTO;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 
 public class CargoDTOConverter {
 

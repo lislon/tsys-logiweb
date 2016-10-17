@@ -8,6 +8,7 @@ package com.tsystems.javaschool.logiweb.dao.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -22,8 +23,6 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "drivers")
-@Data
-@NoArgsConstructor
 public class Driver {
 
     /**
@@ -92,6 +91,10 @@ public class Driver {
     @Column(name = "duty_since")
     private Date lastDutySince;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     @Override
     public int hashCode() {
@@ -113,4 +116,96 @@ public class Driver {
                 .build();
     }
 
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", personalCode='" + personalCode + '\'' +
+                ", hoursWorked=" + hoursWorked +
+                ", status=" + status +
+                ", city=" + city +
+                '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPersonalCode() {
+        return personalCode;
+    }
+
+    public void setPersonalCode(String personalCode) {
+        this.personalCode = personalCode;
+    }
+
+    public int getHoursWorked() {
+        return hoursWorked;
+    }
+
+    public void setHoursWorked(int hoursWorked) {
+        this.hoursWorked = hoursWorked;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Order getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void setCurrentOrder(Order currentOrder) {
+        this.currentOrder = currentOrder;
+    }
+
+    public Date getLastDutySince() {
+        return lastDutySince;
+    }
+
+    public void setLastDutySince(Date lastDutySince) {
+        this.lastDutySince = lastDutySince;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

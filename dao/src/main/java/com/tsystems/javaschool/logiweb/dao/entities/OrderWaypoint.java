@@ -20,11 +20,6 @@ import javax.validation.constraints.NotNull;
  * Created by Igor Avdeev on 9/3/16.
  */
 @Entity
-@Data
-@NoArgsConstructor
-@ToString(exclude = "order")
-@NamedQuery(name = "orderWaypoint.findByOrderId",
-        query = "from OrderWaypoint w where w.order.id = :orderId order by w.waypointWeight asc")
 @Table(name = "orders_waypoints")
 public class OrderWaypoint implements Comparable<OrderWaypoint> {
 
@@ -74,7 +69,6 @@ public class OrderWaypoint implements Comparable<OrderWaypoint> {
     @Override
     public int hashCode() {
         Integer build = (new HashCodeBuilder())
-//                .append(waypointWeight)
                 .append(operation)
                 .append(city.getId())
                 .append(cargo.getId())
@@ -91,13 +85,76 @@ public class OrderWaypoint implements Comparable<OrderWaypoint> {
 
         OrderWaypoint rhs = (OrderWaypoint) obj;
         return (new EqualsBuilder())
-//                .append(waypointWeight, rhs.waypointWeight)
                 .append(operation, rhs.operation)
                 .append(city.getId(), rhs.city.getId())
                 .append(cargo.getId(), rhs.cargo.getId())
                 .build();
     }
 
+    @Override
+    public String toString() {
+        return "OrderWaypoint{" +
+                "id=" + id +
+                ", isCompleted=" + isCompleted +
+                ", operation=" + operation +
+                ", city=" + city +
+                ", cargo=" + cargo +
+                '}';
+    }
 
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Cargo getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(Cargo cargo) {
+        this.cargo = cargo;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public int getWaypointWeight() {
+        return waypointWeight;
+    }
+
+    public void setWaypointWeight(int waypointWeight) {
+        this.waypointWeight = waypointWeight;
+    }
 }

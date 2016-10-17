@@ -7,13 +7,17 @@ package com.tsystems.javaschool.logiweb.service.impl;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
+import com.tsystems.javaschool.logiweb.service.LogiwebConfig;
 import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
 import com.tsystems.javaschool.logiweb.service.dto.converter.DriverDTOConverter;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
-import com.tsystems.javaschool.logiweb.service.exception.InvalidStateException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
 import com.tsystems.javaschool.logiweb.service.helper.WorkingHoursCalc;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
+import com.tsystems.javaschool.logiweb.service.manager.UserManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +26,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-import static com.tsystems.javaschool.logiweb.dao.entities.Driver.Status.DUTY_DRIVE;
-import static com.tsystems.javaschool.logiweb.dao.entities.Driver.Status.DUTY_REST;
-import static com.tsystems.javaschool.logiweb.dao.entities.Driver.Status.REST;
+import static com.tsystems.javaschool.logiweb.dao.entities.Driver.Status.*;
 
 /**
  * Created by Igor Avdeev on 8/24/16.
@@ -36,26 +39,41 @@ import static com.tsystems.javaschool.logiweb.dao.entities.Driver.Status.REST;
 public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
         implements DriverManager {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DriverManagerImpl.class);
+
     private CityManager cityManager;
+    private UserManager userManager;
+    private LogiwebConfig appConfig;
 
     @Autowired
-    public DriverManagerImpl(DriverRepository driverRepository, CityManager cityManager) {
+    public DriverManagerImpl(DriverRepository driverRepository, CityManager cityManager, UserManager userManager, LogiwebConfig appConfiguration) {
         super(driverRepository);
         this.cityManager = cityManager;
+        this.userManager = userManager;
+        this.appConfig = appConfiguration;
     }
 
     /**
-     * Find unassigned drivers in city `departure` available to work from now till tillDate.
-     *
-     * @param cityId City in which we search drivers.
-     * @param dutyEnd
-     * @return
+     * {@inheritDoc}
      */
+    @Override
+    public void deleteDriver(int id) throws InvalidStateException, EntityNotFoundException {
+        Driver d = findOneOrFail(id);
+        if (d.getCurrentOrder() != null) {
+            throw new InvalidStateException("Driver is assigned to order #" + d.getCurrentOrder().getId());
+        }
+        delete(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<Driver> findDriversForTrip(int cityId, LocalDateTime dutyStart, LocalDateTime dutyEnd) {
 
         int requiredWorkHours = (int) WorkingHoursCalc.getRequiredWorkHoursInCurrentMonth(dutyStart, dutyEnd);
 
-        return repo.findFreeDriversInCity(cityId, Driver.MONTH_DUTY_HOURS - requiredWorkHours);
+        return repo.findFreeDriversInCity(cityId, appConfig.getMaxMonthlyDutyHours() - requiredWorkHours);
     }
 
 
@@ -68,7 +86,7 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
 
         Driver driver = new Driver();
 
-        DriverDTOConverter.convertToEntity(cityManager, driverDTO, driver);
+        DriverDTOConverter.convertToEntity(cityManager, userManager, driverDTO, driver);
 
         repo.saveAndFlush(driver);
 
@@ -83,15 +101,35 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
 
         Driver driver = this.findOneOrFail(id);
 
-        DriverDTOConverter.convertToEntity(cityManager, driverDTO, driver);
+        DriverDTOConverter.convertToEntity(cityManager, userManager, driverDTO, driver);
 
         repo.save(driver);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DriverDTO findDto(int id) throws EntityNotFoundException {
-
         return DriverDTOConverter.convertToDto(this.findOneOrFail(id));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<DriverDTO> findAllDrivers() {
+        List<Driver> all = repo.findAll();
+        List<DriverDTO> result = new LinkedList<>();
+        try {
+            for (Driver d : all) {
+                result.add(DriverDTOConverter.convertToDto(d));
+            }
+            return result;
+        } catch (EntityNotFoundException e) {
+            LOG.error("City not found while loading list of drivers", e);
+            throw new RuntimeException(e);
+        }
     }
 
     /**

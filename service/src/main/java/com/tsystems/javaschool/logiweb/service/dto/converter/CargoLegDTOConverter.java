@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CargoLegDTOConverter {
 
-    public static Collection<CargoLegDTO> toCargoLegs(Order order) {
+    public static Collection<CargoLegDTO> retrieveCargoLegs(Order order) {
         Map<Integer, CargoLegDTO> cargoLegs = new HashMap<>();
         for (OrderWaypoint waypoint : order.getWaypoints()) {
 

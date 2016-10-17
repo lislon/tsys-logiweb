@@ -14,9 +14,9 @@ import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import com.tsystems.javaschool.logiweb.service.dto.converter.CargoLegDTOConverter;
 import com.tsystems.javaschool.logiweb.service.dto.converter.TruckDTOConverter;
-import com.tsystems.javaschool.logiweb.service.exception.BusinessLogicException;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
-import com.tsystems.javaschool.logiweb.service.helper.OrderCreatorService;
+import com.tsystems.javaschool.logiweb.service.exception.business.BusinessLogicException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.facade.OrderCreatorFacade;
 import com.tsystems.javaschool.logiweb.service.helper.RouteCalculator;
 import com.tsystems.javaschool.logiweb.service.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class OrderRestController extends BaseRestController {
     private CargoManager cargoManager;
 
     @Autowired
-    private OrderCreatorService orderCreatorService;
+    private OrderCreatorFacade orderCreatorService;
 
     @Autowired
     private CityManager cityManager;
@@ -140,6 +140,6 @@ public class OrderRestController extends BaseRestController {
 
     @DeleteMapping("/{id}/cargoes")
     public Collection<CargoLegDTO> listOrderCargoes(@PathVariable("id") int id) throws EntityNotFoundException {
-        return CargoLegDTOConverter.toCargoLegs(manager.findOneOrFail(id));
+        return CargoLegDTOConverter.retrieveCargoLegs(manager.findOneOrFail(id));
     }
 }

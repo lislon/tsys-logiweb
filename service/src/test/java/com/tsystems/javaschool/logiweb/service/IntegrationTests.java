@@ -99,8 +99,8 @@ public class IntegrationTests {
         Integer orderId = orderManager.createOrder();
         Integer truckId = truckManager.create(moscowTruckDTO);
 
-        DriverDTO driver1 = new DriverDTO(null, "test", "test", "test1", Driver.Status.REST, 50, CITY_ID_MOSCOW, "Moscow");
-        DriverDTO driver2 = new DriverDTO(null, "test", "test", "test2", Driver.Status.REST, 50, CITY_ID_MOSCOW, "Moscow");
+        DriverDTO driver1 = new DriverDTO(null, "test", "test", "test1", Driver.Status.REST, 50, CITY_ID_MOSCOW, "Moscow", null);
+        DriverDTO driver2 = new DriverDTO(null, "test", "test", "test2", Driver.Status.REST, 50, CITY_ID_MOSCOW, "Moscow", null);
 
         Integer driverId1 = driverManager.create(driver1);
         Integer driverId2 = driverManager.create(driver2);

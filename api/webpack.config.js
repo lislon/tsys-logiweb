@@ -95,6 +95,7 @@ module.exports = {
             { from: nodeDir + '/backbone', to: 'vendor/backbone' },
             { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
             { from: nodeDir + '/slimscroll/lib', to: 'vendor/slimscroll' },
+            { from: nodeDir + '/icheck', to: 'vendor/icheck' },
 
             // { from: 'img', to: 'img' },
         ]),

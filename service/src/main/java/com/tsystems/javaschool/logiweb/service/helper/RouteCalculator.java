@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.logiweb.service.helper;
 
 import com.tsystems.javaschool.logiweb.dao.entities.*;
+import com.tsystems.javaschool.logiweb.service.LogiwebConfig;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,12 @@ public class RouteCalculator {
 
     private CityManager cityManager;
 
+    private LogiwebConfig appConfig;
+
     @Autowired
-    public RouteCalculator(CityManager cityManager) {
+    public RouteCalculator(CityManager cityManager, LogiwebConfig appConfig) {
         this.cityManager = cityManager;
+        this.appConfig = appConfig;
     }
 
     /**
@@ -28,9 +32,9 @@ public class RouteCalculator {
      * @return double number of total hours required to trip, include rest time.
      */
     public double getRouteDuration(int routeLength, int numCoDrivers) {
-        double distancePerDay = (Math.min(numCoDrivers * Driver.LIMIT_HOURS_DAY_DRIVE, 24) * Truck.AVG_TRUCK_SPEED);
+        double distancePerDay = (Math.min(numCoDrivers * appConfig.getLimitHoursPerDay(), 24) * appConfig.getTruckAvgSpeed());
 
-        double hours = Math.floor(routeLength / distancePerDay) * 24 + (routeLength % distancePerDay) / Truck.AVG_TRUCK_SPEED;
+        double hours = Math.floor(routeLength / distancePerDay) * 24 + (routeLength % distancePerDay) / appConfig.getTruckAvgSpeed();
 
         return hours;
     }

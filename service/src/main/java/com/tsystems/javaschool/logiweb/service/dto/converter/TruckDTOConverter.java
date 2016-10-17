@@ -7,7 +7,7 @@ package com.tsystems.javaschool.logiweb.service.dto.converter;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 
 public class TruckDTOConverter {

@@ -9,6 +9,5 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="classpath*:META-INF/spring/applicationContext.xml" />
-    <!-- Utility to convert Entity to DTO and back forth -->
-    <bean class="org.modelmapper.ModelMapper" />
+    <import resource="classpath:/WEB-INF/spring/springSecurity.xml" />
 </beans>

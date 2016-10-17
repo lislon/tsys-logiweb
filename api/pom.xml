@@ -97,43 +97,16 @@
                 </executions>
             </plugin>
 
-            <!--  Copy bower.json from root to target directory before execute -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.0.2.Final</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
 
-            <!--<plugin>-->
-                <!--<artifactId>maven-resources-plugin</artifactId>-->
-                <!--<version>3.0.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>copy-resources</id>-->
-                        <!--&lt;!&ndash; here the phase you need &ndash;&gt;-->
-                        <!--<phase>generate-resources</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>copy-resources</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash; copy bower.json and package.json to taget folder to prevent polluting project root-->
-                     <!--I did not found any other way to install node into target folder-->
-                    <!--&ndash;&gt;-->
-                    <!--<outputDirectory>${basedir}/target</outputDirectory>-->
-                    <!--<resources>-->
-                        <!--<resource>-->
-                            <!--<directory>${basedir}/src/main/webapp</directory>-->
-                            <!--<filtering>true</filtering>-->
-                            <!--<includes>-->
-                                <!--<include>package.json</include>-->
-                                <!--<include>.bowerrc</include>-->
-                                <!--<include>bower.json</include>-->
-                                <!--<include>gulpfile.js</include>-->
-                            <!--</includes>-->
-                        <!--</resource>-->
-                    <!--</resources>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-
-            <!--  Execute bower.json in target directory -->
-
+            <!-- node modules install and webpack -->
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>

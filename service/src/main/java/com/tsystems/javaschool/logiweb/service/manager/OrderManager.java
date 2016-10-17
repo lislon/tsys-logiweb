@@ -5,17 +5,14 @@
 
 package com.tsystems.javaschool.logiweb.service.manager;
 
-import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
-import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.WaypointDTO;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
-import com.tsystems.javaschool.logiweb.service.exception.RouteNotValidException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.RouteNotValidException;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.SortedSet;
 
 
 /**
@@ -59,6 +56,10 @@ public interface OrderManager extends BaseManager<Order> {
      * @return
      */
     Collection<Order> findDriverAssignments(String personalNumber);
+
+
+    Order findOrderByDriver(int driverId) throws EntityNotFoundException;
+
 
     /**
      * Updates completed order status.

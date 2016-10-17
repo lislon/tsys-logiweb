@@ -5,16 +5,13 @@
 
 package com.tsystems.javaschool.logiweb.dao.repos;
 
-import com.tsystems.javaschool.logiweb.dao.entities.City;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -32,6 +29,7 @@ public interface TruckRepository extends JpaRepository<Truck, Integer> {
     List<Truck> findReadyToGoTrucks(@Param("cityId") int cityId,
                                     @Param("minCapacity") int minCapacity);
 
-    Truck findByName(String name);
+    @Query("select t from Truck t where t.name = ?1 and t.id != ?2")
+    Truck findByNameButNotWithId(String name, Integer notId);
 }
 

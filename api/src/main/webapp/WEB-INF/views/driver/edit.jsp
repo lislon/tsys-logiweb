@@ -11,9 +11,9 @@
 
 
     <jsp:attribute name="body">
-        <div class="box box-primary">
-            <div class="box-body">
-                <form:form modelAttribute="model" method="post" id="primary-form">
+        <form:form modelAttribute="model" method="post" id="primary-form">
+            <div class="box box-primary">
+                <div class="box-body">
 
                     <%--Error message --%>
                     <c:if test="${not empty error}">
@@ -27,6 +27,32 @@
                         </div>
                     </c:if>
 
+                    <p class="lead"><i class="fa fa-lock margin-r-5"></i> Account</p>
+
+                    <jsp:include page="../common/elem/form_text_row.jsp">
+                        <jsp:param name="name" value="email"/>
+                        <jsp:param name="title" value="Email"/>
+                    </jsp:include>
+
+                    <c:set var="path" value="password" />
+                    <spring:bind path="${path}">
+                        <div class="form-group ${status.error ? 'has-error' : ''}">
+                            <label for="${path}">Password</label>
+                            <div class="input-group">
+                                <form:password path="${path}" class="form-control" id="${path}" required="${email == null ? 'yes' : ''}" />
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-warning" id="gen-pass">Generate</button>
+                                </div>
+                            </div>
+
+                            <form:errors path="${path}" class="help-block with-errors"/>
+                        </div>
+                    </spring:bind>
+
+
+
+                    <p class="lead"><i class="fa fa-user margin-r-5"></i> General</p>
+
                     <jsp:include page="../common/elem/form_text_row.jsp">
                         <jsp:param name="name" value="firstName"/>
                         <jsp:param name="title" value="First name"/>
@@ -37,10 +63,13 @@
                         <jsp:param name="title" value="Last name"/>
                     </jsp:include>
 
+
                     <jsp:include page="../common/elem/form_text_row.jsp">
                         <jsp:param name="name" value="personalCode"/>
                         <jsp:param name="title" value="Personal code"/>
                     </jsp:include>
+
+                    <p class="lead"><i class="fa fa-map margin-r-5"></i> Status &amp; location</p>
 
                     <c:set var="path" value="status" />
                     <spring:bind path="${path}">
@@ -75,12 +104,11 @@
                             <c:out value="${title}"/>
                         </button>
                     </div>
-
-                </form:form>
             </div>
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
+        </form:form>
     </jsp:attribute>
 
     <jsp:attribute name="script">

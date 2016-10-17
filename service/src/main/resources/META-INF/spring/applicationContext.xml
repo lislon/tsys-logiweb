@@ -13,6 +13,9 @@
       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <!-- DI -->
     <context:component-scan base-package="com.tsystems.javaschool.logiweb.service"/>
+    <context:property-placeholder location="classpath:app.properties" />
+
+    <!-- Logging -->
     <aop:aspectj-autoproxy/>
 
 </beans>

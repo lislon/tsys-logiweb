@@ -4,8 +4,9 @@ import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.Truck;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
-import com.tsystems.javaschool.logiweb.service.exception.InvalidStateException;
+import com.tsystems.javaschool.logiweb.service.LogiwebConfig;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
 import com.tsystems.javaschool.logiweb.service.helper.DriverNotifier;
 import com.tsystems.javaschool.logiweb.service.helper.RouteCalculator;
 import com.tsystems.javaschool.logiweb.service.helper.WorkingHoursCalc;
@@ -38,6 +39,8 @@ public class OrderWorkflowManagerImpl implements OrderWorkflowManager {
     @Autowired
     private RouteCalculator routeCalculator;
 
+    @Autowired
+    private LogiwebConfig appConfig;
 
 
     /**
@@ -104,7 +107,7 @@ public class OrderWorkflowManagerImpl implements OrderWorkflowManager {
             if (driver.getStatus() != Driver.Status.REST) {
                 throw new InvalidStateException("Cannot assign driver " + driver.toString() + " because he/she is already on duty");
             }
-            int hoursLeftInThisMonth = Driver.MONTH_DUTY_HOURS - driver.getHoursWorked();
+            int hoursLeftInThisMonth = appConfig.getMaxMonthlyDutyHours() - driver.getHoursWorked();
             if (hoursLeftInThisMonth < hoursThisMonth) {
                 throw new InvalidStateException("Cannot assign driver " + driver.toString()
                         + " because he/she have will overwork otherwise in this month (hoursLeft = " + hoursLeftInThisMonth + ", required hours = " + hoursThisMonth + ")");

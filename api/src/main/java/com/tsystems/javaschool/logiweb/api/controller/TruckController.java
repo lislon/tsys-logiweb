@@ -7,8 +7,8 @@ package com.tsystems.javaschool.logiweb.api.controller;
 
 import com.tsystems.javaschool.logiweb.api.helper.FlashMessageSender;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
-import com.tsystems.javaschool.logiweb.service.exception.DuplicateKeyException;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.DuplicateEntityException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.TruckManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,7 +59,7 @@ public class TruckController {
 
         try {
             manager.update(id, dto);
-        } catch (DuplicateKeyException e) {
+        } catch (DuplicateEntityException e) {
             bindingResult.addError(new ObjectError("name", "An truck with same name already exists"));
             return "truck.edit";
         }
@@ -79,7 +79,7 @@ public class TruckController {
 
         try {
             manager.create(dto);
-        } catch (DuplicateKeyException e) {
+        } catch (DuplicateEntityException e) {
             bindingResult.addError(new ObjectError("name", "An truck with same name already exists"));
             return "truck.edit";
         }

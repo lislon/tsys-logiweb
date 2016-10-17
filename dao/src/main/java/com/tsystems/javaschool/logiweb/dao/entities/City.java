@@ -16,8 +16,6 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "cities")
-@Data
-@NoArgsConstructor
 public class City {
 
     @Id
@@ -33,4 +31,44 @@ public class City {
 
     @Column(name = "lng")
     private double lng;
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
 }

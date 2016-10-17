@@ -11,7 +11,7 @@ import com.tsystems.javaschool.logiweb.dao.repos.CargoRepository;
 import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
 import com.tsystems.javaschool.logiweb.service.dto.CargoDTO;
 import com.tsystems.javaschool.logiweb.service.dto.converter.CargoDTOConverter;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.CargoManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

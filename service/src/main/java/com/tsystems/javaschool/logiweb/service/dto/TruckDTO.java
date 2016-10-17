@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
- * Created by Igor Avdeev on 9/12/16.
+ * Truck data. Used for communication between service and api level.
  */
 @Data
 @NoArgsConstructor

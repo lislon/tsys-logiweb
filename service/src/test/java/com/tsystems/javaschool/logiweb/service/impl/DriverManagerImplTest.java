@@ -7,31 +7,47 @@ package com.tsystems.javaschool.logiweb.service.impl;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
+import com.tsystems.javaschool.logiweb.service.LogiwebConfig;
 import com.tsystems.javaschool.logiweb.service.manager.CityManager;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
+import com.tsystems.javaschool.logiweb.service.manager.UserManager;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ContextHierarchy;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
  * Created by Igor Avdeev on 9/21/16.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextHierarchy({
+        @ContextConfiguration(locations = { "classpath*:/META-INF/spring/applicationContext.xml" }),
+        @ContextConfiguration("/testApplicationContext.xml")
+})
 public class DriverManagerImplTest {
+
+    @Autowired
+    private LogiwebConfig appConfig;
+
     private DriverRepository mockRepo;
     private DriverManager manager;
     private CityManager cityManager;
+    private UserManager userManager;
 
     @Before
     public void createManager() {
         mockRepo = mock(DriverRepository.class);
         cityManager = mock(CityManager.class);
-        manager = new DriverManagerImpl(mockRepo, cityManager);
+        userManager = mock(UserManager.class);
+        manager = new DriverManagerImpl(mockRepo, cityManager, userManager, appConfig);
     }
 
     @Test
@@ -41,7 +57,7 @@ public class DriverManagerImplTest {
         LocalDateTime time2 = LocalDateTime.of(2016, 1, 2, 1, 0, 0);
         manager.findDriversForTrip(0, time1, time2);
 
-        verify(mockRepo).findFreeDriversInCity(0, Driver.MONTH_DUTY_HOURS - 25);
+        verify(mockRepo).findFreeDriversInCity(0, appConfig.getMaxMonthlyDutyHours() - 25);
     }
 
     @Test
@@ -54,7 +70,7 @@ public class DriverManagerImplTest {
         manager.findDriversForTrip(0, time1, time2);
 
         // driver should have at least 4 hours of duty time in this month
-        verify(mockRepo).findFreeDriversInCity(0, Driver.MONTH_DUTY_HOURS - 4);
+        verify(mockRepo).findFreeDriversInCity(0, appConfig.getMaxMonthlyDutyHours() - 4);
     }
 
 

@@ -5,11 +5,11 @@
 
 package com.tsystems.javaschool.logiweb.service.impl;
 
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.manager.BaseManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -17,6 +17,7 @@ import java.lang.reflect.ParameterizedType;
  * Created by Igor Avdeev on 9/12/16.
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public abstract class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>>
         implements BaseManager<E> {
 
@@ -26,6 +27,7 @@ public abstract class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>
         this.repo = repo;
     }
 
+    @Transactional(readOnly = true)
     public Iterable<E> findAll() {
         return repo.findAll();
     }
@@ -46,6 +48,7 @@ public abstract class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>
      * @param key
      * @return Entity or null when it's not found
      */
+    @Transactional(readOnly = true)
     public E find(int key)
     {
         return repo.findOne(key);
@@ -57,6 +60,7 @@ public abstract class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>
      * @return Entity
      * @throws EntityNotFoundException
      */
+    @Transactional(readOnly = true)
     public E findOneOrFail(int key) throws EntityNotFoundException
     {
         E e = repo.findOne(key);
@@ -76,12 +80,12 @@ public abstract class BaseManagerImpl<E, REPO extends CrudRepository<E, Integer>
      * @param id Entity identifier
      * @return true when entity was deleted, false when entity was not found
      */
-    public boolean delete(int id) {
+    public void delete(int id) throws EntityNotFoundException {
         if (repo.findOne(id) == null) {
-            return false;
+            Class<E> eClass = (Class<E>)((ParameterizedType)this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+            throw new EntityNotFoundException("Entity " + eClass.getSimpleName() + " with id = " + id + " is not found");
         }
         repo.delete(id);
-        return true;
     }
 
 }

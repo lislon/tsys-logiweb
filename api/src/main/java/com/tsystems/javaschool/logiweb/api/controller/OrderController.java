@@ -7,13 +7,13 @@ package com.tsystems.javaschool.logiweb.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tsystems.javaschool.logiweb.api.action.dto.BootstrapOrderDTO;
+import com.tsystems.javaschool.logiweb.api.action.dto.order.BootstrapOrderDTO;
 import com.tsystems.javaschool.logiweb.api.action.dto.driver.DriverJsonDTO;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.service.dto.TruckDTO;
 import com.tsystems.javaschool.logiweb.service.dto.converter.CargoLegDTOConverter;
 import com.tsystems.javaschool.logiweb.service.dto.converter.TruckDTOConverter;
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.helper.RouteCalculator;
 import com.tsystems.javaschool.logiweb.service.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +120,7 @@ public class OrderController {
                 .collect(Collectors.toList());
 
         BootstrapOrderDTO result = new BootstrapOrderDTO(
-                CargoLegDTOConverter.toCargoLegs(order),
+                CargoLegDTOConverter.retrieveCargoLegs(order),
                 trucksCollection,
                 driversAvail,
                 order.getTruck() != null ? order.getTruck().getId() : null,

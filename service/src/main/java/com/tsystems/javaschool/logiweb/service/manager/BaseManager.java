@@ -5,7 +5,7 @@
 
 package com.tsystems.javaschool.logiweb.service.manager;
 
-import com.tsystems.javaschool.logiweb.service.exception.EntityNotFoundException;
+import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 
 /**
  * Created by Igor Avdeev on 9/12/16.
@@ -26,8 +26,8 @@ public interface BaseManager<E> {
 
     /**
      * @param id Entity identifier
-     * @return true when entity was deleted, false when entity was not found
+     * @throws EntityNotFoundException when id is not found
      */
-    boolean delete(int id);
+    void delete(int id) throws EntityNotFoundException;
 
 }
