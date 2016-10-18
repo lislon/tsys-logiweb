@@ -25,6 +25,22 @@ export default class Formatters {
             return '<a href="' + apiUrls.urlTruckEditPage(row.truckId) + '">' + value + "";
         }
     }
+    static statusFormatter(value, row) {
+        let label = 'success';
+        let title = value;
+        if (value == 'NEW') {
+            label = 'success';
+        } else if (value == 'PREPARED') {
+            label = 'warning';
+        } else if (value == 'PROBLEM') {
+            label = 'danger';
+        } else if (value == 'SHIPPED') {
+            label = 'info';
+        }
+        return `<span class="label label-${label}">${title}</span>`;
+    }
+
+
 
     static dateFormatter(value) {
         var date = new Date(value);

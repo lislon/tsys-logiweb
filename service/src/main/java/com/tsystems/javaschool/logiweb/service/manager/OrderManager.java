@@ -58,9 +58,6 @@ public interface OrderManager extends BaseManager<Order> {
     Collection<Order> findDriverAssignments(String personalNumber);
 
 
-    Order findOrderByDriver(int driverId) throws EntityNotFoundException;
-
-
     /**
      * Updates completed order status.
      *

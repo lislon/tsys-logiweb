@@ -51,7 +51,7 @@ import static org.mockito.Mockito.when;
 //    }
 //
 //    @Test
-//    public void getRouteLength() throws Exception {
+//    public void getRouteDistance() throws Exception {
 //        // use real CityManager to calculate distances
 //        City moscow = new City();
 //        moscow.setName("Moscow");
@@ -78,7 +78,7 @@ import static org.mockito.Mockito.when;
 //                createWaypoint(munich, cargoBC, UNLOAD)
 //        );
 //
-//        int routeLength = manager.getRouteLength(route);
+//        int routeLength = manager.getRouteDistance(route);
 //        // then total distance should be 2000 + 600
 //        assertEquals(2600, routeLength);
 //    }

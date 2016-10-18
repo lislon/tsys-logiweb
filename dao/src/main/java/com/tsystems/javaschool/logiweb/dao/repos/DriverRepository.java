@@ -34,4 +34,7 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
             " and not exists (from Order o join o.drivers od where od = d and o.isCompleted = false )")
     List<Driver> findFreeDriversInCity(@Param("cityId") int cityId, @Param("maxHours") int maxHours);
 
+    @Query("from Driver d where d.order.id = ?1")
+    Driver findByOrderId(int orderId);
+
 }

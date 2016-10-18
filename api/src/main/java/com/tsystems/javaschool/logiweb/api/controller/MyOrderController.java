@@ -1,26 +1,29 @@
 package com.tsystems.javaschool.logiweb.api.controller;
 
+import com.tsystems.javaschool.logiweb.service.dto.DriverAssignmentDTO;
 import com.tsystems.javaschool.logiweb.service.exception.business.BusinessLogicException;
-import com.tsystems.javaschool.logiweb.service.facade.DriverAssignmentFacade;
+import com.tsystems.javaschool.logiweb.service.impl.DriverAssignmentManagerImpl;
 import com.tsystems.javaschool.logiweb.service.manager.DriverManager;
 import com.tsystems.javaschool.logiweb.service.model.DriverUserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/assignments")
-public class DriverAssignmentController {
+@Controller
+@RequestMapping("/myorder")
+public class MyOrderController {
 
     @Autowired
-    private DriverAssignmentFacade assignmentFacade;
+    private DriverAssignmentManagerImpl assignmentFacade;
 
     @Autowired
     private DriverManager driverManager;
 
-    @GetMapping
+    @GetMapping("")
     public String list(Model modelUi) throws BusinessLogicException {
 
         if (!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
@@ -28,10 +31,10 @@ public class DriverAssignmentController {
         }
 
         DriverUserModel principal = (DriverUserModel)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        assignmentFacade.findCurrentDriverAssignment(principal.getDriverId());
+        DriverAssignmentDTO currentDriverAssignment = assignmentFacade.findCurrentDriverAssignment(principal.getDriverId());
 
 
-//        modelUi.addAttribute("orderId", driverManager)
+        modelUi.addAttribute("order", currentDriverAssignment);
 //
 //        Collection<Order> orders = orderManager.findDriverAssignments(req.getParameter("personalNumber"));
 //
@@ -44,7 +47,7 @@ public class DriverAssignmentController {
 //                            .map(d -> d.getPersonalCode() + " (" + d.getFirstName() + ")")
 //                            .collect(Collectors.toList()),
 //                    o.getWaypoints().stream()
-//                            .map(w -> new DriverAssignmentDTO.WaypointDTO(
+//                            .map(w -> new DriverAssignmentDTO.CargoWaypointDTO(
 //                                    w.getCity().getName(),
 //                                    w.getOperation(),
 //                                    w.getCargo().getName()
@@ -58,6 +61,6 @@ public class DriverAssignmentController {
 //        return JsonResult.list(list);
 
 
-        return "assignment.list";
+        return "myorder.list";
     }
 }

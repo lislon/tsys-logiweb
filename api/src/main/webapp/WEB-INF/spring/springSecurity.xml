@@ -21,6 +21,8 @@
         <intercept-url pattern="/drivers/**" access="hasRole('ROLE_MANAGER')" />
         <intercept-url pattern="/trucks/**" access="hasRole('ROLE_MANAGER')" />
 
+        <intercept-url pattern="/myorder/**" access="hasRole('ROLE_DRIVER')" />
+
         <intercept-url pattern="/" access="isAuthenticated()" />
         <intercept-url pattern="/**" access="hasRole('ROLE_MANAGER')" />
 

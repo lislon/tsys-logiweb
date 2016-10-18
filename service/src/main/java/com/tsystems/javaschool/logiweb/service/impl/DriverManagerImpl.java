@@ -6,10 +6,12 @@
 package com.tsystems.javaschool.logiweb.service.impl;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
+import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.repos.DriverRepository;
 import com.tsystems.javaschool.logiweb.service.LogiwebConfig;
 import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
 import com.tsystems.javaschool.logiweb.service.dto.converter.DriverDTOConverter;
+import com.tsystems.javaschool.logiweb.service.exception.DataIntegrityError;
 import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
 import com.tsystems.javaschool.logiweb.service.helper.WorkingHoursCalc;
@@ -59,10 +61,15 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
     @Override
     public void deleteDriver(int id) throws InvalidStateException, EntityNotFoundException {
         Driver d = findOneOrFail(id);
-        if (d.getCurrentOrder() != null) {
-            throw new InvalidStateException("Driver is assigned to order #" + d.getCurrentOrder().getId());
+        if (d.getOrder() != null) {
+            throw new InvalidStateException("Driver is assigned to order #" + d.getOrder().getId());
         }
         delete(id);
+    }
+
+    @Override
+    public Order findOrderByDriverId(int driverId) throws EntityNotFoundException {
+        return findOneOrFail(driverId).getOrder();
     }
 
     /**
@@ -118,7 +125,7 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
      * {@inheritDoc}
      */
     @Override
-    public List<DriverDTO> findAllDrivers() {
+    public List<DriverDTO> findAllDrivers()  {
         List<Driver> all = repo.findAll();
         List<DriverDTO> result = new LinkedList<>();
         try {
@@ -128,7 +135,7 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
             return result;
         } catch (EntityNotFoundException e) {
             LOG.error("City not found while loading list of drivers", e);
-            throw new RuntimeException(e);
+            throw new DataIntegrityError("City not found while loading list of drivers", e);
         }
     }
 
@@ -144,16 +151,16 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
             return;
         }
 
-        if (driver.getCurrentOrder() == null) {
+        if (driver.getOrder() == null) {
             throw new InvalidStateException("Driver have no assigned order to change status");
         }
 
-        if (newStatus == REST && !driver.getCurrentOrder().isCompleted()) {
+        if (newStatus == REST && !driver.getOrder().isCompleted()) {
             throw new InvalidStateException("Can't change status to rest, because order is not completed");
         }
 
         if (newStatus == DUTY_DRIVE) {
-            boolean isSomebodyElseDriving = driver.getCurrentOrder().getDrivers()
+            boolean isSomebodyElseDriving = driver.getOrder().getDrivers()
                     .stream()
                     .filter(d -> d != driver)
                     .anyMatch(d -> d.getStatus() == DUTY_DRIVE);
@@ -167,7 +174,7 @@ public class DriverManagerImpl extends BaseManagerImpl<Driver, DriverRepository>
 
         // assign driver from order
         if (newStatus == REST) {
-            driver.setCurrentOrder(null);
+            driver.setOrder(null);
         }
 
         driver.setStatus(newStatus);

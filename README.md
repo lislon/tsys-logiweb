@@ -45,4 +45,5 @@ Visit http://localhost:8080/logiweb/
 Default credentials: 
 
 User: admin@test.ru
+
 Pass: admin@test.ru

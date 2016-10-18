@@ -128,11 +128,11 @@ public class IntegrationTests {
 //        int cargoId1 = cargoManager.createCargo(new CargoDTO("moscow->spb", "title", 100), orderId);
 //        int cargoId2 = cargoManager.createCargo(new CargoDTO("moscow->berlin", "title", 100), orderId);
 //
-//        List<WaypointDTO> waypointDTOList = new LinkedList<>();
-//        waypointDTOList.add(new WaypointDTO(cargoId1, CITY_ID_MOSCOW, OrderWaypoint.Operation.LOAD));
-//        waypointDTOList.add(new WaypointDTO(cargoId1, CITY_ID_SPB, OrderWaypoint.Operation.UNLOAD));
-//        waypointDTOList.add(new WaypointDTO(cargoId2, CITY_ID_SPB, OrderWaypoint.Operation.LOAD));
-//        waypointDTOList.add(new WaypointDTO(cargoId2, CITY_ID_MOSCOW, OrderWaypoint.Operation.UNLOAD));
+//        List<CargoWaypointDTO> waypointDTOList = new LinkedList<>();
+//        waypointDTOList.add(new CargoWaypointDTO(cargoId1, CITY_ID_MOSCOW, OrderWaypoint.Operation.LOAD));
+//        waypointDTOList.add(new CargoWaypointDTO(cargoId1, CITY_ID_SPB, OrderWaypoint.Operation.UNLOAD));
+//        waypointDTOList.add(new CargoWaypointDTO(cargoId2, CITY_ID_SPB, OrderWaypoint.Operation.LOAD));
+//        waypointDTOList.add(new CargoWaypointDTO(cargoId2, CITY_ID_MOSCOW, OrderWaypoint.Operation.UNLOAD));
 //        orderManager.updateWaypoints(orderId, waypointDTOList);
 //    }
 }

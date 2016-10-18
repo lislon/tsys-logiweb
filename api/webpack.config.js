@@ -17,13 +17,26 @@ const rimraf = require('rimraf');
 module.exports = {
     context: __dirname + '/src/main/webapp/frontend',
     entry: {
+        vendor: ['jquery',
+            'admin-lte',
+            'bootstrap',
+            'bootstrap-select',
+            'bootstrap-table',
+            'easy-autocomplete',
+            'parsleyjs',
+            'underscore',
+            'backbone',
+            'bootstrap-select',
+            'slimscroll',
+            'icheck'
+        ],
         main: './js/main',
         styles: './styles/main.scss',
     },
     output: {
         path: __dirname + '/src/main/webapp/dist',
         publicPath: contextPath + '/dist/',
-        filename: "app/[name].js",
+        filename: "app/[name].bundle.js",
         library: 'logiweb',
     },
     resolve: {
@@ -34,6 +47,7 @@ module.exports = {
         },
         extensions: ["", ".js", ".hbs"],
     },
+
 
     // sourcemaps only for development
     devtool: NODE_ENV == 'development' ? "source-map" : null,
@@ -83,22 +97,22 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new ExtractTextPlugin('style/main.css', {allChunks: true}),
         // copy dependencies for manual loading in html
-        new CopyWebpackPlugin([
-            { from: nodeDir + '/jquery/dist', to: 'vendor/jquery' },
-            { from: nodeDir + '/admin-lte/dist', to: 'vendor/admin-lte' },
-            { from: nodeDir + '/bootstrap/dist', to: 'vendor/bootstrap' },
-            { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
-            { from: nodeDir + '/bootstrap-table/dist', to: 'vendor/bootstrap-table' },
-            { from: nodeDir + '/easy-autocomplete/dist', to: 'vendor/easy-autocomplete' },
-            { from: nodeDir + '/parsleyjs/dist', to: 'vendor/parsleyjs' },
-            { from: nodeDir + '/underscore', to: 'vendor/underscore' },
-            { from: nodeDir + '/backbone', to: 'vendor/backbone' },
-            { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
-            { from: nodeDir + '/slimscroll/lib', to: 'vendor/slimscroll' },
-            { from: nodeDir + '/icheck', to: 'vendor/icheck' },
-
-            // { from: 'img', to: 'img' },
-        ]),
+        // new CopyWebpackPlugin([
+        //     { from: nodeDir + '/jquery/dist', to: 'vendor/jquery' },
+        //     { from: nodeDir + '/admin-lte/dist', to: 'vendor/admin-lte' },
+        //     { from: nodeDir + '/bootstrap/dist', to: 'vendor/bootstrap' },
+        //     { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
+        //     { from: nodeDir + '/bootstrap-table/dist', to: 'vendor/bootstrap-table' },
+        //     { from: nodeDir + '/easy-autocomplete/dist', to: 'vendor/easy-autocomplete' },
+        //     { from: nodeDir + '/parsleyjs/dist', to: 'vendor/parsleyjs' },
+        //     { from: nodeDir + '/underscore', to: 'vendor/underscore' },
+        //     { from: nodeDir + '/backbone', to: 'vendor/backbone' },
+        //     { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
+        //     { from: nodeDir + '/slimscroll/lib', to: 'vendor/slimscroll' },
+        //     { from: nodeDir + '/icheck', to: 'vendor/icheck' },
+        //
+        //     // { from: 'img', to: 'img' },
+        // ]),
         // new webpack.optimize.CommonsChunkPlugin({
         //     name: "common"
         // }),
@@ -119,7 +133,7 @@ if (NODE_ENV == 'production') {
             compress: {
                 drop_console: true,
                 // uncreachable variables
-                // warnings: false,
+                warnings: false,
             }
         })
     )

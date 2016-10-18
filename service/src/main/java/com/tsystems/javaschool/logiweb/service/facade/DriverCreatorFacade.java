@@ -38,8 +38,24 @@ public class DriverCreatorFacade {
         return driverManager.create(driver);
     }
 
+    /**
+     * Updates driver details and account password if set. If account didn't exist before, it will be created.
+     *
+     * @param driver Driver information
+     * @param user Account for logging in system
+     * @throws EntityNotFoundException
+     * @throws InvalidStateException
+     * @throws DuplicateEntityException
+     */
     public void updateDriver(DriverDTO driver, UserDTO user) throws EntityNotFoundException, InvalidStateException, DuplicateEntityException {
-        userManager.update(driver.getUserId(), user);
+        DriverDTO existingDriver = driverManager.findDto(driver.getId());
+        if (existingDriver.getUserId() == null) {
+            int userId = userManager.createNewUser(user.getEmail(), user.getPassword(), User.UserRole.ROLE_DRIVER);
+            existingDriver.setUserId(userId);
+            driver.setUserId(userId);
+        } else {
+            userManager.update(existingDriver.getUserId(), user);
+        }
         driverManager.update(driver.getId(), driver);
     }
 

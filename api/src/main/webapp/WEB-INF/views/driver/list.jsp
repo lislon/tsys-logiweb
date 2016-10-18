@@ -30,7 +30,7 @@
                     Status
                 </th>
                 <th data-field="cityName" data-sortable="true">Current city</th>
-                    <%--<th data-field="truckName">Current truck</th>--%>
+                    <%--<th data-field="truckLicencePlate">Current truck</th>--%>
                 <th data-field="action"
                     data-align="center"
                     data-formatter="formatter.actionFormatter"

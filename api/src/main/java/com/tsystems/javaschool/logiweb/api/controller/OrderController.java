@@ -81,7 +81,7 @@ public class OrderController {
         Order order = manager.findOneOrFail(id);
 
         int maxPayload = routeCalculator.getMaxPayload(order.getWaypoints());
-        int routeLength = routeCalculator.getRouteLength(order.getWaypoints());
+        int routeLength = routeCalculator.getRouteDistance(order.getWaypoints());
 
         List<TruckDTO> trucksCollection = truckManager
                 .findReadyToGoTrucks(order.getDepartureCity().getId(), maxPayload);

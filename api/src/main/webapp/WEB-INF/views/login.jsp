@@ -65,13 +65,13 @@
                 </c:if>
             </div>
             <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox"> Remember Me
-                        </label>
-                    </div>
-                </div>
+                <%--<div class="col-xs-8">--%>
+                    <%--<div class="checkbox icheck">--%>
+                        <%--<label>--%>
+                            <%--<input type="checkbox"> Remember Me--%>
+                        <%--</label>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <!-- /.col -->
                 <div class="col-xs-4">
                     <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
@@ -83,7 +83,7 @@
 
         </form>
 
-        <a href="#">I forgot my password</a><br>
+        <%--<a href="#">I forgot my password</a><br>--%>
 
     </div>
     <!-- /.login-box-body -->

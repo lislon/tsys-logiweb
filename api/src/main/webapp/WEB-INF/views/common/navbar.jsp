@@ -1,4 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <ul class="nav navbar-nav">
     <!-- Messages: style can be found in dropdown.less-->
     <li class="dropdown messages-menu">
@@ -140,7 +141,10 @@
                     <%--<a href="#" class="btn btn-default btn-flat">Profile</a>--%>
                 <%--</div>--%>
                 <div class="pull-right">
-                    <a href="${pageContext.request.contextPath}/logout" class="btn btn-default btn-flat">Sign out</a>
+                    <form method="post" action="${pageContext.request.contextPath}/logout">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <button type="submit" class="btn btn-default btn-flat">Sign out</button>
+                    </form>
                 </div>
             </li>
         </ul>

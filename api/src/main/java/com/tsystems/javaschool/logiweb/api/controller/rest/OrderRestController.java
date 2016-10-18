@@ -98,7 +98,7 @@ public class OrderRestController extends BaseRestController {
         }
 
         int maxPayload = routeCalculator.getMaxPayload(waypoints);
-        int routeLength = routeCalculator.getRouteLength(waypoints);
+        int routeLength = routeCalculator.getRouteDistance(waypoints);
 
         List<TruckDTO> truckList = new LinkedList<>();
 

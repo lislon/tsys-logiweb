@@ -5,15 +5,15 @@
 
 package com.tsystems.javaschool.logiweb.api.filter;
 
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
  * Created by Igor Avdeev on 9/13/16.
+ * Saves request orl in attribute originSaveOriginalUrlForMenuFilter
  */
-public class SaveOriginalUrlForMenuFilter implements Filter{
+public class SaveOriginalUrlForMenuFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 

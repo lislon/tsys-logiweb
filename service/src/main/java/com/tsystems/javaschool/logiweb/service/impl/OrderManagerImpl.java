@@ -8,10 +8,8 @@ package com.tsystems.javaschool.logiweb.service.impl;
 import com.tsystems.javaschool.logiweb.dao.entities.Cargo;
 import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.dao.entities.OrderWaypoint;
-import com.tsystems.javaschool.logiweb.dao.repos.CargoRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.CityRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.OrderRepository;
-import com.tsystems.javaschool.logiweb.dao.repos.OrderWaypointRepository;
+import com.tsystems.javaschool.logiweb.dao.entities.Truck;
+import com.tsystems.javaschool.logiweb.dao.repos.*;
 import com.tsystems.javaschool.logiweb.service.dto.OrderSummaryDTO;
 import com.tsystems.javaschool.logiweb.service.dto.WaypointDTO;
 import com.tsystems.javaschool.logiweb.service.dto.converter.WaypointDTOConverter;
@@ -68,7 +66,7 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
                     .id(order.getId())
                     .dateCreated(order.getDateCreated())
                     .maxPayload(routeCalculator.getMaxPayload(wp))
-                    .routeLength(routeCalculator.getRouteLength(wp))
+                    .routeLength(routeCalculator.getRouteDistance(wp))
                     .status(getOrderStatus(order));
 
             // Fill departure and desticantion city names when waypointsDto are present
@@ -134,6 +132,8 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         }
         if (o.getTruck() == null) {
             return Order.Status.NEW;
+        } else if (o.getTruck().getCondition() == Truck.Condition.BROKEN) {
+            return Order.Status.PROBLEM;
         }
         return Order.Status.PREPARED;
     }
@@ -264,10 +264,6 @@ public class OrderManagerImpl extends BaseManagerImpl<Order, OrderRepository>
         return repo.findOrdersForDriver(personalNumber);
     }
 
-    @Override
-    public Order findOrderByDriver(int driverId) throws EntityNotFoundException {
-        return repo.findDriversCurrenetOrder(driverId);
-    }
 
     @Override
     public void markOrderCompleted(int orderId, boolean isCompleted) throws EntityNotFoundException {

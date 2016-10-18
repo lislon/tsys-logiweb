@@ -5,17 +5,12 @@
 
 package com.tsystems.javaschool.logiweb.dao.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.Set;
 
 
 /**
@@ -83,7 +78,7 @@ public class Driver {
      */
     @ManyToOne
     @JoinColumn(name="order_id")
-    private Order currentOrder;
+    private Order order;
 
     /**
      * Date of beginning current duty
@@ -185,12 +180,12 @@ public class Driver {
         this.city = city;
     }
 
-    public Order getCurrentOrder() {
-        return currentOrder;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setCurrentOrder(Order currentOrder) {
-        this.currentOrder = currentOrder;
+    public void setOrder(Order currentOrder) {
+        this.order = currentOrder;
     }
 
     public Date getLastDutySince() {

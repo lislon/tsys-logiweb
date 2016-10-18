@@ -45,7 +45,7 @@ public class RouteCalculator {
      * @param waypointCollection Waypoints
      * @return route length in KM
      */
-    public Integer getRouteLength(Collection<OrderWaypoint> waypointCollection) {
+    public Integer getRouteDistance(Collection<OrderWaypoint> waypointCollection) {
 
         if (waypointCollection.size() <= 1) {
             return 0;

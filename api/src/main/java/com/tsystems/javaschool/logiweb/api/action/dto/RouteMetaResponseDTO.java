@@ -15,7 +15,7 @@ import java.util.List;
  */
 @AllArgsConstructor
 public class RouteMetaResponseDTO {
-    public int length;
-    public int requiredCapacity;
-    public List<TruckDTO> trucks;
+    public final int length;
+    public final int requiredCapacity;
+    public final List<TruckDTO> trucks;
 }

@@ -93,7 +93,7 @@ public class OrderWorkflowManagerImpl implements OrderWorkflowManager {
 
         HashSet<Driver> driverSet = new HashSet<>();
 
-        int routeLength = routeCalculator.getRouteLength(order.getWaypoints());
+        int routeLength = routeCalculator.getRouteDistance(order.getWaypoints());
         double hoursTotalInRoad = routeCalculator.getRouteDuration(routeLength, drivers.size());
 
         double hoursThisMonth = WorkingHoursCalc.getRequiredWorkHoursInCurrentMonth(
@@ -114,6 +114,7 @@ public class OrderWorkflowManagerImpl implements OrderWorkflowManager {
             }
 
             driverSet.add(driver);
+            driver.setOrder(order);
         }
 
         order.setDrivers(driverSet);

@@ -28,7 +28,7 @@ import java.util.SortedSet;
 @Table(name = "orders")
 public class Order {
 
-    public enum Status {NEW, PREPARED, FINISHED}
+    public enum Status {NEW, PREPARED, PROBLEM, FINISHED}
 
     @Id
     @Column(name = "id")

@@ -6,6 +6,7 @@
 package com.tsystems.javaschool.logiweb.service.manager;
 
 import com.tsystems.javaschool.logiweb.dao.entities.Driver;
+import com.tsystems.javaschool.logiweb.dao.entities.Order;
 import com.tsystems.javaschool.logiweb.service.dto.DriverDTO;
 import com.tsystems.javaschool.logiweb.service.exception.business.EntityNotFoundException;
 import com.tsystems.javaschool.logiweb.service.exception.business.InvalidStateException;
@@ -77,5 +78,7 @@ public interface DriverManager extends BaseManager<Driver> {
      * @throws EntityNotFoundException when driver not found
      */
     void deleteDriver(int id) throws InvalidStateException, EntityNotFoundException;
+
+    Order findOrderByDriverId(int driverId) throws EntityNotFoundException;
 
 }

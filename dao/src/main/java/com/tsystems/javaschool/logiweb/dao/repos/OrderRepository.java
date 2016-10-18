@@ -37,11 +37,4 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
                 "join fetch o.truck " +
                 "where d.personalCode = ?1")
     Collection<Order> findOrdersForDriver(String personalNumber);
-
-    @Query("from Order o " +
-            "join fetch Driver d " +
-            "join fetch o.drivers " +
-            "where d.currentOrder.id = ?1")
-    Order findDriversCurrenetOrder(Integer driverId);
-
 }

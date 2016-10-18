@@ -23,7 +23,7 @@ public class DriverDashboardController {
 //                        .map(d -> d.getPersonalCode() + " (" + d.getFirstName() + ")")
 //                        .collect(Collectors.toList()),
 //                o.getWaypoints().stream()
-//                        .map(w -> new DriverAssignmentDTO.WaypointDTO(
+//                        .map(w -> new DriverAssignmentDTO.CargoWaypointDTO(
 //                                w.getCity().getName(),
 //                                w.getOperation(),
 //                                w.getCargo().getName()

@@ -15,6 +15,8 @@
     <title><c:out value="${title}" /> - Logiweb</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="csrf-token-name" content="${_csrf.parameterName}">
+    <meta name="csrf-token" content="${_csrf.token}">
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/dist/vendor/easy-autocomplete/easy-autocomplete.min.css">
@@ -231,14 +233,16 @@ desired effect
 <!-- REQUIRED JS SCRIPTS -->
 
 
-<script src="${pageContext.request.contextPath}/dist/vendor/jquery/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/dist/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/dist/vendor/admin-lte/js/app.min.js"></script>
-<script src="${pageContext.request.contextPath}/dist/vendor/parsleyjs/parsley.min.js"></script>
-<script src="${pageContext.request.contextPath}/dist/app/main.js"></script>
-<script src="${pageContext.request.contextPath}/dist/vendor/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="${pageContext.request.contextPath}/dist/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
-<script src="${pageContext.request.contextPath}/dist/vendor/easy-autocomplete/jquery.easy-autocomplete.min.js"></script>
+<%--<script src="${pageContext.request.contextPath}/dist/vendor/jquery/jquery.min.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/dist/vendor/bootstrap/js/bootstrap.min.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/dist/vendor/admin-lte/js/app.min.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/dist/vendor/parsleyjs/parsley.min.js"></script>--%>
+<script src="${pageContext.request.contextPath}/dist/app/vendor.bundle.js"></script>
+<script src="${pageContext.request.contextPath}/dist/app/main.bundle.js"></script>
+
+<%--<script src="${pageContext.request.contextPath}/dist/vendor/bootstrap-table/bootstrap-table.min.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/dist/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>--%>
+<%--<script src="${pageContext.request.contextPath}/dist/vendor/easy-autocomplete/jquery.easy-autocomplete.min.js"></script>--%>
 
 <jsp:invoke fragment="script" />
 
