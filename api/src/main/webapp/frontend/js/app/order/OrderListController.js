@@ -8,6 +8,7 @@ import $ from "jquery";
 import apiUrls from "app/common/apiUrls";
 import showAlert from "app/common/showAlert";
 import formatters from "./Formatters";
+import "bootstrap-table";
 
 // import './driver.scss';
 

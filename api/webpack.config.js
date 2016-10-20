@@ -43,7 +43,8 @@ module.exports = {
         // base path for requires
         root: __dirname + '/src/main/webapp/frontend/js',
         alias: {
-            'bootstrap-table': 'bootstrap-table/dist/bootstrap-table.min.js'
+            'bootstrap-table': 'bootstrap-table/dist/bootstrap-table.min.js',
+            'jquery': "jquery/src/jquery"
         },
         extensions: ["", ".js", ".hbs"],
     },
@@ -97,34 +98,40 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
         new ExtractTextPlugin('style/main.css', {allChunks: true}),
         // copy dependencies for manual loading in html
-        // new CopyWebpackPlugin([
-        //     { from: nodeDir + '/jquery/dist', to: 'vendor/jquery' },
-        //     { from: nodeDir + '/admin-lte/dist', to: 'vendor/admin-lte' },
-        //     { from: nodeDir + '/bootstrap/dist', to: 'vendor/bootstrap' },
-        //     { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
-        //     { from: nodeDir + '/bootstrap-table/dist', to: 'vendor/bootstrap-table' },
-        //     { from: nodeDir + '/easy-autocomplete/dist', to: 'vendor/easy-autocomplete' },
-        //     { from: nodeDir + '/parsleyjs/dist', to: 'vendor/parsleyjs' },
-        //     { from: nodeDir + '/underscore', to: 'vendor/underscore' },
-        //     { from: nodeDir + '/backbone', to: 'vendor/backbone' },
-        //     { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
-        //     { from: nodeDir + '/slimscroll/lib', to: 'vendor/slimscroll' },
-        //     { from: nodeDir + '/icheck', to: 'vendor/icheck' },
-        //
-        //     // { from: 'img', to: 'img' },
-        // ]),
+        new CopyWebpackPlugin([
+            { from: nodeDir + '/jquery/dist', to: 'vendor/jquery' },
+            { from: nodeDir + '/admin-lte/dist', to: 'vendor/admin-lte' },
+            { from: nodeDir + '/bootstrap/dist', to: 'vendor/bootstrap' },
+            { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
+            { from: nodeDir + '/bootstrap-table/dist', to: 'vendor/bootstrap-table' },
+            { from: nodeDir + '/easy-autocomplete/dist', to: 'vendor/easy-autocomplete' },
+            { from: nodeDir + '/parsleyjs/dist', to: 'vendor/parsleyjs' },
+            { from: nodeDir + '/underscore', to: 'vendor/underscore' },
+            { from: nodeDir + '/backbone', to: 'vendor/backbone' },
+            { from: nodeDir + '/bootstrap-select/dist', to: 'vendor/bootstrap-select' },
+            { from: nodeDir + '/slimscroll/lib', to: 'vendor/slimscroll' },
+            { from: nodeDir + '/icheck', to: 'vendor/icheck' },
+
+            // { from: 'img', to: 'img' },
+        ]),
         // new webpack.optimize.CommonsChunkPlugin({
         //     name: "common"
         // }),
         new webpack.DefinePlugin({
             CONTEXT_PATH: JSON.stringify(contextPath)
         }),
+        // insert $ = requre('jquery') everytime it encounters $
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            _: "underscore"
+        })
     ],
 
-    externals: {
-        'jquery': '$',
-        'underscore': '_',
-    },
+    // externals: {
+    //     'jquery': '$',
+    //     'underscore': '_',
+    // },
 };
 
 if (NODE_ENV == 'production') {

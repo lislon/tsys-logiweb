@@ -112,7 +112,7 @@
                         <!-- timeline icon -->
                         <i class="fa ${icon} bg-blue"></i>
                         <div class="timeline-item">
-                            <span class="time"><i class="fa fa-clock-o"></i> 12:05 </span>
+                            <span class="time"><i class="fa fa-clock-o"></i></span>
                             <%--<span class="label label-success">done</span>--%>
                             <h3 class="timeline-header"><c:out value="${title}" /> at <c:out value="${wpCity.key}" /></h3>
 
@@ -133,17 +133,10 @@
             <li>
                 <i class="fa fa-stop-circle-o bg-red"></i>
             </li>
-
-
         </ul>
-
-
-
     </jsp:attribute>
 
-
     <jsp:attribute name="script">
-
         <script>
             logiweb.load('driver/ListModule', function (module) {
                 module.initialize();
