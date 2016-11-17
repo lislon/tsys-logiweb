@@ -1,5 +1,8 @@
-# tsys-logiweb
-T-systems school project
+# T-systems Java School project
+
+Web application for modeling logistics company. 
+
+[Complete task](docs/task.md)
 
 ## Prerequisites
 
@@ -47,3 +50,4 @@ Default credentials:
 User: admin@test.ru
 
 Pass: admin@test.ru
+
