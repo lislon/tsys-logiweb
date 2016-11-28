@@ -2,7 +2,11 @@
 
 Web application for modeling logistics company. 
 
-[Complete task](docs/task.md)
+[Complete task (Russian)](docs/task.md)
+
+## Screenshot
+
+![Demo page](/docs/edit-order.png "Demo page")
 
 ## Prerequisites
 
